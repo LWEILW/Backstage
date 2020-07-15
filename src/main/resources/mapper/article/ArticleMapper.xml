@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.article.ArticleMapper">
+
+    <!--  文章台账  -->
+    <select id="articleList" resultType="com.backstage.entity.article.Article">
+        select
+         articleId,
+         articleName,
+         articleTitle,
+         articleContent,
+         articleStatus,
+         readingAmount,
+         publisher,
+         publisherTime,
+         updatePerson,
+         updateDate
+        from article
+    </select>
+
+
+    <!--  文章详情  -->
+    <select id="articleDetails" parameterType="java.lang.Integer" resultType="com.backstage.entity.article.Article">
+            select * from article where articleId=#{articleId}
+    </select>
+
+
+    <!--  文章创建  -->
+    <insert id="articleCreate" parameterType="com.backstage.entity.article.Article">
+            insert into article (
+            articleId,
+            articleTitle,
+            articleName,
+            articleContent,
+            articleStatus,
+            readingAmount,
+            publisher,
+            publisherTime
+            )values(
+            #{total.articleId},
+            #{total.articleTitle},
+            #{total.articleName},
+            #{total.articleContent},
+            #{total.articleStatus},
+            #{total.readingAmount},
+            #{total.publisher},
+            now()
+            )
+    </insert>
+
+
+    <!--  文章更新  -->
+    <update id="articleUpdate" parameterType="com.backstage.entity.article.Article">
+        update article
+        <set>
+            <if test="total.getArticleTitle() != null and total.getArticleTitle() != ''">
+                articleTitle = #{total.articleTitle},
+            </if>
+            <if test="total.getArticleName() != null and total.getArticleName() != ''">
+                articleName = #{total.articleName},
+            </if>
+            <if test="total.getArticleContent() != null and total.getArticleContent() != ''">
+                articleContent = #{total.articleContent},
+            </if>
+            <if test="total.getUpdatePerson() != null and total.getUpdatePerson() != ''">
+                updatePerson = #{total.updatePerson},
+            </if>
+            updateDate = now()
+        </set>
+        where articleId = #{total.articleId}
+    </update>
+
+
+    <!--  文章删除  -->
+    <delete id="articleDelete" parameterType="java.lang.Integer">
+        delete from article
+        where articleId=#{articleId}
+    </delete>
+
+
+    <!--  文章删除 批量删除 -->
+    <delete id="articleDeleteAll" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from article
+        where articleId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

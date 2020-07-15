@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.admin.PermissionMapper">
+
+
+    <!--  权限台账  -->
+    <select id="getPermissionList" resultType="com.backstage.entity.admin.Permission">
+        select p.*,
+        (select permissionName from permission where permissionId =p.parentId ) parentName
+        from permission p
+    </select>
+
+    <select id="getPermissionListByFirst" resultType="com.backstage.entity.admin.Permission">
+        select p.*,
+        (select permissionName from permission where permissionId =p.parentId ) parentName
+        from permission p
+        <where>
+            <choose>
+                <when test="type !=null and type != 1">
+                    and p.levelNo != 1
+                </when>
+                <otherwise>
+                    and p.levelNo=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--  权限创建  -->
+    <insert id="createPermission" parameterType="com.backstage.entity.admin.Permission">
+        insert into permission (
+        permissionId,
+        permissionName,
+        permissionPath,
+        parentId,
+        levelNo,
+        createPerson,
+        createDate
+        ) values (
+        #{permission.permissionId},
+        #{permission.permissionName},
+        #{permission.permissionPath},
+        #{permission.parentId},
+        #{permission.levelNo},
+        #{permission.createPerson},
+         now()
+        )
+    </insert>
+
+    <!--  权限更新  -->
+    <update id="updatePermission" parameterType="com.backstage.entity.admin.Permission">
+        update permission
+        <set>
+            <if test="permission.getPermissionName() !=null and permission.getPermissionName() !=''">
+                permissionName=#{permission.permissionName},
+            </if>
+            <if test="permission.getPermissionPath() !=null and permission.getPermissionPath() !=''">
+                permissionPath=#{permission.permissionPath},
+            </if>
+            <if test="permission.getParentId() !=null and permission.getParentId() !=''">
+                parentId=#{permission.parentId},
+            </if>
+            <if test="permission.getLevelNo() !=null and permission.getLevelNo() !=''">
+                levelNo=#{permission.levelNo},
+            </if>
+            <if test="permission.getUpdatePerson() !=null and permission.getUpdatePerson() !=''">
+                updatePerson=#{permission.updatePerson},
+            </if>
+            updateDate= now()
+        </set>
+        where permissionId=#{permission.permissionId}
+    </update>
+
+    <!--  权限删除  -->
+    <delete id="deletePermission" parameterType="java.lang.Integer">
+        delete  from  permission where permissionId=#{permissionId}
+    </delete>
+
+    <!--  权限详情  -->
+    <select id="detailsPermission" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.admin.Permission">
+        select * from permission where permissionId = #{permissionId}
+    </select>
+
+
+</mapper>

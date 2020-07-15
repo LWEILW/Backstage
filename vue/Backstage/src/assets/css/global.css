@@ -1,0 +1,68 @@
+/* 全局样式 */
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 控制登录页面显示隐藏DIV */
+.app-keepAlive {
+  height: 100%;
+}
+
+.el-container {
+  height: 100%;
+}
+
+/** 导航栏 */
+.el-aside {
+  height: 100%;
+  width: 300px;
+  overflow: hidden;
+}
+
+/* 导航栏 优化二级目录与一级目录间隙 */
+.navigation-el-menu .el-menu-item-group__title {
+  padding: 0px;
+}
+
+.el-header {
+  height: 100px !important;
+  padding: 0px;
+}
+
+
+.el-main {
+  height: 100%;
+  /*overflow: hidden;*/
+  padding: 0px;
+  margin: 20px;
+}
+
+/* 分页 */
+.pagination {
+  text-align: center;
+  margin-top: 30px;
+}
+
+/** 模态框header样式 */
+.el-dialog__header {
+  background: #004386;
+}
+
+.el-dialog__title {
+  color: #fff;
+}
+
+.el-icon-close {
+  color: #fff;
+}
+
+/* 模态框footer样式 */
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  color: #398ee3;
+}

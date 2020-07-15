@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.admin.RoleMapper">
+
+    <!--  角色台账  -->
+    <select id="getRoleList" resultType="com.backstage.entity.admin.Role">
+        select * from  role
+    </select>
+
+    <!--  角色创建  -->
+    <insert id="createRole" parameterType="com.backstage.entity.admin.Role">
+        insert into role (
+        roleId,
+        roleName,
+        roleDescribe,
+        createPerson,
+        createDate
+        ) values (
+        #{role.roleId},
+        #{role.roleName},
+        #{role.roleDescribe},
+        #{role.createPerson},
+        now()
+        )
+    </insert>
+
+    <!--  获取角色创建ID  -->
+    <select id="getRoleId" resultType="com.backstage.entity.admin.Role">
+        select * from role order by roleId desc
+    </select>
+
+    <!--  角色更新  -->
+    <update id="updateRole" parameterType="com.backstage.entity.admin.Role">
+        update role
+        <set>
+            <if test="role.getRoleName!=null and role.getRoleName!=''">
+                roleName=#{role.roleName},
+            </if>
+            <if test="role.getRoleDescribe!=null and role.getRoleDescribe!=''">
+                roleDescribe=#{role.roleDescribe},
+            </if>
+            <if test="role.getCreatePerson!=null and role.getCreatePerson!=''">
+                createPerson=#{role.createPerson},
+            </if>
+            updateDate= now()
+        </set>
+        where roleId=#{role.roleId}
+    </update>
+
+    <!--  角色删除  -->
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete  from  role where roleId=#{roleId}
+    </delete>
+
+    <!--  删除角色关联用户  -->
+    <delete id="deleteRoleByUser" parameterType="java.lang.Integer">
+      delete  from  user_role where roleId=#{roleId}
+    </delete>
+
+    <!--  角色详情  -->
+    <select id="detailsRole" parameterType="java.lang.Integer" resultType="com.backstage.entity.admin.Role">
+        select * from role where roleId = #{roleId}
+    </select>
+
+    <!--  人员维护台账  -->
+    <select id="getUserListByRoleId" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.admin.User">
+        select * from user_role
+        left join user on user.userId=user_role.userId
+        where  roleId = #{roleId}
+    </select>
+
+    <!--  人员维护待添加人员台账  -->
+    <select id="getUserOthersByRoleId" resultType="com.backstage.entity.admin.User">
+        select * from user
+        <where>
+            <if test="List != null and List.size() > 0">
+                and userId not in
+                <foreach collection="List" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <!--  权限维护台账  -->
+    <select id="getPermissionListByRoleId" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.admin.PermissionRole">
+        select * from permission_role pr
+        left join permission p on p.permissionId=pr.permissionId
+        <where>
+            pr.roleId = #{roleId}
+            <choose>
+                <when test="type !=null and type != 1">
+                    and p.levelNo != 1
+                </when>
+                <otherwise>
+                    and p.levelNo=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+    <!--  权限维护添加  -->
+    <insert id="addPermissionByRoleId" parameterType="java.lang.Integer">
+        insert into permission_role (roleId, permissionId) values (#{roleId},#{permissionId})
+    </insert>
+
+
+    <select id="getPermissionChangeList" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select permissionId from permission_role where roleId= #{roleId}
+    </select>
+
+    <!--  删除该角色所有权限  -->
+    <delete id="deletePermissionByRoleId" parameterType="java.lang.Integer">
+        delete  from permission_role where roleId = #{roleId}
+    </delete>
+</mapper>

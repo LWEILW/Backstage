@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- 引入配置文件 -->
+    <properties resource="application-dev.properties"/>
+
+    <!-- 指定数据连接驱动jar地址 -->
+    <!--<classPathEntry location="C:\User\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar" />-->
+
+    <!-- 一个数据库一个context -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--去掉注释-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${spring.datasource.driverClassName}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}"/>
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成实体类的包名和位置 注意targetProject的值为实体类放在工程中具体位置的相对路径，-->
+        <javaModelGenerator targetPackage="com.blogger.entity" targetProject="./src/main/java">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成的SQLMapper映射文件包名和位置 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的包名和位置，这里配置将生成的dao类放在me.gacl.dao这个包下 -->
+        <javaClientGenerator targetPackage="com.blogger.dao" targetProject="./src/main/java" type="XMLMAPPER">
+            <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 配置表信息 -->
+        <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
+                是否生成 example类   -->
+        <!-- 更改tableName和domainObjectName就可以 -->
+        <!--<table tableName="user" domainObjectName="User"-->
+               <!--selectByExampleQueryId="false"-->
+               <!--enableUpdateByExample="false"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"></table>-->
+        <!---->
+        <table tableName="games" domainObjectName="Games"
+        selectByExampleQueryId="false"
+        enableUpdateByExample="false"
+        enableSelectByExample="false"
+        enableDeleteByExample="false"
+        enableCountByExample="false"></table>
+
+        <table tableName="news" domainObjectName="News"
+               selectByExampleQueryId="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableCountByExample="false"></table>
+
+        <table tableName="mood" domainObjectName="Mood"
+               selectByExampleQueryId="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableCountByExample="false"></table>
+
+        <table tableName="blogger" domainObjectName="Blogger"
+               selectByExampleQueryId="false"
+               enableUpdateByExample="false"
+               enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableCountByExample="false"></table>
+
+
+    </context>
+</generatorConfiguration>

@@ -7,26 +7,26 @@
       <div class="article-operation">
         <div class="article-search">
           <div class="article-input">
-            <el-input placeholder="请输入内容">
+            <el-input size="small" placeholder="请输入内容">
               <i slot="prefix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
           <div class="article-input">
-            <el-input placeholder="请输入内容">
+            <el-input size="small" placeholder="请输入内容">
               <i slot="prefix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
           <div class="article-input">
-            <el-input placeholder="请输入内容">
+            <el-input size="small" placeholder="请输入内容">
               <i slot="prefix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
         </div>
         <div class="article-button">
-          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleCreate">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" @click="handleDelete">全删</el-button>
-          <el-button type="primary" icon="el-icon-delete"><a
+          <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="handleCreate">新增</el-button>
+          <el-button type="primary" size="small" icon="el-icon-delete" @click="handleDelete">全删</el-button>
+          <el-button type="primary" size="small" icon="el-icon-delete"><a
             :href='`http://localhost:9999/api/v1/article/wordExport`' target="_blank">word导出 </a></el-button>
         </div>
       </div>
@@ -42,7 +42,7 @@
       7.row-click:行点击事件
       8.ref:显示元素身份 -->
       <div class="article-list">
-        <el-table :data="articleTable" stripe border @row-click="handleDetails"
+        <el-table :data="articleTable" stripe border size="small" @row-click="handleDetails"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
           <el-table-column fixed label="序号" align="center" min-width="5%">
             <template slot-scope="scope"><span>{{scope.$index + 1}} </span></template>
@@ -97,8 +97,8 @@
 
         <el-row>
           <el-form-item class="article-buttons">
-            <el-button @click="handleBack">返回列表</el-button>
-            <el-button type="primary" @click="handleSave">保存</el-button>
+            <el-button size="small" @click="handleBack">返回列表</el-button>
+            <el-button type="primary" size="small" @click="handleSave">保存</el-button>
           </el-form-item>
         </el-row>
 

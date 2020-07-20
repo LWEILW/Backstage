@@ -222,7 +222,7 @@
   .navigation-logo {
     display: flex;
     justify-content: space-around;
-    height: 100px;
+    height: 80px;
     background-color: #5B5B5B;
   }
 
@@ -231,11 +231,11 @@
     border-radius: 50%;
     padding: 2px;
     /*边框*/
-    border: 1px solid #fffef8;
+    border: 1px solid #617172;
     /*阴影*/
     box-shadow: 0 0 10px #cdd1d3;
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 70px;
     background-color: #737c7b;
   }
 

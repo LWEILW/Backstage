@@ -103,8 +103,8 @@
 
 <style scoped>
   .header-container {
-    height: 60px;
-    line-height: 60px;
+    height: 40px;
+    line-height: 40px;
     /* 下边框 */
     border-bottom: 1px solid #d6ecf0;
     /* 阴影 */
@@ -138,10 +138,10 @@
   }
 
   .header-user img {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     /*圆弧*/
-    border-radius: 50%;
+    border-radius: 20%;
     /*阴影*/
     box-shadow: 0 0 10px #cdd1d3;
     /*边框*/

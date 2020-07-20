@@ -5,8 +5,8 @@
     <div class="menus-table">
       <!-- 搜索框、按钮 -->
       <div class="menus-operation">
-        <el-button type="text" @click="handleCreate()">新增</el-button>
-        <el-button type="text" @click="handleEdit()">修改</el-button>
+        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新增</el-button>
+        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEdit()">修改</el-button>
         <!--        <el-button type="text" @click="handleSwitch()">展开/折叠</el-button>-->
       </div>
 
@@ -20,7 +20,7 @@
        7.row-click:行点击事件
        8.ref:显示元素身份 -->
       <div class="menus-list">
-        <el-table :data="menusTable" stripe border max-height="800px"
+        <el-table :data="menusTable" stripe border size="small" max-height="800px"
                   ref="MenusTable" :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
           <el-table-column fixed label="序号" align="center" width="100">
             <template slot-scope="scope"><span>{{scope.$index + 1}} </span></template>
@@ -108,8 +108,8 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="primary" @click="submitForm">立即创建</el-button>
-          <el-button @click="permissionDialog = false">取消</el-button>
+          <el-button type="primary" size="small" @click="submitForm">立即创建</el-button>
+          <el-button size="small" @click="permissionDialog = false">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -131,7 +131,7 @@
 
   .menus-operation {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding-bottom: 10px;
   }
 

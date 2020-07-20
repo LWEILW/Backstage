@@ -7,15 +7,15 @@
       <div class="role-operation">
         <div class="role-search">
           <div class="role-input">
-            <el-input placeholder="请输入检测单号" v-model="input"></el-input>
+            <el-input size="small" placeholder="请输入检测单号" v-model="input"></el-input>
           </div>
-          <el-button type="primary" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-          <el-button type="primary" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
+          <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
         </div>
         <div class="role-button">
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">添加角色</el-button>
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">删除</el-button>
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">导出</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">添加角色</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">删除</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出</el-button>
         </div>
       </div>
 
@@ -29,7 +29,7 @@
      7.row-click:行点击事件
      8.ref:显示元素身份 -->
       <div class="role-list">
-        <el-table :data="roleTable" stripe border ref="RoleTable"
+        <el-table :data="roleTable" stripe border size="small" ref="RoleTable"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
           <el-table-column prop="roleName" label="角色名称" align="center"></el-table-column>
           <el-table-column prop="roleDescribe" label="角色描述" align="center"></el-table-column>
@@ -129,8 +129,8 @@
       </el-tree>
 
       <span slot="footer" class="dialog-footer">
-           <el-button @click="handleSave">确定</el-button>
-           <el-button type="primary" @click="roleDialog = false">取消</el-button>
+           <el-button type="primary" size="small" @click="handleSave">确定</el-button>
+           <el-button size="small" @click="roleDialog = false">取消</el-button>
         </span>
     </el-dialog>
 

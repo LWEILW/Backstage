@@ -6,18 +6,18 @@
       <!-- 搜索框、按钮 -->
       <div class="user-operation">
         <div class="user-button">
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">导入</el-button>
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">导出</el-button>
-          <el-button size="primary" icon="el-icon-edit" @click="handleDeleteAll()">批量删除</el-button>
-          <el-button size="primary" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导入</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleDeleteAll()">批量删除</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
         </div>
         <div class="user-search">
           <div class="user-input">
-            <el-input placeholder="请输入检测单号" v-model="input"></el-input>
+            <el-input size="small" placeholder="请输入检测单号" v-model="input"></el-input>
           </div>
-          <el-button type="primary" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-          <el-button type="primary" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
+          <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
         </div>
       </div>
 
@@ -31,8 +31,8 @@
       7.row-click:行点击事件
       8.ref:显示元素身份 -->
       <div class="user-list">
-        <el-table :data="userList" stripe border @selection-change="handleSelectionChange"
-                  ref="multipleTable" :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
+        <el-table :data="userList" stripe border size="small" @selection-change="handleSelectionChange"
+                  ref="multipleTable" :header-cell-style="{background:'#ffffff',color:'#000000'}">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
           <el-table-column prop="userName" label="姓名" align="center"></el-table-column>
@@ -44,7 +44,7 @@
               <el-switch
                 v-model="scope.row.userStatus"
                 active-color="#13ce66"
-                inactive-color="#ff4949"
+                inactive-color="#b2bbbe"
                 :active-value="1"
                 :inactive-value="0"
                 @change=changeSwitch($event,scope.row.userStatus)>
@@ -150,8 +150,8 @@
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-           <el-button @click="handleSave">确定</el-button>
-           <el-button type="primary" @click="UserDialog = false">取消</el-button>
+           <el-button type="primary" size="small" @click="handleSave">确定</el-button>
+           <el-button size="small" @click="UserDialog = false">取消</el-button>
         </span>
     </el-dialog>
   </div>

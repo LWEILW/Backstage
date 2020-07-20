@@ -7,13 +7,13 @@
       <div class="permission-operation">
         <div class="permission-search">
           <div class="permission-input">
-            <el-input placeholder="请输入检测单号"></el-input>
+            <el-input size="small" placeholder="请输入检测单号"></el-input>
           </div>
-          <el-button type="primary" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-          <el-button type="primary" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
+          <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
         </div>
         <div class="permission-button">
-          <el-button type="primary" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
           <!--        <el-button size="medium" round @click="handleSwtich">展开/折叠</el-button>-->
         </div>
       </div>
@@ -31,7 +31,7 @@
       10.default-expand-all:是否默认展开所有行
       11.tree-props:渲染嵌套数据的配置选项-->
       <div class="permission-list">
-        <el-table :data="permissionTable" stripe border ref="PermissionTable"
+        <el-table :data="permissionTable" stripe border size="small" ref="PermissionTable"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}" row-key="permissionId"
                   :default-expand-all="false" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
           <el-table-column prop="permissionName" label="权限名称"></el-table-column>
@@ -133,8 +133,8 @@
       </el-form>
 
       <span slot="footer" class="dialog-footer">
-           <el-button @click="handleSave">确定</el-button>
-           <el-button type="primary" @click="UserDialog = false">取消</el-button>
+           <el-button type="primary" size="small" @click="handleSave">确定</el-button>
+           <el-button size="small" @click="UserDialog = false">取消</el-button>
         </span>
     </el-dialog>
   </div>

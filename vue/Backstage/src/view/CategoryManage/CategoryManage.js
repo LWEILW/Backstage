@@ -22,7 +22,7 @@ export default {
       detail: "",
       // 弹出框状态：显示/隐藏
       dialogStatus: false,
-      updateTitle:''
+      updateTitle: ''
     };
   },
   // 初始化加载
@@ -50,28 +50,17 @@ export default {
     },
     // 跳转至创建画面
     handleCreate() {
-      this.active = "2";
+      this.dialogStatus = true;
+      this.updateTitle = '新建分类';
+      // this.categoryData = {};
     },
     // 跳转至编辑画面
     handleEdit(row) {
-      this.active = "2";
+      this.dialogStatus = true;
+      this.updateTitle = '分类编辑';
       api.categoryDetails(row.categoryId).then(res => {
-        this.categoryData = res.data;
+        this.categoryData = res.data.category;
       });
-    },
-    // 跳转至详情画面
-    handleDetails(row) {
-      this.active = "2";
-      api.categoryDetails(row.categoryId).then(res => {
-        this.categoryData = res.data;
-        // 富文本赋值
-        this.detail = res.data.categoryContent;
-      });
-    },
-    // 返回至台账画面
-    handleBack() {
-      this.active = '1';
-      this.resetForm("categoryFrom");
     },
     // 文章台账列表
     categoryList(currentPage, pageSize) {
@@ -89,16 +78,14 @@ export default {
     // 用户保存
     handleSave(formName) {
       const params = {
+        'categoryId': this.categoryData.categoryId,
         'categoryName': this.categoryData.categoryName,
-        'categoryTitle': this.categoryData.categoryTitle,
-        'categoryContent': this.$refs.editorElem.value
       }
       api.categorySave(params).then(res => {
-        this.$message.success("保存成功");
-        this.active = "1";
+        this.dialogStatus = false;
         // 刷新页面
-        this.categoryList(this.categoryParams);
-        this.resetForm("categoryFrom");
+        this.categoryList(this.currentPage, this.pageSize);
+        this.$message.success("保存成功");
       });
     },
     // 删除方法

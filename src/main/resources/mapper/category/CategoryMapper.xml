@@ -49,7 +49,7 @@
             <if test="total.getUpdatePerson() != null and total.getUpdatePerson() != ''">
                 updatePerson = #{total.updatePerson},
             </if>
-            updateDate = now()
+            updateTime = now()
         </set>
         where categoryId = #{total.categoryId}
     </update>

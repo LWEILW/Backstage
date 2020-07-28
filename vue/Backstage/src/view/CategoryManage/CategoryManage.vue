@@ -29,15 +29,12 @@
       7.row-click:行点击事件
       8.ref:显示元素身份 -->
       <div class="category_list">
-        <el-table :data="categoryTable" stripe border size="small" @row-click="handleDetails"
+        <el-table :data="categoryTable" stripe border size="small"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
           <el-table-column fixed label="序号" align="center" min-width="5%">
             <template slot-scope="scope"><span>{{scope.$index + 1}} </span></template>
           </el-table-column>
           <el-table-column prop="categoryName" label="文章名称" align="center" min-width="20%"></el-table-column>
-          <el-table-column prop="categoryTitle" label="文章标题" align="center" min-width="20%"></el-table-column>
-          <el-table-column prop="categoryStatus" label="文章状态" align="center" min-width="5%"></el-table-column>
-          <el-table-column prop="readingAmount" label="阅读数量" align="center" min-width="5%"></el-table-column>
           <el-table-column prop="publisher" label="发布人" align="center" min-width="10%"></el-table-column>
           <el-table-column prop="publisherTime" label="发布时间" sortable align="center" min-width="10%"></el-table-column>
           <el-table-column prop="updateTime" label="更新时间" sortable align="center" min-width="10%"></el-table-column>
@@ -84,48 +81,30 @@
       <el-form :model="categoryData" ref="userform" label-width="110px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="工号" prop="userAccount">
-              <el-input v-model="categoryData.userAccount"></el-input>
-            </el-form-item>
-            <el-form-item label="姓名" prop="userName">
-              <el-input v-model="categoryData.userName"></el-input>
-            </el-form-item>
-            <el-form-item label="性别" prop="userSex">
-              <el-radio-group v-model="categoryData.userSex">
-                <el-radio label="男"></el-radio>
-                <el-radio label="女"></el-radio>
-              </el-radio-group>
+            <el-form-item label="分类名称" prop="userAccount">
+              <el-input v-model="categoryData.categoryName"></el-input>
             </el-form-item>
             <el-form-item label="创建人" prop="createPerson">
-              <el-input v-model="categoryData.createPerson" :disabled="true"></el-input>
+              <el-input v-model="categoryData.publisher" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="更新人" prop="updatePerson">
-              <el-input v-model="categoryData.updateDate" :disabled="true"></el-input>
+              <el-input v-model="categoryData.updatePerson" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="手机号" prop="userPhone">
-              <el-input v-model="categoryData.userPhone"></el-input>
-            </el-form-item>
-            <el-form-item label="电话" prop="userPhone">
-              <el-input v-model="categoryData.userPhone"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="userEmail">
-              <el-input v-model="categoryData.userEmail"></el-input>
-            </el-form-item>
             <el-form-item label="创建时间" prop="createDate">
-              <el-input v-model="categoryData.createDate" :disabled="true"></el-input>
+              <el-input v-model="categoryData.publisherTime" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="更新时间" prop="updatePerson">
-              <el-input v-model="categoryData.updateDate" :disabled="true"></el-input>
+              <el-input v-model="categoryData.updateTime" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
            <el-button type="primary" size="small" @click="handleSave">确定</el-button>
-           <el-button size="small" @click="UserDialog = false">取消</el-button>
+           <el-button size="small" @click="dialogStatus = false">取消</el-button>
         </span>
     </el-dialog>
   </div>

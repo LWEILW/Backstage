@@ -1,11 +1,11 @@
-package com.backstage.server.impl.admin;
+package com.backstage.service.impl.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.admin.UserMapper;
 import com.backstage.entity.admin.User;
-import com.backstage.server.admin.UserService;
+import com.backstage.service.admin.UserService;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;

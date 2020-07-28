@@ -1,10 +1,10 @@
-package com.backstage.server.impl.article;
+package com.backstage.service.impl.article;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.article.ArticleMapper;
 import com.backstage.entity.article.Article;
-import com.backstage.server.article.ArticleService;
+import com.backstage.service.article.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

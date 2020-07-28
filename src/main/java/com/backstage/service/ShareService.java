@@ -1,4 +1,4 @@
-package com.backstage.server;
+package com.backstage.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.service.IService;

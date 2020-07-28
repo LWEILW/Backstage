@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.User;
-import com.backstage.server.admin.UserService;
+import com.backstage.service.admin.UserService;
 import com.backstage.util.Result;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;

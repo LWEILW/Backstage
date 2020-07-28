@@ -1,4 +1,4 @@
-package com.backstage.server.article;
+package com.backstage.service.article;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.plugins.Page;

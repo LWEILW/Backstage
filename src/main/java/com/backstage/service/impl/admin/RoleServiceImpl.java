@@ -1,4 +1,4 @@
-package com.backstage.server.impl.admin;
+package com.backstage.service.impl.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -8,7 +8,7 @@ import com.backstage.dao.admin.UserMapper;
 import com.backstage.entity.admin.Permission;
 import com.backstage.entity.admin.Role;
 import com.backstage.entity.admin.User;
-import com.backstage.server.admin.RoleService;
+import com.backstage.service.admin.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

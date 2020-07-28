@@ -1,4 +1,4 @@
-package com.backstage.server.admin;
+package com.backstage.service.admin;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.Menus;

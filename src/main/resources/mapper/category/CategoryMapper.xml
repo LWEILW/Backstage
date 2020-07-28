@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.category.CategoryMapper">
+
+    <!--  分类台账  -->
+    <select id="categoryList" resultType="com.backstage.entity.category.Category">
+        select
+         categoryId,
+         categoryName,
+         publisher,
+         publisherTime,
+         updatePerson,
+         updateTime
+        from category
+    </select>
+
+
+    <!--  分类详情  -->
+    <select id="categoryDetails" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.category.Category">
+        select * from category
+        where categoryId=#{categoryId}
+    </select>
+
+
+    <!--  分类创建  -->
+    <insert id="categoryCreate" parameterType="com.backstage.entity.category.Category">
+        insert into category (
+        categoryId,
+        categoryName,
+        publisher,
+        publisherTime
+        )values(
+        #{total.categoryId},
+        #{total.categoryName},
+        #{total.publisher},
+        now()
+        )
+    </insert>
+
+
+    <!--  分类更新  -->
+    <update id="categoryUpdate" parameterType="com.backstage.entity.category.Category">
+        update category
+        <set>
+            <if test="total.getCategoryName() != null and total.getCategoryName() != ''">
+                categoryName = #{total.categoryName},
+            </if>
+            <if test="total.getUpdatePerson() != null and total.getUpdatePerson() != ''">
+                updatePerson = #{total.updatePerson},
+            </if>
+            updateDate = now()
+        </set>
+        where categoryId = #{total.categoryId}
+    </update>
+
+
+    <!--  分类删除  -->
+    <delete id="categoryDelete" parameterType="java.lang.Integer">
+        delete from category
+        where categoryId=#{categoryId}
+    </delete>
+
+
+    <!--  分类删除 批量删除 -->
+    <delete id="categoryDeleteAll" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from category
+        where categoryId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

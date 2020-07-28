@@ -1,7 +1,6 @@
-package com.backstage.server.commodity;
+package com.backstage.service.commodity;
 
 import com.alibaba.fastjson.JSONArray;
-import com.backstage.entity.article.Article;
 import com.backstage.entity.commodity.Commodity;
 import com.baomidou.mybatisplus.plugins.Page;
 

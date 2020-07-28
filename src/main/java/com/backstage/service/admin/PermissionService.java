@@ -1,4 +1,4 @@
-package com.backstage.server.admin;
+package com.backstage.service.admin;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;

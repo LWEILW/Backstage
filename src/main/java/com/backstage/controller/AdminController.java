@@ -1,7 +1,7 @@
 package com.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.backstage.server.admin.UserService;
+import com.backstage.service.admin.UserService;
 import com.backstage.util.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

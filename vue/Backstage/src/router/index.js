@@ -18,7 +18,7 @@ import MenusManage from '@/view/SystemManage/MenusManage/MenusManage.vue'
 // 文章模块
 import ArticleManage from '@/view/ArticleManage/ArticleManage.vue'
 // 分类模块
-import ClassificationManage from '@/view/ClassificationManage/ClassificationManage.vue'
+import CategoryManage from '@/view/CategoryManage/CategoryManage.vue'
 // 产品模块
 import CommodityManage from '@/view/CommodityManage/CommodityManage.vue'
 
@@ -93,9 +93,9 @@ const router = new Router({
         keepAlive: true
       }
     }, {
-      path: '/ClassificationManage',
-      name: 'ClassificationManage',
-      component: ClassificationManage,
+      path: '/CategoryManage',
+      name: 'CategoryManage',
+      component: CategoryManage,
       meta: {
         title: '分类管理',
         keepAlive: true

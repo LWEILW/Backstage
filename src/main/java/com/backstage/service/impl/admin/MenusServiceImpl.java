@@ -1,10 +1,10 @@
-package com.backstage.server.impl.admin;
+package com.backstage.service.impl.admin;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.admin.MenusMapper;
 import com.backstage.entity.admin.Menus;
-import com.backstage.server.admin.MenusService;
+import com.backstage.service.admin.MenusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

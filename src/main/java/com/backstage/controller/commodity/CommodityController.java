@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.backstage.entity.commodity.Commodity;
-import com.backstage.server.commodity.CommodityService;
+import com.backstage.service.commodity.CommodityService;
 import com.backstage.util.Result;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;

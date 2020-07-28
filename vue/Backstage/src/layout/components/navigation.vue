@@ -102,13 +102,13 @@
         </el-submenu>
 
         <!-- 分类管理  -->
-        <el-submenu index="ClassificationManage">
+        <el-submenu index="CategoryManage">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>分类管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item class="twoGroup" index="ClassificationManage">
+            <el-menu-item class="twoGroup" index="CategoryManage">
               <span>分类一览</span>
             </el-menu-item>
             <el-menu-item class="twoGroup" index="BloggerCreatePage">
@@ -191,8 +191,8 @@
           case "ArticleManage":
             this.$router.push("/ArticleManage");
             break;
-          case "ClassificationManage":
-            this.$router.push("/ClassificationManage");
+          case "CategoryManage":
+            this.$router.push("/CategoryManage");
             break;
           case "CommodityManage":
             this.$router.push("/CommodityManage");

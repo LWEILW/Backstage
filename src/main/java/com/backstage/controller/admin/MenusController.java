@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.Menus;
-import com.backstage.server.admin.MenusService;
+import com.backstage.service.admin.MenusService;
 import com.backstage.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

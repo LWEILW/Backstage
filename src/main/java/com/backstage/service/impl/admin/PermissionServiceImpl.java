@@ -1,11 +1,11 @@
-package com.backstage.server.impl.admin;
+package com.backstage.service.impl.admin;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.backstage.dao.admin.PermissionMapper;
 import com.backstage.entity.admin.Permission;
-import com.backstage.server.admin.PermissionService;
+import com.backstage.service.admin.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

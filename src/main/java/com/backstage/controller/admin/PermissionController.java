@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.backstage.entity.admin.Permission;
-import com.backstage.server.admin.PermissionService;
+import com.backstage.service.admin.PermissionService;
 import com.backstage.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

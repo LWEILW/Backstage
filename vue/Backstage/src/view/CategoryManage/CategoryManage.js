@@ -1,7 +1,7 @@
-import api from "@/api/article";
+import api from "@/api/category";
 
 export default {
-  name: "articleManage",
+  name: "categoryManage",
   data() {
     return {
       // 初始选中页码
@@ -11,22 +11,23 @@ export default {
       // 显示总共有多少数据
       totalCount: 0,
       // 文章模糊查询
-      articleParams: {},
+      categoryParams: {},
       // 文章台账列表
-      articleTable: [],
+      categoryTable: [],
       // 文章详情数据
-      articleData: {},
+      categoryData: {},
       // 切换显示
       active: '1',
       isClear: false,
       detail: "",
       // 弹出框状态：显示/隐藏
-      dialogStatus: false
+      dialogStatus: false,
+      updateTitle:''
     };
   },
   // 初始化加载
   created() {
-    this.articleList(this.currentPage, this.pageSize);
+    this.categoryList(this.currentPage, this.pageSize);
   },
   methods: {
     // 切换每页显示的数量
@@ -34,14 +35,14 @@ export default {
       this.pageSize = size;
       // 每页下拉显示数据
       console.log(`每页 ${size} 条`);
-      this.articleList(this.currentPage, this.pageSize)
+      this.categoryList(this.currentPage, this.pageSize)
     },
     // 切换页码
     handleCurrentChange(currentPage) {
       this.currentPage = currentPage;
       // 点击第几页
       console.log(`当前页: ${currentPage}`);
-      this.articleList(this.currentPage, this.pageSize)
+      this.categoryList(this.currentPage, this.pageSize)
     },
     // 重置表单
     resetForm(formName) {
@@ -54,33 +55,33 @@ export default {
     // 跳转至编辑画面
     handleEdit(row) {
       this.active = "2";
-      api.articleDetails(row.articleId).then(res => {
-        this.articleData = res.data;
+      api.categoryDetails(row.categoryId).then(res => {
+        this.categoryData = res.data;
       });
     },
     // 跳转至详情画面
     handleDetails(row) {
       this.active = "2";
-      api.articleDetails(row.articleId).then(res => {
-        this.articleData = res.data;
+      api.categoryDetails(row.categoryId).then(res => {
+        this.categoryData = res.data;
         // 富文本赋值
-        this.detail = res.data.articleContent;
+        this.detail = res.data.categoryContent;
       });
     },
     // 返回至台账画面
     handleBack() {
       this.active = '1';
-      this.resetForm("articleFrom");
+      this.resetForm("categoryFrom");
     },
     // 文章台账列表
-    articleList(currentPage, pageSize) {
+    categoryList(currentPage, pageSize) {
       const params = {
         'currentPage': currentPage,
         'pageSize': pageSize
       }
-      api.articleList(params).then(res => {
+      api.categoryList(params).then(res => {
         // 赋值台账数据
-        this.articleTable = res.data.articleList;
+        this.categoryTable = res.data.categoryList;
         this.currentPage = res.data.currentPage;
         this.totalCount = res.data.total;
       });
@@ -88,16 +89,16 @@ export default {
     // 用户保存
     handleSave(formName) {
       const params = {
-        'articleName': this.articleData.articleName,
-        'articleTitle': this.articleData.articleTitle,
-        'articleContent': this.$refs.editorElem.value
+        'categoryName': this.categoryData.categoryName,
+        'categoryTitle': this.categoryData.categoryTitle,
+        'categoryContent': this.$refs.editorElem.value
       }
-      api.articleSave(params).then(res => {
+      api.categorySave(params).then(res => {
         this.$message.success("保存成功");
         this.active = "1";
         // 刷新页面
-        this.articleList(this.articleParams);
-        this.resetForm("articleFrom");
+        this.categoryList(this.categoryParams);
+        this.resetForm("categoryFrom");
       });
     },
     // 删除方法
@@ -112,9 +113,9 @@ export default {
             type: "success",
             message: "删除成功!"
           });
-          api.articleDelete(row.articleId).then(res => {
+          api.categoryDelete(row.categoryId).then(res => {
             // 刷新页面
-            this.articleList();
+            this.categoryList();
           });
         })
         .catch(() => {

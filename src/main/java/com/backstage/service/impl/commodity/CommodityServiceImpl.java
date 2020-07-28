@@ -1,9 +1,9 @@
-package com.backstage.server.impl.commodity;
+package com.backstage.service.impl.commodity;
 
 import com.alibaba.fastjson.JSONArray;
 import com.backstage.dao.commodity.CommodityMapper;
 import com.backstage.entity.commodity.Commodity;
-import com.backstage.server.commodity.CommodityService;
+import com.backstage.service.commodity.CommodityService;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

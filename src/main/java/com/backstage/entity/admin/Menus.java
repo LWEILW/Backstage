@@ -21,5 +21,4 @@ public class Menus {
     // 可见
     // 权限标识
 
-
 }

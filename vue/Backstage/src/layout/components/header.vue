@@ -18,7 +18,7 @@
       <div class="header-user">
         <el-dropdown @command="handleCommand">
           <!-- 用户头像 -->
-          <img src="../../assets/image/cat.jpg"/>
+          <img src="../../../static/image/cat.jpg"/>
           <!--          <img :src="url"/>-->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>账户:{{account}}</el-dropdown-item>

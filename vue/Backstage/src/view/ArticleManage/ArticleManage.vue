@@ -5,29 +5,19 @@
     <div class='article-table' v-if="active === '1'">
       <!-- 搜索框、按钮 -->
       <div class="article-operation">
+        <div class="article-button">
+          <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="handleCreate">新增</el-button>
+          <el-button type="primary" size="small" icon="el-icon-delete" @click="handleDelete">全删</el-button>
+          <el-button type="primary" size="small" icon="el-icon-delete"><a
+            :href='`http://localhost:9999/api/v1/article/wordExport`' target="_blank">word导出</a></el-button>
+        </div>
         <div class="article-search">
           <div class="article-input">
             <el-input size="small" placeholder="请输入内容">
               <i slot="prefix" class="el-input__icon el-icon-search"></i>
             </el-input>
           </div>
-          <div class="article-input">
-            <el-input size="small" placeholder="请输入内容">
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            </el-input>
-          </div>
-          <div class="article-input">
-            <el-input size="small" placeholder="请输入内容">
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            </el-input>
-          </div>
           <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
-        </div>
-        <div class="article-button">
-          <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="handleCreate">新增</el-button>
-          <el-button type="primary" size="small" icon="el-icon-delete" @click="handleDelete">全删</el-button>
-          <el-button type="primary" size="small" icon="el-icon-delete"><a
-            :href='`http://localhost:9999/api/v1/article/wordExport`' target="_blank">word导出 </a></el-button>
         </div>
       </div>
 
@@ -56,11 +46,11 @@
           <el-table-column prop="updateTime" label="更新时间" sortable align="center" min-width="10%"></el-table-column>
           <el-table-column fixed="right" label="操作" min-width="15%">
             <template slot-scope="scope">
-              <el-button @click.stop="handleEdit( scope.row)" type="primary" icon="el-icon-edit" size="small"
+              <el-button type="primary" icon="el-icon-edit" size="small" @click.stop="handleEdit( scope.row)"
                          plain></el-button>
-              <el-button @click.stop="handleEdit( scope.row)" type="primary" icon="el-icon-edit" size="small"
+              <el-button type="primary" icon="el-icon-edit" size="small" @click.stop="handleEdit( scope.row)"
                          plain></el-button>
-              <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-edit" size="small"
+              <el-button type="danger" icon="el-icon-edit" size="small" @click.stop="handleDelete(scope.row)"
                          plain></el-button>
             </template>
           </el-table-column>

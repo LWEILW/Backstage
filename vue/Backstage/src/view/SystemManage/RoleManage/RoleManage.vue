@@ -5,17 +5,19 @@
     <div class="role-table">
       <!-- 搜索框、按钮 -->
       <div class="role-operation">
+        <div class="role-button">
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">批量删除</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导入角色</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出角色</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">添加角色</el-button>
+        </div>
         <div class="role-search">
           <div class="role-input">
             <el-input size="small" placeholder="请输入检测单号" v-model="input"></el-input>
           </div>
           <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
-        </div>
-        <div class="role-button">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">添加角色</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">删除</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出</el-button>
         </div>
       </div>
 

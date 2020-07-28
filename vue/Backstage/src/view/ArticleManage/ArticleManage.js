@@ -1,5 +1,5 @@
 import api from "@/api/article";
-import EditorBar from '../../components/wangEnduit/wangEnduit'
+import EditorBar from '../../components/wangEnduit/index'
 
 export default {
   name: "articleManage",

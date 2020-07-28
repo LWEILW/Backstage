@@ -5,16 +5,16 @@
     <div class="permission-table">
       <!-- 搜索框、按钮 -->
       <div class="permission-operation">
+        <div class="permission-button">
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleSwtich">展开/折叠</el-button>
+        </div>
         <div class="permission-search">
           <div class="permission-input">
             <el-input size="small" placeholder="请输入检测单号"></el-input>
           </div>
           <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
-        </div>
-        <div class="permission-button">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
-          <!--        <el-button size="medium" round @click="handleSwtich">展开/折叠</el-button>-->
         </div>
       </div>
 

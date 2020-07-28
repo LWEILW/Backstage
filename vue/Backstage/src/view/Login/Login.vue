@@ -1,10 +1,11 @@
- <template>
+<template>
   <div class="login_container">
     <!--    <h2>博客控制台管理</h2>-->
     <div class="login_box">
       <div class="avatar_box">
-        <img src="../assets/image/cat.jpg">
+        <img src="../../../static/image/cat.jpg">
       </div>
+
       <!-- model:表单数据对象
       rules:表单验证规则
       status-icon:是否在输入框中显示校验结果反馈图标
@@ -26,7 +27,7 @@
 
         <el-form-item class="login_button">
           <el-button type="primary" size="small" @click="submitForm('ruleForm')">提交</el-button>
-          <el-button type="primary" size="small" @click="resetForm('ruleForm')">重置</el-button>
+          <el-button size="small" @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -91,7 +92,6 @@
         }
       };
     },
-
     methods: {
       // 登录方法
       submitForm(formName) {
@@ -120,28 +120,25 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-
-
     }
   };
 </script>
 
 <style>
-  h2 {
-    text-align: center;
-    color: #3a8ee6;
-    font-size: 40px;
-    font-weight: 300;
-    text-transform: uppercase;
-    line-height: 100px;
-  }
-
   .login_container {
     background-color: #000000;
     /*background-image: url("../assets/image/bj.jpg");*/
-
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     height: 100%;
+  }
+
+  h2 {
+    text-align: center;
+    color: #3a8ee6;
+    font-size: 32px;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 100px;
   }
 
   .login_box {
@@ -153,6 +150,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: 2;
   }
 
   .avatar_box {
@@ -190,6 +188,5 @@
     display: flex;
     justify-content: flex-end;
   }
-
 
 </style>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.commodity.CommodityMapper">
+
+    <!--  商品台账  -->
+    <select id="commodityList" resultType="com.backstage.entity.commodity.Commodity">
+        select
+         commodityId,
+         commodityName,
+         commodityDesc,
+         commodityPrice,
+         commodityStatus,
+         browseCount,
+         publisher,
+         publisherTime,
+         updatePerson,
+         updateTime
+        from commodity
+    </select>
+
+
+    <!--  商品详情  -->
+    <select id="commodityDetails" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.commodity.Commodity">
+        select * from commodity
+        where commodityId=#{commodityId}
+    </select>
+
+
+    <!--  商品创建  -->
+    <insert id="commodityCreate" parameterType="com.backstage.entity.commodity.Commodity">
+        insert into commodity (
+        commodityId,
+        commodityName,
+        commodityDesc,
+        commodityPrice,
+        commodityStatus,
+        browseCount,
+        publisher,
+        publisherTime
+        )values(
+        #{total.commodityId},
+        #{total.commodityName},
+        #{total.commodityDesc},
+        #{total.commodityPrice},
+        #{total.commodityStatus},
+        0,
+        #{total.publisher},
+        now()
+        )
+    </insert>
+
+
+    <!--  商品更新  -->
+    <update id="commodityUpdate" parameterType="com.backstage.entity.commodity.Commodity">
+        update commodity
+        <set>
+            <if test="total.getCommodityName() != null and total.getCommodityName() != ''">
+                commodityName = #{total.commodityName},
+            </if>
+            <if test="total.getCommodityDesc() != null and total.getCommodityDesc() != ''">
+                commodityDesc = #{total.commodityDesc},
+            </if>
+            <if test="total.getCommodityPrice() != null and total.getCommodityPrice() != ''">
+                commodityPrice = #{total.commodityPrice},
+            </if>
+            <if test="total.getCommodityStatus() != null and total.getCommodityStatus() != ''">
+                commodityStatus = #{total.commodityStatus},
+            </if>
+            <if test="total.getUpdatePerson() != null and total.getUpdatePerson() != ''">
+                updatePerson = #{total.updatePerson},
+            </if>
+            updateDate = now()
+        </set>
+        where commodityId = #{total.commodityId}
+    </update>
+
+
+    <!--  商品删除  -->
+    <delete id="commodityDelete" parameterType="java.lang.Integer">
+        delete from commodity
+        where commodityId=#{commodityId}
+    </delete>
+
+
+    <!--  商品删除 批量删除 -->
+    <delete id="commodityDeleteAll" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from commodity
+        where commodityId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

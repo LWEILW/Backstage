@@ -6,10 +6,11 @@
       <!-- 搜索框、按钮 -->
       <div class="user-operation">
         <div class="user-button">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导入</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleDeleteAll()">批量删除</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导入用户</el-button>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出用户</el-button>
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
         </div>
         <div class="user-search">
@@ -17,7 +18,6 @@
             <el-input size="small" placeholder="请输入检测单号" v-model="input"></el-input>
           </div>
           <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
         </div>
       </div>
 

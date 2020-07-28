@@ -1,5 +1,5 @@
 <template>
-  <div class="mainMoudle">
+  <div class="HomePage">
     <el-calendar>
       <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
       <template
@@ -14,13 +14,9 @@
 </template>
 
 <script>
-  import MainMoudle from "./Home/components/mainMoudle";
 
   export default {
     name: "HomePage",
-    components: {
-      MainMoudle
-    },
     data() {
       return {};
     }

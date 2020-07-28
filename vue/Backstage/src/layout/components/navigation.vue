@@ -3,14 +3,14 @@
     <div class="navigation-box">
 
       <!-- 导航栏logo -->
-      <div class="navigation-logo">
-        <div class="navigation-image">
-          <img src="../../assets/image/cat.jpg"/>
-        </div>
-        <div class="navigation-font">
-          <h3>BlOgGeR_WW</h3>
-        </div>
-      </div>
+            <div class="navigation-logo">
+              <div class="navigation-image">
+                <img src="../../../static/image/cat.jpg"/>
+              </div>
+              <div class="navigation-font">
+                <h3>BlOgGeR_WW</h3>
+              </div>
+            </div>
 
       <!-- el-menu导航栏
        1.default-active:高亮显示 刷新页面后，对应menu高亮
@@ -59,19 +59,6 @@
           </el-menu-item-group>
         </el-submenu>
 
-        <!-- 模块管理 -->
-        <el-submenu index="MenusManage">
-          <template slot="title">
-            <i class="el-icon-date"></i>
-            <span>模块管理</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item class="twoGroup" index="MenusManage">
-              <span>模块一览</span>
-            </el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-
         <!-- 权限管理 -->
         <el-submenu index="PermissionManage">
           <template slot="title">
@@ -85,34 +72,63 @@
           </el-menu-item-group>
         </el-submenu>
 
-        <!-- 博客文章 -->
+        <!-- 模块管理 -->
+        <el-submenu index="MenusManage">
+          <template slot="title">
+            <i class="el-icon-date"></i>
+            <span>模块管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item class="twoGroup" index="MenusManage">
+              <span>模块一览</span>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+
+        <!-- 文章管理 -->
         <el-submenu index="ArticleManage">
           <template slot="title">
             <i class="el-icon-notebook-2"></i>
-            <span>博客文章</span>
+            <span>文章管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item class="twoGroup" index="ArticleManage">
               <span>文章一览</span>
             </el-menu-item>
             <el-menu-item class="twoGroup" index="BloggerCreatePage">
-              <span>博客创建</span>
+              <span>文章创建</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
-        <!-- 产品展示 -->
-        <el-submenu index="3">
+        <!-- 分类管理  -->
+        <el-submenu index="ClassificationManage">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span>产品展示</span>
+            <span>分类管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item class="twoGroup" index="3-1">
-              <span>新闻一览</span>
+            <el-menu-item class="twoGroup" index="ClassificationManage">
+              <span>分类一览</span>
             </el-menu-item>
-            <el-menu-item class="twoGroup" index="3-2">
-              <span>新闻创建</span>
+            <el-menu-item class="twoGroup" index="BloggerCreatePage">
+              <span>分类创建</span>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+
+        <!-- 相册管理 -->
+        <el-submenu index="CommodityManage">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span>相册管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item class="twoGroup" index="CommodityManage">
+              <span>相册一览</span>
+            </el-menu-item>
+            <el-menu-item class="twoGroup" index="CommodityManage">
+              <span>相册创建</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -129,22 +145,6 @@
             </el-menu-item>
             <el-menu-item class="twoGroup" index="4-2">
               <span>产品创建</span>
-            </el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-
-        <!-- 列表拖拽  -->
-        <el-submenu index="BloggerListPage">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>列表拖拽</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item class="twoGroup" index="BloggerListPage">
-              <span>博客一览</span>
-            </el-menu-item>
-            <el-menu-item class="twoGroup" index="BloggerCreatePage">
-              <span>博客创建</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -190,6 +190,12 @@
             break;
           case "ArticleManage":
             this.$router.push("/ArticleManage");
+            break;
+          case "ClassificationManage":
+            this.$router.push("/ClassificationManage");
+            break;
+          case "CommodityManage":
+            this.$router.push("/CommodityManage");
             break;
         }
       },

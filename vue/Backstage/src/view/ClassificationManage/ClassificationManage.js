@@ -1,15 +1,13 @@
 import api from "@/api/article";
-import EditorBar from '../../components/wangEnduit/wangEnduit'
 
 export default {
   name: "articleManage",
-  components: {EditorBar},
   data() {
     return {
       // 初始选中页码
       currentPage: 1,
       // 显示每页的数据
-      pageSize: 10,
+      pageSize: 5,
       // 显示总共有多少数据
       totalCount: 0,
       // 文章模糊查询
@@ -21,7 +19,9 @@ export default {
       // 切换显示
       active: '1',
       isClear: false,
-      detail: ""
+      detail: "",
+      // 弹出框状态：显示/隐藏
+      dialogStatus: false
     };
   },
   // 初始化加载
@@ -34,6 +34,7 @@ export default {
       this.pageSize = size;
       // 每页下拉显示数据
       console.log(`每页 ${size} 条`);
+      this.articleList(this.currentPage, this.pageSize)
     },
     // 切换页码
     handleCurrentChange(currentPage) {

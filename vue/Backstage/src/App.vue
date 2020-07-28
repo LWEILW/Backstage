@@ -2,11 +2,13 @@
   <div id="app">
     <div v-if="$route.meta.keepAlive" class="app-keepAlive">
       <el-container>
+        <!--侧边栏-->
         <el-aside :width="this.store.state.isCollapse?'64px':'300px'">
           <!-- 导航栏 -->
           <Navigation></Navigation>
         </el-aside>
         <el-container>
+          <!--顶栏-->
           <el-header>
             <!-- 页首 -->
             <Header></Header>
@@ -15,12 +17,11 @@
             <!-- 面包屑组件 -->
             <!-- <BreadBox></BreadBox> -->
           </el-header>
-
+          <!--主要区域-->
           <el-main>
             <router-view/>
           </el-main>
         </el-container>
-
       </el-container>
     </div>
 
@@ -60,9 +61,11 @@
     <div class="app-login" v-if="!$route.meta.keepAlive">
       <router-view></router-view>
       <!-- 波浪 -->
-      <wavePlay></wavePlay>
+<!--      <wavePlay></wavePlay>-->
+
     </div>
   </div>
+
 </template>
 
 <script>

@@ -4,9 +4,9 @@ import Router from 'vue-router'
 import Test from '@/view/Test.vue'
 
 // 登录模块
-import Login from '@/view/Login.vue'
+import Login from '@/view/Login/Login.vue'
 // 首页模块
-import HomePage from '@/view/HomePage.vue'
+import HomePage from '@/view/Home/Home.vue'
 // 用户模块
 import UserManage from '@/view/SystemManage/UserManage/UserManage.vue'
 // 角色模块
@@ -17,6 +17,10 @@ import PermissionManage from '@/view/SystemManage/PremissionManage/PermissionMan
 import MenusManage from '@/view/SystemManage/MenusManage/MenusManage.vue'
 // 文章模块
 import ArticleManage from '@/view/ArticleManage/ArticleManage.vue'
+// 分类模块
+import ClassificationManage from '@/view/ClassificationManage/ClassificationManage.vue'
+// 产品模块
+import CommodityManage from '@/view/CommodityManage/CommodityManage.vue'
 
 Vue.use(Router)
 
@@ -34,11 +38,6 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login
-    },
-    {
-      path: '/Test',
-      name: 'Test',
-      component: Test
     },
     {
       path: '/HomePage',
@@ -72,7 +71,7 @@ const router = new Router({
       name: 'PermissionManage',
       component: PermissionManage,
       meta: {
-        title: '权限详情',
+        title: '权限管理',
         keepAlive: true
       }
     },
@@ -81,7 +80,7 @@ const router = new Router({
       name: 'MenusManage',
       component: MenusManage,
       meta: {
-        title: '菜单',
+        title: '菜单管理',
         keepAlive: true
       }
     },
@@ -90,9 +89,29 @@ const router = new Router({
       name: 'ArticleManage',
       component: ArticleManage,
       meta: {
-        title: '文章模块',
+        title: '文章管理',
         keepAlive: true
       }
+    }, {
+      path: '/ClassificationManage',
+      name: 'ClassificationManage',
+      component: ClassificationManage,
+      meta: {
+        title: '分类管理',
+        keepAlive: true
+      }
+    }, {
+      path: '/CommodityManage',
+      name: 'CommodityManage',
+      component: CommodityManage,
+      meta: {
+        title: '商品管理',
+        keepAlive: true
+      }
+    }, {
+      path: '/Test',
+      name: 'Test',
+      component: Test
     },
   ]
 })

@@ -34,11 +34,41 @@
         <el-table :data="userList" stripe border size="small" @selection-change="handleSelectionChange"
                   ref="multipleTable" :header-cell-style="{background:'#ffffff',color:'#000000'}">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
-          <el-table-column prop="userName" label="姓名" align="center"></el-table-column>
-          <el-table-column prop="userSex" label="性别" align="center"></el-table-column>
-          <el-table-column prop="userPhone" label="电话" align="center"></el-table-column>
-          <el-table-column prop="userEmail" label="邮箱" align="center"></el-table-column>
+
+          <el-table-column prop="userAccount" label="账号" align="center" ></el-table-column>
+
+          <el-table-column prop="userName" label="姓名" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userSex" label="性别" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userPhone" label="电话" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userEmail" label="邮箱" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
           <el-table-column prop="userStatus" label="用户状态" align="center">
             <template slot-scope="scope">
               <el-switch
@@ -51,9 +81,30 @@
               </el-switch>
             </template>
           </el-table-column>
-          <el-table-column prop="createPerson" label="创建者" align="center"></el-table-column>
-          <el-table-column prop="createDate" label="创建时间" align="center" sortable></el-table-column>
-          <el-table-column prop="updateDate" label="更新时间" align="center"></el-table-column>
+          <el-table-column prop="createPerson" label="创建者" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="createDate" label="创建时间" align="center" sortable>
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="updateDate" label="更新时间" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="inputVal" size="small" placeholder="点击搜索姓名"></el-input>
+              </div>
+              <div v-else>{{ scope.row.userName }}</div>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" width="185">
             <template slot-scope="scope">
               <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"

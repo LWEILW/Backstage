@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Liu wei
  * @date 2020-03-31 16:00
  */
-@Api(value = "[APP-测试接口]-FrontExaminationReportController")
+//@Api(value = "[APP-测试接口]-FrontExaminationReportController")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -57,7 +57,7 @@ public class UserController {
     public Result detailsUser(@PathVariable("userId") int userId) {
         User user = userService.detailsUser(userId);
         JSONArray roleList = userService.getRolesByUserId(userId);
-        return Result.success("")
+        return Result.success("用户详情")
                 .data("user", user)
                 .data("roleList", roleList);
     }

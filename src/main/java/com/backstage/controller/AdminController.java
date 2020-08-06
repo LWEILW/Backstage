@@ -36,7 +36,7 @@ public class AdminController {
     private UserService userService;
 
     @Autowired
-    private UserMapper userMapperEx;
+    private UserMapper userMapper;
 
     /**
      * 登录
@@ -113,11 +113,11 @@ public class AdminController {
         // 用户的权限集合
         List<String> perminsStrlist = new ArrayList<String>();
         // 获取用户角色
-        List<Role> roleList = userMapperEx.getRoleListByUserId(user.getUserId());
+        List<Role> roleList = userMapper.getRoleListByUserId(user.getUserId());
         for (Role role : roleList) {
             roleStrlist.add(role.getRoleName());
             //获取用户权限
-            List<Permission> permissionList = userMapperEx.getPermissionListByRoleId(role.getRoleId());
+            List<Permission> permissionList = userMapper.getPermissionListByRoleId(role.getRoleId());
             for (Permission uPermission : permissionList) {
                 perminsStrlist.add(uPermission.getPermissionName());
             }

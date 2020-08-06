@@ -1,10 +1,15 @@
 package com.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.UserMapper;
+import com.backstage.entity.admin.Permission;
+import com.backstage.entity.admin.Role;
+import com.backstage.entity.admin.User;
 import com.backstage.service.admin.UserService;
 import com.backstage.util.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 登录管理
@@ -28,6 +35,8 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserMapper userMapperEx;
 
     /**
      * 登录
@@ -60,7 +69,9 @@ public class AdminController {
             return Result.fail("用户名或密码不正确");
         }
         if (subject.isAuthenticated()) {
-            return Result.success("登录成功");
+            User user = (User) subject.getSession().getAttribute("user");
+            return Result.success("登录成功")
+                    .data("user", user);
         } else {
             token.clear();
             return Result.fail("登录失败");
@@ -75,9 +86,52 @@ public class AdminController {
      */
     @GetMapping(value = "/loginOut")
     public Result loginOut() {
-
+        SecurityUtils.getSubject().logout();
         System.out.println("无权限");
         return Result.fail("没有权限");
+    }
+
+
+    /**
+     * 获取用户信息
+     *
+     * @return com.ste.util.Result
+     * @author LW
+     */
+    @GetMapping("/info")
+    public Result info() {
+        System.out.println("===================INFO===================");
+        Session session = SecurityUtils.getSubject().getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            System.out.println("查询不到用户信息");
+            return Result.fail("查询不到用户信息");
+        }
+        System.out.println("===================INFO===================");
+        // 用户的角色集合
+        List<String> roleStrlist = new ArrayList<String>();
+        // 用户的权限集合
+        List<String> perminsStrlist = new ArrayList<String>();
+        // 获取用户角色
+        List<Role> roleList = userMapperEx.getRoleListByUserId(user.getUserId());
+        for (Role role : roleList) {
+            roleStrlist.add(role.getRoleName());
+            //获取用户权限
+            List<Permission> permissionList = userMapperEx.getPermissionListByRoleId(role.getRoleId());
+            for (Permission uPermission : permissionList) {
+                perminsStrlist.add(uPermission.getPermissionName());
+            }
+        }
+        user.setRoleList(roleStrlist);
+        user.setPermissionList(perminsStrlist);
+
+
+        // 设置用户权限
+        return Result.success("获取成功")
+                .data("personId", user.getUserId())
+                .data("displayName", user.getUserName())
+                .data("personGroups", roleList)
+                .data("permissions", perminsStrlist);
     }
 
 

@@ -3,14 +3,14 @@
     <div class="navigation-box">
 
       <!-- 导航栏logo -->
-            <div class="navigation-logo">
-              <div class="navigation-image">
-                <img src="../../../static/image/cat.jpg"/>
-              </div>
-              <div class="navigation-font">
-                <h3>BlOgGeR_WW</h3>
-              </div>
-            </div>
+<!--            <div class="navigation-logo">-->
+      <!--              <div class="navigation-image">-->
+      <!--                <img src="../../../static/image/cat.jpg"/>-->
+      <!--              </div>-->
+      <!--              <div class="navigation-font">-->
+      <!--                <h3>BlOgGeR_WW</h3>-->
+      <!--              </div>-->
+      <!--            </div>-->
 
       <!-- el-menu导航栏
        1.default-active:高亮显示 刷新页面后，对应menu高亮

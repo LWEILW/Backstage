@@ -5,11 +5,13 @@ import com.backstage.dao.admin.UserMapper;
 import com.backstage.entity.admin.Permission;
 import com.backstage.entity.admin.Role;
 import com.backstage.entity.admin.User;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private UserMapper userMapperEx;
+
 
     private Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
@@ -83,12 +86,13 @@ public class ShiroRealm extends AuthorizingRealm {
                     perminsStrlist.add(uPermission.getPermissionName());
                 }
             }
-
             user.setRoleList(roleStrlist);
             user.setPermissionList(perminsStrlist);
 
-            // Session session = SecurityUtils.getSubject().getSession();
-            // session.setAttribute("user", user);//成功则放入session
+            Session session = SecurityUtils.getSubject().getSession();
+            session.setAttribute("user", user);
+            // 设置默认登出时间
+            session.setTimeout(2 * 60 * 60 * 1000);
 
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
             ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());
@@ -101,6 +105,27 @@ public class ShiroRealm extends AuthorizingRealm {
             // 认证成功后更新token
 //            user.setToken(SecurityUtils.getSubject().getSession().getId().toString());
 //            userMapperEx.updateUser(user);
+
+
+//            Collection<Session> sessions = sessionDAO.getActiveSessions();
+//            for (Session session : sessions) {
+//                /*
+//                 * case 1 : 未登录                 -->  登陆
+//                 * case 2 : 已登陆 同SESSION       -->  不做处理
+//                 * case 3 : 已登陆 不同SESSION     -->  踢下线
+//                 */
+//                String loginUsername = (String) session.getAttribute("jobNumber");
+//                if (userName.equals(loginUsername) && session.getId() != SecurityUtils.getSubject().getSession().getId()) {
+//                    System.out.println("==→ 被踢用户 : "
+//                            + session.getId() + " "
+//                            + session.getHost() + " "
+//                            + session.getAttribute("jobNumber") + " "
+//                            + session.getStartTimestamp() + " "
+//                            + session.getLastAccessTime()
+//                    );
+//                    sessionDAO.delete(session);
+//                }
+//            }
 
             return authenticationInfo;
         }

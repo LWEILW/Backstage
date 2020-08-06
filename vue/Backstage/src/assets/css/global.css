@@ -48,7 +48,9 @@ html, body, #app {
 
 /** 模态框header样式 */
 .el-dialog__header {
-  background: #004386;
+  /*background: #ed556a;*/
+  background: #ffffff;
+
 }
 
 .el-dialog__title {
@@ -64,5 +66,5 @@ html, body, #app {
   display: flex;
   justify-content: center;
   font-size: 18px;
-  color: #398ee3;
+  /*color: #ed556a;*/
 }

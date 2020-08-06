@@ -101,8 +101,10 @@
               userName: this.ruleForm.account,
               password: this.ruleForm.pass
             }).then(res => {
-              console.log(res.data);
               if (res.data.status == 1) {
+                // 用户信息放入缓存session
+                sessionStorage.setItem('user', [JSON.stringify(res.data.user)])
+
                 //登录成功之后重定向到首页
                 this.$router.push({path: "/HomePage"});
                 this.$message.success(res.data.message);

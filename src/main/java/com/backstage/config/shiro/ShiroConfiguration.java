@@ -51,7 +51,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSuccessUrl("/backstage/HomePage");
 
         // 设置未授权界面，权限认证失败会访问该 URL
-        shiroFilterFactoryBean.setUnauthorizedUrl("/admin/loginOut");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/backstage/login");
 
         // LinkedHashMap 是有序的，进行顺序拦截器配置
         Map<String, String> filterChainMap = new LinkedHashMap<>();
@@ -63,25 +63,21 @@ public class ShiroConfiguration {
 
         // 登录 放行
         filterChainMap.put("/admin/**", "anon");
-
         // 用户 放行
         filterChainMap.put("/user/**", "anon");
-
         // 角色 放行
         filterChainMap.put("/role/**", "anon");
-
         // 权限 放行
         filterChainMap.put("/permission/**", "anon");
-
         // 文章 放行
         filterChainMap.put("/article/**", "anon");
 
 
-        // “/user/student” 开头的用户需要角色认证，是“admin”才允许
-        filterChainMap.put("/user/student*/**", "roles[admin]");
-
-        // “/user/teacher” 开头的用户需要权限认证，是“user:create”才允许
-        filterChainMap.put("/user/teacher*/**", "perms[\"user:create\"]");
+//        // “/user/student” 开头的用户需要角色认证，是“admin”才允许
+//        filterChainMap.put("/user/student*/**", "roles[admin]");
+//
+//        // “/user/teacher” 开头的用户需要权限认证，是“user:create”才允许
+//        filterChainMap.put("/user/teacher*/**", "perms[\"user:create\"]");
 
         // 配置 logout 过滤器
         filterChainMap.put("/logout", "logout");

@@ -128,13 +128,13 @@ public interface ShareService extends IService<JSONObject> {
      */
     Integer isActiviti(String businessId, String businessKey);
 
-    /**
-     * 数据限制
-     *
-     * @param whereCase         过滤条件
-     * @param structureColumn   组织过滤条件
-     * @param siteColumn        线路过滤条件
-     * @return String
-     */
-    String dataLimit(String whereCase, String structureColumn, String siteColumn);
+//    /**
+//     * 数据限制
+//     *
+//     * @param whereCase         过滤条件
+//     * @param structureColumn   组织过滤条件
+//     * @param siteColumn        线路过滤条件
+//     * @return String
+//     */
+//    String dataLimit(String whereCase, String structureColumn, String siteColumn);
 }

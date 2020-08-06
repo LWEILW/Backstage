@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ste.mapper.SteMapper">
+
+    <select id="getAll" resultType="com.alibaba.fastjson.JSONObject">
+        select * from ${tableName}
+    </select>
+
+    <select id="getOne" resultType="com.alibaba.fastjson.JSONObject">
+        select * from ${tableName}
+    </select>
+
+    <select id="getAllWithWhereCase" resultType="com.alibaba.fastjson.JSONObject">
+        select * from ${tableName}
+        where ${whereCase}
+    </select>
+
+    <select id="getOneWithWhereCase" resultType="com.alibaba.fastjson.JSONObject">
+        select * from ${tableName}
+        where ${whereCase}
+    </select>
+
+    <select id="getAllWithWhereCaseOrder" resultType="com.alibaba.fastjson.JSONObject">
+        select * from ${tableName}
+        where ${whereCase}
+        ORDER BY ${sortField}
+        ${sortMode}
+    </select>
+
+    <delete id="deleteAll">
+        delete from ${tableName}
+        where ${whereCase}
+    </delete>
+
+    <update id="updateAll">
+        update ${tableName}
+        set ${setParam} = '${valParam}'
+        where ${field}
+    </update>
+
+    <update id="updateOneTable">
+        update ${tableName}
+        set ${setParam}
+        where ${field}
+    </update>
+
+    <update id="updateDate">
+        update ${tableName}
+        set ${setParam} = to_date('${valParam}','yyyy-mm-dd hh24:mi:ss')
+        where ${field}
+    </update>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from ${tableName}
+        where ${setParam} = '${valParam}'
+    </select>
+
+    <select id="isActiviti" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from PROCESS_BUSINESS where BUSINESSID = #{businessId} and BUSINESSKEY = #{businessKey}
+    </select>
+</mapper>

@@ -16,17 +16,22 @@
        divided:显示分割线
        -->
       <div class="header-user">
-        <el-dropdown @command="handleCommand">
-          <!-- 用户头像 -->
-          <img src="../../../static/image/cat.jpg"/>
-          <!--          <img :src="url"/>-->
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>账户:{{account}}</el-dropdown-item>
-            <el-dropdown-item>角色:{{password}}</el-dropdown-item>
-            <el-dropdown-item command="info">个人资料</el-dropdown-item>
-            <el-dropdown-item command="loginOut" divided>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <div>
+          <el-dropdown @command="handleCommand">
+            <!-- 用户头像 -->
+            <img src="../../../static/image/cat.jpg"/>
+            <!--          <img :src="url"/>-->
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="info">个人资料</el-dropdown-item>
+              <el-dropdown-item command="loginOut" divided>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <div>
+          <span>账户:{{account}}</span>
+          <span>角色:{{password}}</span>
+        </div>
+
       </div>
 
       <!-- 右侧抽屉 -->
@@ -52,8 +57,8 @@
     // 存储数据
     data() {
       return {
-        account: "欧阳锋",
-        password: "小龙女",
+        account: "",
+        password: "",
         url: '../static/image/tx.jpg',
         // 右侧抽屉
         drawer: false,
@@ -79,6 +84,9 @@
     },
     // 初始化加载
     created() {
+      let user = JSON.parse(sessionStorage.getItem('user'));
+      this.account = user.userName
+      this.password = user.roleList[0]
     },
     // 方法
     methods: {
@@ -123,8 +131,14 @@
     justify-content: space-between;
   }
 
+  .header-font {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .header-font i {
     font-size: 20px;
+
   }
 
   .header-font span {
@@ -135,6 +149,15 @@
   .header-user {
     /*!*阴影*!*/
     /*box-shadow: 0 0 10px #cdd1d3;*/
+    line-height: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .header-user span {
+
+    font-size: 16px;
   }
 
   .header-user img {

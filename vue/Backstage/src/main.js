@@ -26,6 +26,11 @@ import './assets/css/global.css'
 import store from './utils/store'
 Vue.prototype.store = store
 
+import axios from 'axios'
+// session获取信息
+axios.defaults.withCredentials = true
+Vue.prototype.$http = axios;
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

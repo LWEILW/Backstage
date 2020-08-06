@@ -32,8 +32,7 @@
 //        Map<String, String> filterChainDefinitionManager = new LinkedHashMap<String, String>();
 //        List<SysPermissionInit> list = sysPermissionInitService.selectAll();
 //        for (SysPermissionInit sysPermissionInit : list) {
-//            filterChainDefinitionManager.put(sysPermissionInit.getUrl(),
-//                    sysPermissionInit.getPermission_init());
+//            filterChainDefinitionManager.put(sysPermissionInit.getUrl(), sysPermissionInit.getPermission_init());
 //        }
 //        return filterChainDefinitionManager;
 //    }

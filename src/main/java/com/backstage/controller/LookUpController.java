@@ -37,5 +37,4 @@ public class LookUpController {
         return Result.fail("没有权限");
     }
 
-    23421342142134
 }

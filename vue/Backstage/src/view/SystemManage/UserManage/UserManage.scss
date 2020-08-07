@@ -1,26 +1,14 @@
-.user-container {
-  height: 100%;
-  //background: #FFFFFF;
-  //box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
-
-.user-table {
+.user_container {
   height: 100%;
 }
 
-.user-operation {
+.user_table {
+  height: 100%;
+}
+
+.user_operation {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-bottom: 15px;
-}
-
-.user-search {
-  display: flex;
-  flex-direction: row;
-}
-
-.user-input {
-  width: 250px;
-  margin-right: 10px;
 }
 

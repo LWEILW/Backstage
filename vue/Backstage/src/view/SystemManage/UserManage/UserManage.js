@@ -4,104 +4,96 @@ export default {
   name: "userManage",
   data() {
     return {
+      // 用户台账
+      userList: [],
+      // 模糊查询字段
+      userAccount: "",
+      userName: "",
+      userSex: "",
+      userPhone: "",
+      userEmail: "",
+      userStatus: "",
+      // 多选用户数组
+      multipleSelection: [],
+
       // 初始选中页码
       currentPage: 1,
       // 显示每页的数据
       pageSize: 10,
       // 显示总共有多少数据
       totalCount: 0,
-      // 搜索框实时同步数据
-      input: "",
-      // 多选用户数组
-      multipleSelection: [],
-      // 用户台账模糊查询
-      userParams: {
-        userAccount: '',
-        userName: '',
-        userSex: ''
-      },
-      // 用户台账列表
-      userList: [],
+
       // 模态框_隐藏/显示
-      UserDialog: false,
+      dialogStatus: false,
       // 模态框标题名称
-      updateTitle: '',
-      // 模态框用户详情信息
+      dialogTitle: '',
+      // 模态框用户详情
       userData: {},
+      // 模态框角色列表
       roleList: []
     };
   },
   // 初始化加载
   created() {
-    this.getUserList(this.currentPage, this.pageSize);
+    this.getUserList();
   },
   methods: {
-    // 切换每页显示的数量
-    handleSizeChange(size) {
-      this.pageSize = size;
-      //每页下拉显示数据
-      console.log(`每页 ${size} 条`);
-      this.getUserList(this.currentPage, this.pageSize)
-    },
-    // 切换页码
-    handleCurrentChange(currentPage) {
-      this.currentPage = currentPage;
-      //点击第几页
-      console.log(`当前页: ${currentPage}`);
-      this.getUserList(this.currentPage, this.pageSize)
-    },
-    // 当选择项发生变化时会触发该事件
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-      console.log(val)
-    },
-    // 取消选择方法
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
+    // 初始化台账,checkbox展示
+    checkboxJudge(row, index) {
+      if (index != 0) {
+        return 1
       } else {
-        this.$refs.multipleTable.clearSelection();
+        return 0
       }
     },
-    // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    // 自动记录已选的数据，获取key值
+    getRowKeys(row) {
+      return row.userId;
     },
-    // 跳转至创建画面
-    handleCreate() {
-      this.UserDialog = true;
-      this.updateTitle = '新建用户';
-      this.userData = {};
-      this.roleList = [];
-      // this.resetForm("userform");
-    },
-    // 跳转至编辑画面
-    handleEdit(row) {
-      this.UserDialog = true;
-      this.updateTitle = '修改用户信息';
-      api.detailsUser(row.userId).then(res => {
-        this.userData = res.data.user;
-        this.roleList = res.data.roleList;
-      });
-    },
-    // 用户台账列表
-    getUserList(currentPage, pageSize) {
+
+    // 用户台账
+    getUserList() {
       const params = {
         'currentPage': this.currentPage,
-        'pageSize': this.pageSize
+        'pageSize': this.pageSize,
+        'userAccount': this.userAccount,
+        'userName': this.userName,
+        'userSex': this.userSex,
+        'userPhone': this.userPhone,
+        'userEmail': this.userEmail,
+        'userStatus': this.userStatus
       }
       api.getUserList(params).then(res => {
+        // 模糊查询，第一行插入空值
+        res.data.userList.unshift({});
         this.userList = res.data.userList;
         this.currentPage = res.data.currentPage;
         this.totalCount = res.data.total;
       });
     },
+
+    // 跳转至创建画面
+    handleCreate() {
+      this.dialogTitle = '新建用户';
+      this.userData = {};
+      this.roleList = [];
+      this.dialogStatus = true;
+    },
+    // 跳转至编辑画面
+    handleEdit(row) {
+      this.dialogTitle = '修改用户信息';
+      // 展示用户详情
+      api.detailsUser(row.userId).then(res => {
+        this.userData = res.data.user;
+        this.roleList = res.data.roleList;
+      });
+      this.dialogStatus = true;
+    },
+
     // 用户保存
     handleSave(formName) {
       // 关闭模态框
-      this.UserDialog = false;
+      this.dialogStatus = false;
       const params = {
         'userAccount': this.userData.userAccount,
         'userEmail': this.userData.userEmail,
@@ -111,71 +103,124 @@ export default {
         'roleList': this.roleList
       };
       api.saveUser(params).then(res => {
-        this.$message.success("保存成功");
         // 刷新页面
-        this.getUserList(this.userParams);
+        this.getUserList();
+        // 返回消息
+        this.$message.success("保存成功");
       });
     },
+
     // 删除方法
     handleDelete(row) {
       this.$confirm("此操作将删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
+      }).then(() => {
 
-          api.deleteUser(row.userId).then(res => {
-            if (res.data.data) {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
-            } else {
-              this.$message({
-                type: "fail",
-                message: "删除失败!"
-              });
-            }
-
-            // 刷新页面
-            this.getUserList();
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
+        api.deleteUser(row.userId).then(res => {
+          if (res.data.data) {
+            this.$message({type: "success", message: "删除成功!"});
+          } else {
+            this.$message({type: "fail", message: "删除失败!"});
+          }
+          // 刷新页面
+          this.getUserList();
         });
+      }).catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消删除"
+        });
+      });
+    },
+
+    // 当选择项发生变化时会触发该事件
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      console.log(val)
+    },
+    // 取消全选方法
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
     },
     // 批量删除方法
     handleDeleteAll() {
-      this.multipleSelection;
-      console.log(index, row);
+      console.log(this.multipleSelection);
+      if (this.multipleSelection.length != 0) {
+
+      } else {
+        this.$message.warning("未选择数据，无法删除");
+      }
     },
+
     // 用户状态更新
-    changeSwitch: function ($event, userStatus) {
-      console.log($event);
-      console.log(userStatus);
+    changeSwitch: function ($event, row) {
+      console.log(row.userStatus);
+      // shopUpdate(b), then(response => {
+      //   if (response.code == 0) {
+      //     // 成功了不做处理，因为switch状态已经修改
+      //     this.message({message: "状态修改成功", type: "success"})
+      //   } else {
+      //     let newData = b;
+      //     newData.state = newData.state == 1 ? "2" : "1";
+      //     this.tableData(index) = newData;
+      //   }
+      // })
     },
-    // changeSwitch(user) {
-    //   console.log(this.user)
-    //
-    //   console.log(this.user.userStatus);
-    //   // shopUpdate(b), then(response => {
-    //   //   if (response.code == 0) {
-    //   //     // 成功了不做处理，因为switch状态已经修改
-    //   //     this.message({
-    //   //       message: "状态修改成功",
-    //   //       type: "success"
-    //   //     })
-    //   //   } else {
-    //   //     let newData = b;
-    //   //     newData.state = newData.state == 1 ? "2" : "1";
-    //   //     this.tableData(index) = newData;
-    //   //   }
-    //   // })
-    // }
+
+    // 重置密码
+    handleResetPassword(row) {
+      this.$confirm("是否进行密码重置操作？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        api.deleteUser(row.userId).then(res => {
+          if (res.data.data) {
+            this.$message({type: "success", message: "重置成功!"});
+          } else {
+            this.$message({type: "fail", message: "重置失败!"});
+          }
+          // 刷新页面
+          this.getUserList();
+        });
+      }).catch(() => {
+        this.$message({
+          type: "info",
+          message: "已取消重置"
+        });
+      });
+    },
+
+
+    // 模板下载
+
+    // 导入用户
+
+    // 导出用户
+
+    // 切换每页显示的数量,每页下拉显示数据
+    handleSizeChange(size) {
+      this.pageSize = size;
+      console.log(`每页 ${size} 条`);
+      this.getUserList()
+    },
+    // 切换页码,点击第几页
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage;
+      console.log(`当前页: ${currentPage}`);
+      this.getUserList()
+    },
+    // 重置表单
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 };

@@ -1,21 +1,21 @@
-.role-container {
+.role_container {
   height: 100%;
   //background: #FFFFFF;
   //box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
-.role-operation {
+.role_operation {
   display: flex;
   justify-content: space-between;
   padding-bottom: 15px;
 }
 
-.role-search {
+.role_search {
   display: flex;
   flex-direction: row;
 }
 
-.role-input {
+.role_input {
   width: 250px;
   margin-right: 10px;
 }

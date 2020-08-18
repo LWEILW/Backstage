@@ -3,43 +3,73 @@
 <mapper namespace="com.backstage.dao.admin.UserMapper">
 
     <!--  用户台账  -->
-    <select id="getUserList" resultType="com.backstage.entity.admin.User">
-        select * from  user
+    <select id="userList" parameterType="com.backstage.entity.admin.User" resultType="com.backstage.entity.admin.User">
+        select * from user
+        <where>
+            <if test="user.getUserAccount()!=null and user.getUserAccount()!=''">
+                and userAccount LIKE concat(concat('%',#{user.userAccount}),'%')
+            </if>
+            <if test="user.getUserName()!=null and user.getUserName()!=''">
+                and userName LIKE concat(concat('%',#{user.userName}),'%')
+            </if>
+            <if test="user.getUserSex()!=null and user.getUserName()!=''">
+                and userSex LIKE concat(concat('%',#{user.userSex}),'%')
+            </if>
+            <if test="user.getUserPhone()!=null and user.getUserPhone()!=''">
+                and userPhone LIKE concat(concat('%',#{user.userPhone}),'%')
+            </if>
+            <if test="user.getUserEmail()!=null and user.getUserEmail()!=''">
+                and userEmail LIKE concat(concat('%',#{user.userEmail}),'%')
+            </if>
+        </where>
     </select>
+
+
+    <!--  用户详情  -->
+    <select id="detailsUser" parameterType="java.lang.Integer" resultType="com.backstage.entity.admin.User">
+        select * from user
+        where userId = #{userId}
+    </select>
+
+
+    <!--  用户所选角色列表  -->
+    <select id="getRolesByUserId" parameterType="java.lang.Integer" resultType="com.alibaba.fastjson.JSONObject">
+        select roleId from user_role
+        where userId = #{userId}
+    </select>
+
 
     <!--  用户创建  -->
     <insert id="createUser" parameterType="com.backstage.entity.admin.User">
-    insert into user (
-    userId,
-    userAccount,
-    userName,
-    userSex,
-    userPhone,
-    userEmail,
-    userPassword,
-    salt,
-    userStatus,
-    createPerson,
-    createDate
-    ) values (
-    #{user.userId},
-    #{user.userAccount},
-    #{user.userName},
-    #{user.userSex},
-    #{user.userPhone},
-    #{user.userEmail},
-    #{user.userPassword},
-    #{user.salt},
-    #{user.userStatus},
-    #{user.createPerson},
-    now()
-    )
+        insert into user (
+        userId,
+        userAccount,
+        userName,
+        userSex,
+        userPhone,
+        telephone,
+        userEmail,
+        userPassword,
+        salt,
+        userStatus,
+        createPerson,
+        createDate
+        ) values (
+        #{user.userId},
+        #{user.userAccount},
+        #{user.userName},
+        #{user.userSex},
+        #{user.userPhone},
+        #{user.telephone},
+        #{user.userEmail},
+        #{user.userPassword},
+        #{user.salt},
+        #{user.userStatus},
+        #{user.createPerson},
+        now()
+        )
     </insert>
 
-    <!--  获取用户创建ID  -->
-    <select id="getUserId" resultType="com.backstage.entity.admin.User">
-        select * from user order by userId desc
-    </select>
 
     <!--  用户更新  -->
     <update id="updateUser" parameterType="com.backstage.entity.admin.User">
@@ -56,6 +86,9 @@
             </if>
             <if test="user.getUserPhone()!=null and user.getUserPhone()!=''">
                 userPhone=#{user.userPhone},
+            </if>
+            <if test="user.getTelephone()!=null and user.getTelephone()!=''">
+                telephone=#{user.telephone},
             </if>
             <if test="user.getUserEmail()!=null and user.getUserEmail()!=''">
                 userEmail=#{user.userEmail},
@@ -74,48 +107,8 @@
         where userId=#{user.userId}
     </update>
 
-    <!--  用户删除  -->
-    <delete id="deleteUser" parameterType="java.lang.Integer">
-        delete  from  user where userId=#{userId}
-    </delete>
 
-    <!--  用户详情  -->
-    <select id="detailsUser" parameterType="java.lang.Integer" resultType="com.backstage.entity.admin.User">
-        select * from user where userId = #{userId}
-    </select>
-
-
-    <select id="usersLogin" parameterType="java.lang.String" resultType="com.backstage.entity.admin.User">
-        select * from user where account=#{account}
-    </select>
-
-
-    <select id="selectAllByName" parameterType="java.lang.String" resultType="com.backstage.entity.admin.User">
-        select * from user where userName=#{userName}
-    </select>
-
-    <select id="getRoleListByUserId" parameterType="java.lang.Integer"
-            resultType="com.backstage.entity.admin.UserRole">
-        select * from user_role ur
-        left join user u on u.userId=ur.userId
-        left join role r on r.roleId=ur.roleId
-        where ur.userId=#{userId}
-    </select>
-
-    <select id="getPermissionListByRoleId" parameterType="java.lang.Integer"
-            resultType="com.backstage.entity.admin.PermissionRole">
-        select * from permission_role pr
-        left join permission p on p.permissionId=pr.permissionId
-        left join role r on r.roleId=pr.roleId
-        where pr.roleId=#{roleId}
-    </select>
-
-
-    <delete id="deleteRoleByUserId" parameterType="java.lang.Integer">
-        delete from user_role where userId = #{userId}
-    </delete>
-
-    <!--  人员维护添加  -->
+    <!--  添加用户所选角色  -->
     <insert id="addRoleByUserId" parameterType="java.lang.Integer">
         insert into user_role (
         roleId,
@@ -127,8 +120,42 @@
     </insert>
 
 
-    <!--  获取用户角色列表  -->
-    <select id="getRolesByUserId" parameterType="java.lang.Integer" resultType="com.alibaba.fastjson.JSONObject">
-        select roleId from user_role where userId = #{userId}
+    <!--  用户删除  -->
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        delete  from  user where userId=#{userId}
+    </delete>
+
+
+    <!--  用户批量删除 -->
+    <delete id="deleteUserList" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from user
+        where userId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <!--  删除用户所选角色  -->
+    <delete id="deleteRoleByUserId" parameterType="java.lang.Integer">
+        delete from user_role where userId = #{userId}
+    </delete>
+
+
+    <!--  根据用户名获取用户信息  -->
+    <select id="selectAllByName" parameterType="java.lang.String" resultType="com.backstage.entity.admin.User">
+        select * from user where userName=#{userName}
     </select>
+
+
+    <!--  根据用户ID获取角色信息  -->
+    <select id="getRoleListByUserId" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.admin.UserRole">
+        select * from user_role ur
+        left join user u on u.userId=ur.userId
+        left join role r on r.roleId=ur.roleId
+        where ur.userId=#{userId}
+    </select>
+
 </mapper>

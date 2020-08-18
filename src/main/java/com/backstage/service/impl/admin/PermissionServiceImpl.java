@@ -1,11 +1,14 @@
 package com.backstage.service.impl.admin;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.RoleMapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.backstage.dao.admin.PermissionMapper;
 import com.backstage.entity.admin.Permission;
 import com.backstage.service.admin.PermissionService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,34 +22,22 @@ import java.util.List;
  * @date 2020-03-31 16:00
  */
 @Service("PermissionService")
-public class PermissionServiceImpl implements PermissionService {
-
-    @Autowired
-    private PermissionMapper permissionMapperEx;
-
-    /**
-     * 所有权限数据
-     * @return
-     */
-    @Override
-    public Page<Permission> getPermissionAllList(Page<Permission> page) {
-
-        return page.setRecords(permissionMapperEx.getPermissionList(page));
-    }
+public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, JSONObject> implements PermissionService {
 
 
     /**
      * 权限台账
+     *
      * @return
      */
     @Override
-    public List<JSONObject> getPermissionList(int currentPage,int pageSize) {
+    public List<JSONObject> getPermissionList(int currentPage, int pageSize) {
 
         // 封装数据
         List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
 
         // 第一层权限
-        List<Permission> permissionFirstList = permissionMapperEx.getPermissionListByFirst(1);
+        List<Permission> permissionFirstList = baseMapper.getPermissionListByFirst(1);
         for (Permission permission : permissionFirstList) {
             JSONObject firstObj = new JSONObject();
             firstObj.put("permissionId", permission.getPermissionId());
@@ -63,7 +54,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 其他层权限
-        List<Permission> permissionOtherList = permissionMapperEx.getPermissionListByFirst(0);
+        List<Permission> permissionOtherList = baseMapper.getPermissionListByFirst(0);
         for (JSONObject jsonObject : jsonObjects) {
             // 循环获取第一层ID，匹配封装第一层数据下的值
             int PermissionId = jsonObject.getInteger("permissionId");
@@ -94,48 +85,113 @@ public class PermissionServiceImpl implements PermissionService {
         return jsonObjects;
     }
 
-    /**
-     * 权限保存
-     * @param permission
-     * @return
-     */
-    @Override
-    public boolean savePermission(Permission permission) {
-        int succ = 0;
-        if (permission.getPermissionId() != 0) {
-            // ID不为空，更新操作
-            succ = permissionMapperEx.updatePermission(permission);
-        } else {
-            // ID为空，创建操作
-            succ = permissionMapperEx.createPermission(permission);
-        }
-
-        if (succ != 1) {
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * 权限删除
-     * @param permissionId
-     * @return
-     */
-    @Override
-    public int deletePermission(int permissionId) {
-        return permissionMapperEx.deletePermission(permissionId);
-    }
-
 
     /**
      * 权限详情
+     *
      * @param permissionId
      * @return
      */
     @Override
     public Permission detailsPermission(int permissionId) {
 
-        return permissionMapperEx.detailsPermission(permissionId);
+        return baseMapper.detailsPermission(permissionId);
     }
+
+
+    /**
+     * 权限保存
+     *
+     * @param permission
+     * @return
+     */
+    @Override
+    public boolean savePermission(Permission permission) {
+
+        if (permission.getPermissionId() != 0) {
+            // ID不为空，更新操作
+            if (baseMapper.updatePermission(permission) == 1) {
+                return true;
+            }
+        } else {
+            // ID为空，创建操作
+            if (baseMapper.createPermission(permission) == 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 权限删除
+     *
+     * @param permissionId
+     * @return
+     */
+    @Override
+    public Boolean deletePermission(int permissionId) {
+
+        if (baseMapper.deletePermission(permissionId) == 1) {
+            // 权限角色关联删除
+            baseMapper.deletePermissionByRole(permissionId);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 权限已选数据
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<JSONObject> getPermissionListByRoleId(int roleId) {
+        // 封装数据
+        List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
+
+        // 第一层权限
+        List<Permission> permissionFirstList = baseMapper.getPermissionListByRoleId(roleId, 1);
+        for (Permission permission : permissionFirstList) {
+            JSONObject firstObj = new JSONObject();
+            firstObj.put("permissionId", permission.getPermissionId());
+            firstObj.put("permissionName", permission.getPermissionName());
+            firstObj.put("LevelNo", permission.getLevelNo());
+            firstObj.put("ParentId", permission.getParentId());
+            jsonObjects.add(firstObj);
+
+        }
+
+        // 其他层权限
+        List<Permission> permissionOtherList = baseMapper.getPermissionListByRoleId(roleId, 0);
+        for (JSONObject jsonObject : jsonObjects) {
+            // 循环获取第一层ID，匹配封装第一层数据下的值
+            int PermissionId = jsonObject.getInteger("permissionId");
+
+            // children层
+            List<JSONObject> jsonObjectList = new ArrayList<JSONObject>();
+            for (Permission permission : permissionOtherList) {
+                // 获取父类ID,匹配第一层ID
+                int parentId = permission.getParentId();
+                if (PermissionId == parentId) {
+                    JSONObject OtherObject = new JSONObject();
+                    OtherObject.put("permissionId", permission.getPermissionId());
+                    OtherObject.put("permissionName", permission.getPermissionName());
+                    jsonObjectList.add(OtherObject);
+
+                }
+            }
+            jsonObject.put("children", jsonObjectList);
+        }
+
+        return jsonObjects;
+    }
+
+
+
+
+
 }

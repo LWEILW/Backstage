@@ -4,6 +4,16 @@ export default {
   name: "PermissionManage",
   data() {
     return {
+      // 权限台账
+      permissionTable: [],
+      //
+      permissionName: '',
+      parentName: '',
+      permissionPath: '',
+      levelNo: '',
+      createPerson: '',
+      updatePerson: '',
+
       // 初始选中页码
       currentPage: 1,
       // 显示每页的数据
@@ -12,8 +22,7 @@ export default {
       totalCount: 0,
       // 权限模糊查询
       permissionParams: {},
-      // 权限台账列表
-      permissionTable: [],
+
       // 模态框初始化隐藏
       permissionDialog: false,
       // 模态框标题名称
@@ -27,7 +36,7 @@ export default {
         {value: 3, label: '权限模块'},
         {value: 4, label: '文章模块'}],
       // 权限登记
-      levelNo: [
+      levelNoList: [
         {value: 1, label: 1},
         {value: 2, label: 2},
         {value: 3, label: 3},
@@ -74,10 +83,15 @@ export default {
     getPermissionList() {
       const params = {
         'currentPage': this.currentPage,
-        'pageSize': this.pageSize
+        'pageSize': this.pageSize,
+        'permissionName': this.permissionName,
+        'parentName': this.parentName,
+        'permissionPath': this.permissionPath,
+        'levelNo': this.levelNo,
+        'createPerson': this.createPerson,
+        'updatePerson': this.updatePerson
       }
       api.getPermissionList(params).then(res => {
-        console.log(res.data.permissionList)
         this.permissionTable = res.data.permissionList;
         this.currentPage = res.data.currentPage;
         this.totalCount = res.data.total;

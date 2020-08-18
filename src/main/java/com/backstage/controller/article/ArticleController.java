@@ -9,6 +9,7 @@ import com.backstage.util.*;
 import com.backstage.util.word.RichHtmlHandler;
 import com.backstage.util.word.RichObject;
 import com.backstage.util.word.WordGeneratorWithFreemarker;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/articleList")
+    @RequiresPermissions("articleList")
     public Result articleList(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         int currentPage = obj.getInteger("currentPage");
@@ -66,6 +68,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/articleDetails/{articleId}")
+    @RequiresPermissions("articleDetails")
     public Result articleDetails(@PathVariable("articleId") int articleId) {
         Article article = articleService.articleDetails(articleId);
         return Result.success("文章详情")
@@ -80,6 +83,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/articleSave")
+    @RequiresPermissions("articleSave")
     public String articleSave(@RequestBody String data) {
         Article article = JSONObject.parseObject(data, Article.class);
 
@@ -99,6 +103,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/articleDelete/{articleId}")
+    @RequiresPermissions("articleDelete")
     public String articleDelete(@PathVariable("articleId") int articleId) {
 
         int succ = articleService.articleDelete(articleId);
@@ -117,6 +122,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/deleteArticleAll")
+    @RequiresPermissions("deleteArticleAll")
     public String deleteArticleAll(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         JSONArray idList = (JSONArray) obj.get("idList");

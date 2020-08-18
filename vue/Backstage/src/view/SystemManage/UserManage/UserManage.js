@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       // 用户台账
-      userList: [],
+      userTable: [],
       // 模糊查询字段
       userAccount: "",
       userName: "",
@@ -30,12 +30,14 @@ export default {
       // 模态框用户详情
       userData: {},
       // 模态框角色列表
+      roleSelectList: [],
       roleList: []
     };
   },
   // 初始化加载
   created() {
     this.getUserList();
+    this.getRoleList();
   },
   methods: {
     // 初始化台账,checkbox展示
@@ -49,6 +51,13 @@ export default {
     // 自动记录已选的数据，获取key值
     getRowKeys(row) {
       return row.userId;
+    },
+
+    // 角色初始化台账
+    getRoleList() {
+      api.getRoleList().then(res => {
+        this.roleList = res.data.roleList;
+      });
     },
 
     // 用户台账
@@ -66,7 +75,7 @@ export default {
       api.getUserList(params).then(res => {
         // 模糊查询，第一行插入空值
         res.data.userList.unshift({});
-        this.userList = res.data.userList;
+        this.userTable = res.data.userList;
         this.currentPage = res.data.currentPage;
         this.totalCount = res.data.total;
       });
@@ -76,16 +85,17 @@ export default {
     handleCreate() {
       this.dialogTitle = '新建用户';
       this.userData = {};
-      this.roleList = [];
+      this.roleSelectList = [];
       this.dialogStatus = true;
     },
+
     // 跳转至编辑画面
     handleEdit(row) {
       this.dialogTitle = '修改用户信息';
       // 展示用户详情
       api.detailsUser(row.userId).then(res => {
         this.userData = res.data.user;
-        this.roleList = res.data.roleList;
+        this.roleSelectList = res.data.roleList;
       });
       this.dialogStatus = true;
     },
@@ -95,18 +105,24 @@ export default {
       // 关闭模态框
       this.dialogStatus = false;
       const params = {
+        'userId': this.userData.userId,
         'userAccount': this.userData.userAccount,
         'userEmail': this.userData.userEmail,
         'userName': this.userData.userName,
         'userPhone': this.userData.userPhone,
+        'telephone': this.userData.telephone,
         'userSex': this.userData.userSex,
-        'roleList': this.roleList
+        'roleList': this.roleSelectList
       };
       api.saveUser(params).then(res => {
         // 刷新页面
         this.getUserList();
         // 返回消息
-        this.$message.success("保存成功");
+        if (res.data.status == 1) {
+          this.$message.success("保存成功");
+        } else {
+          this.$message.error("保存失败");
+        }
       });
     },
 
@@ -118,14 +134,15 @@ export default {
         type: "warning"
       }).then(() => {
 
-        api.deleteUser(row.userId).then(res => {
-          if (res.data.data) {
-            this.$message({type: "success", message: "删除成功!"});
-          } else {
-            this.$message({type: "fail", message: "删除失败!"});
-          }
+        api.deleteUserById(row.userId).then(res => {
           // 刷新页面
           this.getUserList();
+          // 返回消息
+          if (res.data.status == 1) {
+            this.$message.success("删除成功!");
+          } else {
+            this.$message.error("删除失败!");
+          }
         });
       }).catch(() => {
         this.$message({
@@ -154,7 +171,27 @@ export default {
     handleDeleteAll() {
       console.log(this.multipleSelection);
       if (this.multipleSelection.length != 0) {
+        this.$confirm("此操作将删除该批数据, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
 
+          api.deleteUserList({"userList": this.multipleSelection}).then(res => {
+            if (res.data.data) {
+              this.$message({type: "success", message: "删除成功!"});
+            } else {
+              this.$message({type: "fail", message: "删除失败!"});
+            }
+            // 刷新页面
+            this.getUserList();
+          });
+        }).catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
       } else {
         this.$message.warning("未选择数据，无法删除");
       }
@@ -162,17 +199,21 @@ export default {
 
     // 用户状态更新
     changeSwitch: function ($event, row) {
-      console.log(row.userStatus);
-      // shopUpdate(b), then(response => {
-      //   if (response.code == 0) {
-      //     // 成功了不做处理，因为switch状态已经修改
-      //     this.message({message: "状态修改成功", type: "success"})
-      //   } else {
-      //     let newData = b;
-      //     newData.state = newData.state == 1 ? "2" : "1";
-      //     this.tableData(index) = newData;
-      //   }
-      // })
+      const params = {
+        'userId': row.userId,
+        'userStatus': $event
+      };
+      api.changeUserStatus(params).then(res => {
+
+        if (res.data.status == 1) {
+          this.$message.success("更新成功!");
+        } else {
+          this.$message.warning("更新失败!");
+        }
+        // // 刷新页面
+        // this.getUserList();
+      });
+
     },
 
     // 重置密码
@@ -182,11 +223,11 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        api.deleteUser(row.userId).then(res => {
-          if (res.data.data) {
-            this.$message({type: "success", message: "重置成功!"});
+        api.resetPassword(row.userId).then(res => {
+          if (res.data.status == 1) {
+            this.$message.success("重置成功!");
           } else {
-            this.$message({type: "fail", message: "重置失败!"});
+            this.$message.error("重置失败!");
           }
           // 刷新页面
           this.getUserList();
@@ -205,6 +246,7 @@ export default {
     // 导入用户
 
     // 导出用户
+
 
     // 切换每页显示的数量,每页下拉显示数据
     handleSizeChange(size) {

@@ -63,14 +63,14 @@ public class ShiroConfiguration {
 
         // 登录 放行
         filterChainMap.put("/admin/**", "anon");
-        // 用户 放行
-        filterChainMap.put("/user/**", "anon");
-        // 角色 放行
-        filterChainMap.put("/role/**", "anon");
-        // 权限 放行
-        filterChainMap.put("/permission/**", "anon");
-        // 文章 放行
-        filterChainMap.put("/article/**", "anon");
+//        // 用户 放行
+//        filterChainMap.put("/user/**", "anon");
+//        // 角色 放行
+//        filterChainMap.put("/role/**", "anon");
+//        // 权限 放行
+//        filterChainMap.put("/permission/**", "anon");
+//        // 文章 放行
+//        filterChainMap.put("/article/**", "anon");
 
 
 //        // “/user/student” 开头的用户需要角色认证，是“admin”才允许

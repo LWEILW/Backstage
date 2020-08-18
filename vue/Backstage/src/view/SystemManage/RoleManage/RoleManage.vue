@@ -1,24 +1,11 @@
 <template>
   <!-- 角色管理 -->
-  <div class="role-container">
+  <div class="role_container">
     <!-- 角色台账 -->
-    <div class="role-table">
+    <div class="role_table">
       <!-- 搜索框、按钮 -->
-      <div class="role-operation">
-        <div class="role-button">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">批量删除</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导入角色</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出角色</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">添加角色</el-button>
-        </div>
-        <div class="role-search">
-          <div class="role-input">
-            <el-input size="small" placeholder="请输入检测单号" v-model="input"></el-input>
-          </div>
-          <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-        </div>
+      <div class="role_operation">
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">添加角色</el-button>
       </div>
 
       <!--台账
@@ -33,22 +20,75 @@
       <div class="role-list">
         <el-table :data="roleTable" stripe border size="small" ref="RoleTable"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
-          <el-table-column prop="roleName" label="角色名称" align="center"></el-table-column>
-          <el-table-column prop="roleDescribe" label="角色描述" align="center"></el-table-column>
-          <!--        <el-table-column prop="roleDescribe" label="权限字符"></el-table-column>-->
-          <!--        <el-table-column prop="roleDescribe" label="角色状态"></el-table-column>-->
-          <el-table-column prop="createPerson" label="创建者" align="center"></el-table-column>
-          <el-table-column prop="createDate" label="创建时间" align="center" sortable></el-table-column>
-          <el-table-column prop="updatePerson" label="更新者" align="center"></el-table-column>
-          <el-table-column prop="updateDate" label="更新时间" align="center"></el-table-column>
-          <el-table-column fixed="right" label="操作" width="130px">
+
+          <el-table-column prop="roleName" label="角色名称" align="center">
             <template slot-scope="scope">
-              <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"
-                         plain></el-button>
-              <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="small"
-                         plain></el-button>
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="roleName" @keyup.enter.native='getRoleList' size="small"></el-input>
+              </div>
+              <div v-else>{{ scope.row.roleName }}</div>
             </template>
           </el-table-column>
+
+          <el-table-column prop="roleDescribe" label="角色描述" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="roleDescribe" @keyup.enter.native='getRoleList' size="small"></el-input>
+              </div>
+              <div v-else>{{ scope.row.roleDescribe }}</div>
+            </template>
+          </el-table-column>
+
+          <!--        <el-table-column prop="roleDescribe" label="权限字符"></el-table-column>-->
+          <!--        <el-table-column prop="roleDescribe" label="角色状态"></el-table-column>-->
+
+          <el-table-column prop="createPerson" label="创建者" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="createPerson" @keyup.enter.native='getRoleList' size="small"></el-input>
+              </div>
+              <div v-else>{{ scope.row.createPerson }}</div>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="createDate" label="创建时间" align="center" sortable>
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input size="small" disabled></el-input>
+              </div>
+              <div v-else>{{ scope.row.createDate }}</div>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="updatePerson" label="更新者" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input v-model="updatePerson" @keyup.enter.native='getRoleList' size="small"></el-input>
+              </div>
+              <div v-else>{{ scope.row.updatePerson }}</div>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="updateDate" label="更新时间" align="center">
+            <template slot-scope="scope">
+              <div v-if='scope.$index == 0'>
+                <el-input size="small" disabled></el-input>
+              </div>
+              <div v-else>{{ scope.row.updateDate }}</div>
+            </template>
+          </el-table-column>
+
+          <el-table-column fixed="right" label="操作" width="130px">
+            <template slot-scope="scope">
+              <div v-if='scope.$index != 0'>
+                <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"
+                           plain></el-button>
+                <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="small"
+                           plain></el-button>
+              </div>
+            </template>
+          </el-table-column>
+
         </el-table>
       </div>
 
@@ -80,9 +120,9 @@
 
 
     <!-- 角色模态框 -->
-    <el-dialog :title="updateTitle" :visible.sync="roleDialog" width="800px" center>
+    <el-dialog :title="dialogTitle" :visible.sync="dialogStatus" width="900px" center>
       <!-- 角色详情 -->
-      <el-form :model="roleDetails" ref="roleForm" label-width="120px">
+      <el-form :model="roleDetails" ref="roleForm" label-width="90px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="角色名称" prop="roleName">
@@ -117,22 +157,23 @@
       node-key:每个树节点用来作为唯一标识的属性，整棵树应该是唯一的
       default-expanded-keys:设置默认展开
       default-checked-keys:默认选中的节点
+      check-change	节点选中状态发生变化时的回调
       node-click	节点被点击时的回调
-      check-change	节点选中状态发生变化时的回调 -->
-      <el-tree ref="permissionTree"
-               :data="permissionShowData"
+       -->
+      <el-tree :data="permissionShowData"
                show-checkbox
                node-key="permissionId"
                :default-expanded-keys="[1]"
                :default-checked-keys="permissionChangeData"
                :props="permissionEditProps"
                @check-change="handleCheckChange"
-               @node-click="handleNodeClick">
+               @node-click="handleNodeClick"
+               ref="permissionTree">
       </el-tree>
 
       <span slot="footer" class="dialog-footer">
            <el-button type="primary" size="small" @click="handleSave">确定</el-button>
-           <el-button size="small" @click="roleDialog = false">取消</el-button>
+           <el-button size="small" @click="dialogStatus = false">取消</el-button>
         </span>
     </el-dialog>
 

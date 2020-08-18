@@ -2,6 +2,7 @@ package com.backstage.dao.admin;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.backstage.entity.admin.Permission;
 import com.backstage.entity.admin.Role;
@@ -18,45 +19,17 @@ import java.util.List;
  * @date 2020-03-31 16:00
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<JSONObject> {
 
     /**
      * 用户台账
      *
-     * @return
-     */
-    List<User> getUserList(Pagination page);
-
-    /**
-     * 用户创建
-     *
+     * @param page
      * @param user
      * @return
      */
-    int createUser(@Param("user") User user);
+    List<User> userList(Pagination page, @Param("user") User user);
 
-    /**
-     * 获取用户创建ID
-     *
-     * @return
-     */
-    List<User> getUserId();
-
-    /**
-     * 用户更新
-     *
-     * @param user
-     * @return
-     */
-    int updateUser(@Param("user") User user);
-
-    /**
-     * 用户删除
-     *
-     * @param id
-     * @return
-     */
-    int deleteUser(@Param("userId") int id);
 
     /**
      * 用户详情
@@ -67,48 +40,35 @@ public interface UserMapper {
     User detailsUser(@Param("userId") int Id);
 
 
-    User usersLogin(@Param("account") String account);
-
     /**
-     * shiro验证
-     * @param userName
-     * @return
-     */
-    /**
-     * 根据用户名获取用户信息
-     *
-     * @param userName
-     * @return
-     */
-    User selectAllByName(@Param("userName") String userName);
-
-    /**
-     * 根据用户ID获取角色信息
+     * 用户所选角色列表
      *
      * @param userId
      * @return
      */
-    List<Role> getRoleListByUserId(@Param("userId") int userId);
+    List<JSONObject> getRolesByUserId(@Param("userId") int userId);
+
 
     /**
-     * 根据角色ID获取权限信息
+     * 用户创建
      *
-     * @param roleId
+     * @param user
      * @return
      */
-    List<Permission> getPermissionListByRoleId(@Param("roleId") int roleId);
+    int createUser(@Param("user") User user);
 
 
     /**
-     * 删除该用户下所有角色
+     * 用户更新
      *
-     * @param userId
+     * @param user
      * @return
      */
-    int deleteRoleByUserId(@Param("userId") int userId);
+    int updateUser(@Param("user") User user);
+
 
     /**
-     * 人员维护添加
+     * 添加用户所选角色
      *
      * @param roleId
      * @param userId
@@ -118,10 +78,46 @@ public interface UserMapper {
 
 
     /**
-     * 获取用户角色列表
+     * 用户删除
+     *
+     * @param id
+     * @return
+     */
+    int deleteUserById(@Param("userId") int id);
+
+
+    /**
+     * 用户批量删除
+     *
+     * @param list
+     * @return
+     */
+    int deleteUserList(@Param("list") List<Integer> list);
+
+
+    /**
+     * 删除用户所选角色
      *
      * @param userId
      * @return
      */
-    List<JSONObject> getRolesByUserId(@Param("userId") int userId);
+    int deleteRoleByUserId(@Param("userId") int userId);
+
+
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param userName
+     * @return
+     */
+    User selectAllByName(@Param("userName") String userName);
+
+
+    /**
+     * 根据用户ID获取角色信息
+     *
+     * @param userId
+     * @return
+     */
+    List<Role> getRoleListByUserId(@Param("userId") int userId);
 }

@@ -1,6 +1,8 @@
 package com.backstage.dao.category;
 
+import com.alibaba.fastjson.JSONObject;
 import com.backstage.entity.category.Category;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +16,7 @@ import java.util.List;
  * @date 2020-07-28 17:05
  **/
 @Mapper
-public interface CategoryMapper {
+public interface CategoryMapper extends BaseMapper<JSONObject> {
 
     /**
      * 分类台账

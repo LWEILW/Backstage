@@ -36,6 +36,9 @@ public class User extends Role {
     @TableField(value = "userPhone", el = "手机话")
     private String userPhone;
 
+    @TableField(value = "telephone", el = "电话")
+    private String telephone;
+
 
     @TableField(value = "userEmail", el = "邮箱")
     private String userEmail;

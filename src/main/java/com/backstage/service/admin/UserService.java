@@ -1,8 +1,12 @@
 package com.backstage.service.admin;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.User;
+import com.baomidou.mybatisplus.service.IService;
+
+import java.util.List;
 
 /**
  * 用户管理
@@ -10,30 +14,17 @@ import com.backstage.entity.admin.User;
  * @author Liu wei
  * @date 2020-03-31 16:00
  */
-public interface UserService {
+public interface UserService extends IService<JSONObject> {
 
     /**
      * 用户台账
      *
-     * @return
-     */
-    Page<User> getUserList(Page<User> page);
-
-    /**
-     * 用户保存
-     *
+     * @param page
      * @param user
      * @return
      */
-    boolean saveUser(User user, JSONArray roleList);
+    Page<User> userList(Page<User> page, User user);
 
-    /**
-     * 用户删除
-     *
-     * @param userId
-     * @return
-     */
-    int deleteUser(int userId);
 
     /**
      * 用户详情
@@ -43,16 +34,51 @@ public interface UserService {
      */
     User detailsUser(int userId);
 
+
     /**
-     * 获取用户角色列表
+     * 用户所选角色列表
      *
      * @param userId
      * @return
      */
     JSONArray getRolesByUserId(int userId);
 
-    User usersLogin(String account);
 
-    int createUser(User user);
+    /**
+     * 用户保存
+     *
+     * @param user
+     * @param roleList
+     * @return
+     */
+    Boolean createOrUpdateUser(User user, JSONArray roleList);
+
+
+    /**
+     * 用户删除
+     *
+     * @param userId
+     * @return
+     */
+    Boolean deleteUserById(int userId);
+
+
+    /**
+     * 用户批量删除
+     *
+     * @param userList
+     * @return
+     */
+    Boolean deleteUserList(List<User> userList);
+
+
+    /**
+     * 用户重置密码
+     *
+     * @param userId
+     * @return
+     */
+    Boolean resetPassword(int userId);
+
 
 }

@@ -1,5 +1,6 @@
 package com.backstage.dao.commodity;
 
+import com.alibaba.fastjson.JSONObject;
 import com.backstage.entity.commodity.Commodity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
@@ -15,7 +16,7 @@ import java.util.List;
  * @date 2020-07-22 16:00
  **/
 @Mapper
-public interface CommodityMapper extends BaseMapper<Commodity> {
+public interface CommodityMapper extends BaseMapper<JSONObject> {
 
 
     /**

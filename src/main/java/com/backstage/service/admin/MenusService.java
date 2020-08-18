@@ -1,7 +1,9 @@
 package com.backstage.service.admin;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.Menus;
+import com.baomidou.mybatisplus.service.IService;
 
 /**
  * 菜单管理
@@ -9,7 +11,7 @@ import com.backstage.entity.admin.Menus;
  * @author Liu wei
  * @date 2020-03-31 16:00
  */
-public interface MenusService {
+public interface MenusService extends IService<JSONObject> {
 
     /**
      * 菜单台账
@@ -30,7 +32,7 @@ public interface MenusService {
      * @param menusId
      * @return
      */
-    int deleteMenus(int menusId);
+    Boolean  deleteMenus(int menusId);
 
     /**
      * 菜单详情

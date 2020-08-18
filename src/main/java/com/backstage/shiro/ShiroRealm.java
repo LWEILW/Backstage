@@ -1,10 +1,15 @@
 package com.backstage.shiro;//package com.blogger.shiro;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.PermissionMapper;
+import com.backstage.dao.admin.RoleMapper;
 import com.backstage.dao.admin.UserMapper;
 import com.backstage.entity.admin.Permission;
 import com.backstage.entity.admin.Role;
 import com.backstage.entity.admin.User;
+import com.backstage.service.ShareService;
+import io.swagger.models.auth.In;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -31,6 +36,14 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private UserMapper userMapperEx;
 
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private ShareService shareService;
 
     private Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
@@ -81,9 +94,11 @@ public class ShiroRealm extends AuthorizingRealm {
             for (Role role : roleList) {
                 roleStrlist.add(role.getRoleName());
                 //获取用户权限
-                List<Permission> permissionList = userMapperEx.getPermissionListByRoleId(role.getRoleId());
+                List<Permission> permissionList = roleMapper.getPermissionListByRoleId(role.getRoleId());
                 for (Permission uPermission : permissionList) {
-                    perminsStrlist.add(uPermission.getPermissionName());
+                    if (uPermission.getPermissionPath() != null && !"".equals(uPermission.getPermissionPath())) {
+                        perminsStrlist.add(uPermission.getPermissionPath());
+                    }
                 }
             }
             user.setRoleList(roleStrlist);

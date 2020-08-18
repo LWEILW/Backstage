@@ -1,8 +1,10 @@
 package com.backstage.service.article;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.article.Article;
+import com.baomidou.mybatisplus.service.IService;
 
 /**
  * 文章管理
@@ -10,7 +12,7 @@ import com.backstage.entity.article.Article;
  * @author Liu wei
  * @date 2020-03-31 16:00
  **/
-public interface ArticleService {
+public interface ArticleService extends IService<JSONObject> {
 
     /**
      * 文章台账

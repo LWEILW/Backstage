@@ -1,10 +1,13 @@
 package com.backstage.service.impl.article;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.RoleMapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.article.ArticleMapper;
 import com.backstage.entity.article.Article;
 import com.backstage.service.article.ArticleService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,9 @@ import java.util.List;
  * @date 2020-03-31 16:00
  **/
 @Service("ArticleService")
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, JSONObject> implements ArticleService {
 
-    @Autowired
-    private ArticleMapper articleMapper;
+
 
     /**
      * 文章台账
@@ -32,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> articleList(Page<Article> page) {
 
-        return page.setRecords(articleMapper.articleList(page));
+        return page.setRecords(baseMapper.articleList(page));
     }
 
 
@@ -44,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Article articleDetails(int articleId) {
-        return articleMapper.articleDetails(articleId);
+        return baseMapper.articleDetails(articleId);
     }
 
 
@@ -58,12 +60,12 @@ public class ArticleServiceImpl implements ArticleService {
     public boolean articleSave(Article article) {
         if (article.getArticleId() != 0) {
             // 编辑
-            if (articleMapper.articleUpdate(article) == 1) {
+            if (baseMapper.articleUpdate(article) == 1) {
                 return true;
             }
         } else {
             // 创建
-            if (articleMapper.articleCreate(article) == 1) {
+            if (baseMapper.articleCreate(article) == 1) {
                 return true;
             }
         }
@@ -80,7 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int articleDelete(int articleId) {
 
-        return articleMapper.articleDelete(articleId);
+        return baseMapper.articleDelete(articleId);
     }
 
 
@@ -99,7 +101,7 @@ public class ArticleServiceImpl implements ArticleService {
             //封装到新集合里
             list.add((Integer) id);
         }
-        int succ = articleMapper.articleDeleteAll(list);
+        int succ = baseMapper.articleDeleteAll(list);
         if (succ == 0) {
             return false;
         }

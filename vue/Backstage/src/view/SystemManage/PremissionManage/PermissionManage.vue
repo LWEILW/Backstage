@@ -6,9 +6,9 @@
       <!-- 搜索框、按钮 -->
       <div class="permission-operation">
         <div class="permission-button">
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>
+          <!--          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>-->
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleSwtich">展开/折叠</el-button>
+          <!--          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleSwtich">展开/折叠</el-button>-->
         </div>
         <div class="permission-search">
           <div class="permission-input">
@@ -32,23 +32,32 @@
       11.tree-props:渲染嵌套数据的配置选项-->
       <div class="permission-list">
         <el-table :data="permissionTable" stripe border size="small" ref="PermissionTable"
-                  :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}" row-key="permissionId"
-                  :default-expand-all="false" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+                  :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}" :default-expand-all="false"
+                  row-key="permissionId" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+
           <el-table-column prop="permissionName" label="权限名称"></el-table-column>
+
+<!--          <el-table-column prop="parentName" label="父类名称" align="center"></el-table-column>-->
+
           <el-table-column prop="permissionPath" label="权限路径" align="center"></el-table-column>
-          <el-table-column prop="parentName" label="父类名称" align="center"></el-table-column>
+
           <!--        <el-table-column prop="functionName" label="功能名称"></el-table-column>-->
           <el-table-column prop="levelNo" label="权限等级" align="center"></el-table-column>
+
           <el-table-column prop="createPerson" label="创建人" align="center"></el-table-column>
+
           <el-table-column prop="createDate" label="创建时间" sortable align="center"></el-table-column>
+
           <el-table-column prop="updatePerson" label="更新人" align="center"></el-table-column>
+
           <el-table-column prop="updateDate" label="更新时间" align="center"></el-table-column>
+
           <el-table-column fixed="right" label="操作" width="130px">
             <template slot-scope="scope">
-              <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"
-                         plain></el-button>
-              <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="small"
-                         plain></el-button>
+                <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"
+                           plain></el-button>
+                <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="small"
+                           plain></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -81,7 +90,7 @@
 
     <!-- 权限模态框 -->
     <el-dialog :title="updateTitle" :visible.sync="permissionDialog" width="900px" center>
-      <el-form :model="permissionData" ref="permissionForm" label-width="120px">
+      <el-form :model="permissionData" ref="permissionForm" label-width="90px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="权限名称" prop="permissionName">
@@ -106,7 +115,7 @@
               <el-select v-model="permissionData.levelNo" filterable placeholder="请选择" :default-first-option="true"
                          value-key="VALUE">
                 <el-option
-                  v-for="item in levelNo"
+                  v-for="item in levelNoList"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
@@ -134,7 +143,7 @@
 
       <span slot="footer" class="dialog-footer">
            <el-button type="primary" size="small" @click="handleSave">确定</el-button>
-           <el-button size="small" @click="UserDialog = false">取消</el-button>
+           <el-button size="small" @click="permissionDialog = false">取消</el-button>
         </span>
     </el-dialog>
   </div>

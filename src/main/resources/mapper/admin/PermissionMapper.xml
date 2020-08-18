@@ -2,14 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.backstage.dao.admin.PermissionMapper">
 
-
-    <!--  权限台账  -->
-    <select id="getPermissionList" resultType="com.backstage.entity.admin.Permission">
-        select p.*,
-        (select permissionName from permission where permissionId =p.parentId ) parentName
-        from permission p
-    </select>
-
+    <!--  权限台账_获取初始层权限结构  -->
     <select id="getPermissionListByFirst" resultType="com.backstage.entity.admin.Permission">
         select p.*,
         (select permissionName from permission where permissionId =p.parentId ) parentName
@@ -25,6 +18,14 @@
             </choose>
         </where>
     </select>
+
+
+    <!--  权限详情  -->
+    <select id="detailsPermission" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.admin.Permission">
+        select * from permission where permissionId = #{permissionId}
+    </select>
+
 
     <!--  权限创建  -->
     <insert id="createPermission" parameterType="com.backstage.entity.admin.Permission">
@@ -46,6 +47,7 @@
          now()
         )
     </insert>
+
 
     <!--  权限更新  -->
     <update id="updatePermission" parameterType="com.backstage.entity.admin.Permission">
@@ -71,16 +73,37 @@
         where permissionId=#{permission.permissionId}
     </update>
 
+
     <!--  权限删除  -->
     <delete id="deletePermission" parameterType="java.lang.Integer">
-        delete  from  permission where permissionId=#{permissionId}
+        delete  from  permission
+        where permissionId=#{permissionId}
     </delete>
 
-    <!--  权限详情  -->
-    <select id="detailsPermission" parameterType="java.lang.Integer"
-            resultType="com.backstage.entity.admin.Permission">
-        select * from permission where permissionId = #{permissionId}
-    </select>
 
+    <!--  权限角色关联删除  -->
+    <delete id="deletePermissionByRole" parameterType="java.lang.Integer">
+        delete  from  permission_role
+        where permissionId=#{permissionId}
+    </delete>
+
+
+    <!--  权限已选数据  -->
+    <select id="getPermissionListByRoleId" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.admin.PermissionRole">
+        select * from permission_role pr
+        left join permission p on p.permissionId=pr.permissionId
+        <where>
+            pr.roleId = #{roleId}
+            <choose>
+                <when test="type !=null and type != 1">
+                    and p.levelNo != 1
+                </when>
+                <otherwise>
+                    and p.levelNo=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
 
 </mapper>

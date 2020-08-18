@@ -5,12 +5,12 @@
     <div class="user_table">
       <!-- 搜索框、按钮 -->
       <div class="user_operation">
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消全选</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导入用户</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">导出用户</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleDeleteAll()">批量删除</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="toggleSelection()">取消全选</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">导入用户</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">导出用户</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleDeleteAll()">批量删除</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
       </div>
 
       <!--台账
@@ -25,15 +25,15 @@
       9.row-key:行数据的Key,用来优化 Table 的渲染;
       10.reserve-selection: 自动记录已选的数据,与row-key联用 -->
       <div class="user_list">
-        <el-table :data="userList" stripe border @selection-change="handleSelectionChange" :row-key="getRowKeys"
-                  size="small" ref="multipleTable" :header-cell-style="{background:'#ffffff',color:'#000000'}">
+        <el-table :data="userTable" stripe border @selection-change="handleSelectionChange" :row-key="getRowKeys"
+                  size="small" ref="multipleTable" :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
           <el-table-column type="selection" :selectable='checkboxJudge' disabled='true' :reserve-selection="true"
                            width="55"></el-table-column>
 
           <el-table-column prop="userAccount" label="账号" align="center">
             <template slot-scope="scope">
               <div v-if='scope.$index == 0'>
-                <el-input v-model="userAccount" size="small"></el-input>
+                <el-input v-model="userAccount" @keyup.enter.native='getUserList' size="small"></el-input>
               </div>
               <div v-else>{{ scope.row.userAccount }}</div>
             </template>
@@ -42,7 +42,7 @@
           <el-table-column prop="userName" label="姓名" align="center">
             <template slot-scope="scope">
               <div v-if='scope.$index == 0'>
-                <el-input v-model="userName" size="small"></el-input>
+                <el-input v-model="userName" @keyup.enter.native='getUserList' size="small"></el-input>
               </div>
               <div v-else>{{ scope.row.userName }}</div>
             </template>
@@ -51,7 +51,7 @@
           <el-table-column prop="userSex" label="性别" align="center">
             <template slot-scope="scope">
               <div v-if='scope.$index == 0'>
-                <el-input v-model="userSex" size="small"></el-input>
+                <el-input v-model="userSex" @keyup.enter.native='getUserList' size="small"></el-input>
               </div>
               <div v-else>{{ scope.row.userSex }}</div>
             </template>
@@ -60,16 +60,16 @@
           <el-table-column prop="userPhone" label="电话" align="center">
             <template slot-scope="scope">
               <div v-if='scope.$index == 0'>
-                <el-input v-model="userPhone" size="small"></el-input>
+                <el-input v-model="userPhone" @keyup.enter.native='getUserList' size="small"></el-input>
               </div>
               <div v-else>{{ scope.row.userPhone }}</div>
             </template>
           </el-table-column>
 
-          <el-table-column prop="userEmail" label="邮箱" align="center">
+          <el-table-column prop="telephone" label="邮箱" align="center">
             <template slot-scope="scope">
               <div v-if='scope.$index == 0'>
-                <el-input v-model="userEmail" size="small"></el-input>
+                <el-input v-model="userEmail" @keyup.enter.native='getUserList' size="small"></el-input>
               </div>
               <div v-else>{{ scope.row.userEmail }}</div>
             </template>
@@ -78,7 +78,8 @@
           <el-table-column prop="userStatus" label="用户状态" align="center">
             <template slot-scope="scope">
               <div v-if='scope.$index == 0'>
-                <el-select v-model="userStatus" filterable clearable size="small" placeholder="请选择">
+                <el-select v-model="userStatus" @keyup.enter.native='getUserList' filterable clearable size="small"
+                           placeholder="请选择">
                   <el-option label="未启用" value="0"></el-option>
                   <el-option label="启用" value="1"></el-option>
                 </el-select>
@@ -185,11 +186,11 @@
             </el-form-item>
 
             <el-form-item label="角色列表" required>
-              <el-select v-model="roleList" style="width:770px;" placeholder="角色列表" multiple>
+              <el-select v-model="roleSelectList" style="width:770px;" placeholder="角色列表" multiple>
                 <el-option v-for="item in roleList"
-                           :key="item.value"
-                           :label="item.label"
-                           :value="item.value"></el-option>
+                           :key="item.roleId"
+                           :label="item.roleName"
+                           :value="item.roleId"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -200,7 +201,7 @@
             </el-form-item>
 
             <el-form-item label="电话" prop="userPhone">
-              <el-input v-model="userData.userPhone"></el-input>
+              <el-input v-model="userData.telephone"></el-input>
             </el-form-item>
 
             <el-form-item label="邮箱" prop="userEmail">

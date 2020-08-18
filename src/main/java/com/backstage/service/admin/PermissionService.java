@@ -3,6 +3,7 @@ package com.backstage.service.admin;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.Permission;
+import com.baomidou.mybatisplus.service.IService;
 
 import java.util.List;
 
@@ -12,21 +13,27 @@ import java.util.List;
  * @author Liu wei
  * @date 2020-03-31 16:00
  */
-public interface PermissionService {
+public interface PermissionService extends IService<JSONObject> {
 
-    /**
-     * 所有权限数据
-     *
-     * @return
-     */
-    Page<Permission> getPermissionAllList(Page<Permission> page);
 
     /**
      * 权限台账
      *
+     * @param currentPage
+     * @param pageSize
      * @return
      */
     List<JSONObject> getPermissionList(int currentPage, int pageSize);
+
+
+    /**
+     * 权限详情
+     *
+     * @param permissionId
+     * @return
+     */
+    Permission detailsPermission(int permissionId);
+
 
     /**
      * 权限保存
@@ -43,13 +50,19 @@ public interface PermissionService {
      * @param permissionId
      * @return
      */
-    int deletePermission(int permissionId);
+    Boolean deletePermission(int permissionId);
+
+
+
 
     /**
-     * 权限详情
+     * 权限已选数据
      *
-     * @param permissionId
+     * @param roleId
      * @return
      */
-    Permission detailsPermission(int permissionId);
+    List<JSONObject> getPermissionListByRoleId(int roleId);
+
+
+
 }

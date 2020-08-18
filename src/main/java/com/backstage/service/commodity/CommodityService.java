@@ -1,8 +1,10 @@
 package com.backstage.service.commodity;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.backstage.entity.commodity.Commodity;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.IService;
 
 
 /**
@@ -11,7 +13,7 @@ import com.baomidou.mybatisplus.plugins.Page;
  * @author Liu wei
  * @date 2020-07-22 16:00
  **/
-public interface CommodityService {
+public interface CommodityService extends IService<JSONObject> {
 
     /**
      * 商品台账

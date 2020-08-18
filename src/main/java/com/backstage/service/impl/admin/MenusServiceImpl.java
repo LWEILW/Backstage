@@ -1,10 +1,13 @@
 package com.backstage.service.impl.admin;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.RoleMapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.admin.MenusMapper;
 import com.backstage.entity.admin.Menus;
 import com.backstage.service.admin.MenusService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,9 @@ import org.springframework.stereotype.Service;
  * @date 2020-03-31 16:00
  */
 @Service("MenusService")
-public class MenusServiceImpl implements MenusService {
+public class MenusServiceImpl extends ServiceImpl<MenusMapper, JSONObject> implements MenusService {
 
-    @Autowired
-    private MenusMapper menusMapperEx;
+
 
     /**
      * 权限台账
@@ -28,7 +30,7 @@ public class MenusServiceImpl implements MenusService {
     @Override
     public Page<Menus> getMenusList(Page<Menus> page) {
 
-        return page.setRecords(menusMapperEx.getMenusList(page));
+        return page.setRecords(baseMapper.getMenusList(page));
 
     }
 
@@ -43,10 +45,10 @@ public class MenusServiceImpl implements MenusService {
         int succ = 0;
         if (menus.getMenusId() != 0) {
             // ID不为空，更新操作
-            succ = menusMapperEx.updateMenus(menus);
+            succ = baseMapper.updateMenus(menus);
         } else {
             // ID为空，创建操作
-            succ = menusMapperEx.createMenus(menus);
+            succ = baseMapper.createMenus(menus);
         }
 
         if (succ != 1) {
@@ -63,8 +65,13 @@ public class MenusServiceImpl implements MenusService {
      * @return
      */
     @Override
-    public int deleteMenus(int menusId) {
-        return menusMapperEx.deleteMenus(menusId);
+    public Boolean deleteMenus(int menusId) {
+
+        int count = baseMapper.deleteMenus(menusId);
+        if (count == 1) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -77,6 +84,6 @@ public class MenusServiceImpl implements MenusService {
     @Override
     public Menus detailsMenus(int menusId) {
 
-        return menusMapperEx.detailsMenus(menusId);
+        return baseMapper.detailsMenus(menusId);
     }
 }

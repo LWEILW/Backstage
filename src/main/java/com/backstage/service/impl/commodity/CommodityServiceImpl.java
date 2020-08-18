@@ -1,10 +1,13 @@
 package com.backstage.service.impl.commodity;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.RoleMapper;
 import com.backstage.dao.commodity.CommodityMapper;
 import com.backstage.entity.commodity.Commodity;
 import com.backstage.service.commodity.CommodityService;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,8 @@ import java.util.List;
  * @date 2020-07-22 16:00
  **/
 @Service("CommodityService")
-public class CommodityServiceImpl implements CommodityService {
+public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, JSONObject> implements CommodityService {
 
-    @Autowired
-    private CommodityMapper commodityMapper;
 
     /**
      * 商品台账
@@ -32,7 +33,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public Page<Commodity> commodityList(Page<Commodity> page) {
 
-        return page.setRecords(commodityMapper.commodityList(page));
+        return page.setRecords(baseMapper.commodityList(page));
     }
 
 
@@ -44,7 +45,7 @@ public class CommodityServiceImpl implements CommodityService {
      */
     @Override
     public Commodity commodityDetails(int commodityId) {
-        return commodityMapper.commodityDetails(commodityId);
+        return baseMapper.commodityDetails(commodityId);
     }
 
 
@@ -58,12 +59,12 @@ public class CommodityServiceImpl implements CommodityService {
     public boolean commoditySave(Commodity commodity) {
         if (commodity.getCommodityId() != 0) {
             // 编辑
-            if (commodityMapper.commodityUpdate(commodity) == 1) {
+            if (baseMapper.commodityUpdate(commodity) == 1) {
                 return true;
             }
         } else {
             // 创建
-            if (commodityMapper.commodityCreate(commodity) == 1) {
+            if (baseMapper.commodityCreate(commodity) == 1) {
                 return true;
             }
         }
@@ -86,7 +87,7 @@ public class CommodityServiceImpl implements CommodityService {
             //封装到新集合里
             list.add((Integer) id);
         }
-        int succ = commodityMapper.commodityDeleteAll(list);
+        int succ = baseMapper.commodityDeleteAll(list);
         if (succ == 0) {
             return false;
         }

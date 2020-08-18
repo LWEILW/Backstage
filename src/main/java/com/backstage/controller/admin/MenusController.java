@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.Menus;
 import com.backstage.service.admin.MenusService;
 import com.backstage.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,11 @@ public class MenusController {
 
     /**
      * 菜单台账
+     *
      * @return
      */
     @PostMapping("/getMenusList")
+    @RequiresPermissions("getMenusList")
     public Result getMenusList(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         int currentPage = obj.getInteger("currentPage");
@@ -41,43 +44,52 @@ public class MenusController {
 
     /**
      * 菜单保存
+     *
      * @param data
      * @return
      */
     @PostMapping("/saveMenus")
-    public String saveMenus(@RequestBody String data) {
+    @RequiresPermissions("saveMenus")
+    public Result saveMenus(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         Menus menus = JSON.parseObject(data, Menus.class);
 
-        boolean succ = menusService.saveMenus(menus);
-        if (succ) {
-            return "保存成功";
+        boolean result = menusService.saveMenus(menus);
+        if (result) {
+            return Result.success("保存成功");
         } else {
-            return "保存失败";
+            return Result.fail("保存失败");
         }
     }
 
     /**
      * 菜单删除
+     *
      * @param menusId
      * @return
      */
     @GetMapping("/deleteMenus/{menusId}")
-    public int deleteMenus(@PathVariable int menusId) {
+    @RequiresPermissions("deleteMenus")
+    public Result deleteMenus(@PathVariable int menusId) {
 
-        return menusService.deleteMenus(menusId);
+        Boolean result = menusService.deleteMenus(menusId);
+        return Result.success("菜单删除");
     }
 
 
     /**
      * 菜单详情
+     *
      * @param menusId
      * @return
      */
     @GetMapping("/detailsMenus/{menusId}")
-    public Menus detailsMenus(@PathVariable("menusId") int menusId) {
+    @RequiresPermissions("detailsMenus")
+    public Result detailsMenus(@PathVariable("menusId") int menusId) {
+
         Menus menus = menusService.detailsMenus(menusId);
-        return menus;
+        return Result.success("菜单详情")
+                .data("menus",menus);
     }
 
 

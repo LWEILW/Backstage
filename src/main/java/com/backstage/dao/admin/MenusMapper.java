@@ -1,5 +1,7 @@
 package com.backstage.dao.admin;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.backstage.entity.admin.Menus;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +16,7 @@ import java.util.List;
  * @date 2020-03-31 16:00
  */
 @Mapper
-public interface MenusMapper {
+public interface MenusMapper extends BaseMapper<JSONObject> {
 
     /**菜单台账
      *

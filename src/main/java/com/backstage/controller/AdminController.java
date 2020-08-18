@@ -1,6 +1,8 @@
 package com.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.backstage.dao.admin.PermissionMapper;
+import com.backstage.dao.admin.RoleMapper;
 import com.backstage.dao.admin.UserMapper;
 import com.backstage.entity.admin.Permission;
 import com.backstage.entity.admin.Role;
@@ -38,6 +40,12 @@ public class AdminController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
     /**
      * 登录
      *
@@ -65,6 +73,8 @@ public class AdminController {
             return Result.fail("账户已锁定");
         } catch (ExcessiveAttemptsException eae) {
             return Result.fail("用户名或密码错误次数过多");
+        } catch (DisabledAccountException dis) {
+            return Result.fail("帐号已经禁止登录！");
         } catch (AuthenticationException ae) {
             return Result.fail("用户名或密码不正确");
         }
@@ -117,7 +127,7 @@ public class AdminController {
         for (Role role : roleList) {
             roleStrlist.add(role.getRoleName());
             //获取用户权限
-            List<Permission> permissionList = userMapper.getPermissionListByRoleId(role.getRoleId());
+            List<Permission> permissionList = roleMapper.getPermissionListByRoleId(role.getRoleId());
             for (Permission uPermission : permissionList) {
                 perminsStrlist.add(uPermission.getPermissionName());
             }

@@ -27,10 +27,10 @@ public class Article {
     private String articleContent;
 
     @TableField(value = "articleStatus", el = "博客状态")
-    private int articleStatus;
+    private Integer articleStatus;
 
     @TableField(value = "readingAmount", el = "阅读数量")
-    private int readingAmount;
+    private Integer readingAmount;
 
     @TableField(value = "publisher", el = "发布人")
     private String publisher;

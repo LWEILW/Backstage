@@ -53,7 +53,7 @@ public class User extends Role {
 
 
     @TableField(value = "userStatus", el = "用户状态")
-    private int userStatus;
+    private Integer userStatus;
 
 
     @TableField(value = "token", el = "登录验证")

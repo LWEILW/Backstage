@@ -2,9 +2,9 @@ import request from '@/utils/request'
 
 export default {
   // 权限台账
-  getPermissionList(data) {
+  permissionList(data) {
     return request({
-      url: '/api/v1/permission/getPermissionList',
+      url: '/api/v1/permission/permissionList',
       method: 'post',
       data
     })
@@ -16,18 +16,24 @@ export default {
       method: 'get',
     })
   },
-  // 保存权限
-  savePermission(data) {
+  // 权限保存
+  createOrUpdatePermission(data) {
     return request({
-      url: '/api/v1/permission/savePermission',
+      url: '/api/v1/permission/createOrUpdatePermission',
       method: 'post',
       data
     })
   },
-  // 删除权限
+  // 权限删除
   deletePermission(id) {
     return request({
       url: `/api/v1/permission/deletePermission/${id} `,
+      method: 'get',
+    })
+  },
+  getPermissionParent(){
+    return request({
+      url: `/api/v1/permission/getPermissionParent`,
       method: 'get',
     })
   }

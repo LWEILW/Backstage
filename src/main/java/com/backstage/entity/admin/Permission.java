@@ -28,14 +28,14 @@ public class Permission extends Role {
 
 
     @TableField(value = "parentId", el = "父类ID")
-    private int parentId;
+    private Integer parentId;
 
     @TableField(value = "parentName", el = "父类名称")
     private String parentName;
 
 
     @TableField(value = "levelNo", el = "权限等级")
-    private int levelNo;
+    private Integer levelNo;
 
 
     @TableField(value = "createPerson", el = "创建者（用户ID）")
@@ -45,7 +45,7 @@ public class Permission extends Role {
     private String createDate;
 
 
-    @TableField(value = "updatePerson", el = "更新者（用户ID）")
+    @TableField(value = "updatePerson", el = "更新者(用户ID)")
     private String updatePerson;
 
 

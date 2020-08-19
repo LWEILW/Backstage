@@ -163,11 +163,12 @@
       <el-tree :data="permissionShowData"
                show-checkbox
                node-key="permissionId"
-               :default-expanded-keys="[1]"
+               :default-expanded-keys="[]"
                :default-checked-keys="permissionChangeData"
                :props="permissionEditProps"
                @check-change="handleCheckChange"
                @node-click="handleNodeClick"
+               accordion
                ref="permissionTree">
       </el-tree>
 

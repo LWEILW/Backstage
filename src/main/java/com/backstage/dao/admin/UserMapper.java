@@ -59,6 +59,14 @@ public interface UserMapper extends BaseMapper<JSONObject> {
 
 
     /**
+     * 获取用户创建ID
+     *
+     * @return
+     */
+    List<User> getUserId();
+
+
+    /**
      * 用户更新
      *
      * @param user

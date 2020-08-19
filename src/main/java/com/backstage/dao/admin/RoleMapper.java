@@ -22,10 +22,11 @@ public interface RoleMapper extends BaseMapper<JSONObject> {
 
     /**
      * 角色台账
-     *
+     * @param page
+     * @param role
      * @return
      */
-    List<Role> getRoleList(Pagination page, @Param("role") Role role);
+    List<Role> roleList(Pagination page, @Param("role") Role role);
 
 
     /**
@@ -38,6 +39,15 @@ public interface RoleMapper extends BaseMapper<JSONObject> {
 
 
     /**
+     * 角色所选权限列表
+     *
+     * @param roleId
+     * @return
+     */
+    List<Integer> getPermissionChangeList(@Param("roleId") int roleId);
+
+
+    /**
      * 角色创建
      *
      * @param role
@@ -47,12 +57,30 @@ public interface RoleMapper extends BaseMapper<JSONObject> {
 
 
     /**
+     * 获取角色创建ID
+     *
+     * @return
+     */
+    List<Role> getRoleId();
+
+
+    /**
      * 角色更新
      *
      * @param role
      * @return
      */
     int updateRole(@Param("role") Role role);
+
+
+    /**
+     * 添加角色所选权限
+     *
+     * @param roleId
+     * @param permissionId
+     * @return
+     */
+    int addPermissionByRoleId(@Param("roleId") int roleId, @Param("permissionId") int permissionId);
 
 
     /**
@@ -83,25 +111,6 @@ public interface RoleMapper extends BaseMapper<JSONObject> {
 
 
     /**
-     * 角色_权限已选数据
-     *
-     * @param roleId
-     * @return
-     */
-    List<Integer> getPermissionChangeList(@Param("roleId") int roleId);
-
-
-    /**
-     * 角色_权限添加
-     *
-     * @param roleId
-     * @param permissionId
-     * @return
-     */
-    int addPermissionByRoleId(@Param("roleId") int roleId, @Param("permissionId") int permissionId);
-
-
-    /**
      * 根据角色ID获取权限信息
      *
      * @param roleId
@@ -110,20 +119,4 @@ public interface RoleMapper extends BaseMapper<JSONObject> {
     List<Permission> getPermissionListByRoleId(@Param("roleId") int roleId);
 
 
-    /**
-     * 获取角色创建ID
-     *
-     * @return
-     */
-    List<Role> getRoleId();
-
-
-
-    /**
-     * 权限添加
-     *
-     * @param obj
-     * @return
-     */
-    boolean addPermissionByRoleId(JSONObject obj);
 }

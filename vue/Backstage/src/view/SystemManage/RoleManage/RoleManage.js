@@ -41,7 +41,7 @@ export default {
   },
   // 初始化加载
   created() {
-    this.getRoleList();
+    this.roleList();
     this.getPermissionAllListByRoleId();
   },
   methods: {
@@ -55,7 +55,7 @@ export default {
     },
 
     // 角色台账
-    getRoleList() {
+    roleList() {
       const params = {
         'currentPage': this.currentPage,
         'pageSize': this.pageSize,
@@ -64,12 +64,18 @@ export default {
         'createPerson': this.createPerson,
         'updatePerson': this.updatePerson
       }
-      api.getRoleList(params).then(res => {
-        // 模糊查询，第一行插入空值
-        res.data.roleList.unshift({});
-        this.roleTable = res.data.roleList;
-        this.currentPage = res.data.currentPage;
-        this.totalCount = res.data.total;
+      api.roleList(params).then(res => {
+        // 返回结果判断
+        if (res.data.status == 1) {
+          // 模糊查询，第一行插入空值
+          res.data.roleList.unshift({});
+          this.roleTable = res.data.roleList;
+          this.currentPage = res.data.currentPage;
+          this.totalCount = res.data.total;
+        } else {
+          this.$message.warning(res.data.message)
+        }
+
       });
     },
 
@@ -80,13 +86,19 @@ export default {
       // 已勾选权限列表
       // 清除element中el-tree已选中的选项，光是清除 default-checked-keys 值是没用的
       // element的el-tree 组件是采用赋值的方式改变是否勾选的
-      this.$refs.permissionTree.setCheckedKeys([]);
+      // nextTick()，是将回调函数延迟在下一次dom更新数据后调用。当数据更新了，在dom中渲染后，自动执行该函数，
+      this.$nextTick(() => {
+        this.$refs.permissionTree.setCheckedKeys([])
+      });
       this.dialogStatus = true;
     },
 
     // 跳转至编辑画面
     handleEdit(row) {
       this.dialogTitle = '编辑角色';
+      this.$nextTick(() => {
+        this.$refs.permissionTree.setCheckedKeys([])
+      });
       api.detailsRole(row.roleId).then(res => {
         this.roleDetails = res.data.role;
         // 已勾选权限列表
@@ -105,9 +117,9 @@ export default {
         'roleName': this.roleDetails.roleName,
         'permissionList': this.$refs.permissionTree.getCheckedKeys(),
       }
-      api.saveRole(params).then(res => {
+      api.createOrUpdateRole(params).then(res => {
         // 刷新页面
-        this.getRoleList();
+        this.roleList();
         // 返回消息
         if (res.data.status == 1) {
           this.$message.success("保存成功");
@@ -127,7 +139,7 @@ export default {
 
         api.deleteRole(row.roleId).then(res => {
           // 刷新页面
-          this.getRoleList();
+          this.roleList();
           // 返回消息
           if (res.data.status == 1) {
             this.$message.success("删除成功!");

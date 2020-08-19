@@ -71,6 +71,12 @@
     </insert>
 
 
+    <!--  获取用户创建ID  -->
+    <select id="getUserId" resultType="com.backstage.entity.admin.User">
+        select * from user order by userId desc
+    </select>
+
+
     <!--  用户更新  -->
     <update id="updateUser" parameterType="com.backstage.entity.admin.User">
         update user
@@ -157,5 +163,6 @@
         left join role r on r.roleId=ur.roleId
         where ur.userId=#{userId}
     </select>
+
 
 </mapper>

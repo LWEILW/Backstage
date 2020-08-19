@@ -3,7 +3,7 @@
 <mapper namespace="com.backstage.dao.admin.RoleMapper">
 
     <!--  角色台账  -->
-    <select id="getRoleList" resultType="com.backstage.entity.admin.Role">
+    <select id="roleList" resultType="com.backstage.entity.admin.Role">
         select * from role
         <where>
             <if test="role.getRoleName!=null and role.getRoleName!=''">
@@ -28,6 +28,12 @@
     </select>
 
 
+    <!--  角色所选权限列表  -->
+    <select id="getPermissionChangeList" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select permissionId from permission_role where roleId= #{roleId}
+    </select>
+
+
     <!--  角色创建  -->
     <insert id="createRole" parameterType="com.backstage.entity.admin.Role">
         insert into role (
@@ -44,6 +50,12 @@
         now()
         )
     </insert>
+
+
+    <!--  获取角色创建ID  -->
+    <select id="getRoleId" resultType="com.backstage.entity.admin.Role">
+        select * from role order by roleId desc
+    </select>
 
 
     <!--  角色更新  -->
@@ -65,6 +77,12 @@
     </update>
 
 
+    <!--  添加角色所选权限  -->
+    <insert id="addPermissionByRoleId" parameterType="java.lang.Integer">
+        insert into permission_role (roleId, permissionId) values (#{roleId},#{permissionId})
+    </insert>
+
+
     <!--  角色删除  -->
     <delete id="deleteRole" parameterType="java.lang.Integer">
         delete  from  role where roleId=#{roleId}
@@ -77,22 +95,10 @@
     </delete>
 
 
-    <!--  角色所有权限删除  -->
+    <!--  删除角色所有权限  -->
     <delete id="deletePermissionByRoleId" parameterType="java.lang.Integer">
         delete  from permission_role where roleId = #{roleId}
     </delete>
-
-
-    <!--  角色_权限已选数据  -->
-    <select id="getPermissionChangeList" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select permissionId from permission_role where roleId= #{roleId}
-    </select>
-
-
-    <!--  角色_权限添加  -->
-    <insert id="addPermissionByRoleId" parameterType="java.lang.Integer">
-        insert into permission_role (roleId, permissionId) values (#{roleId},#{permissionId})
-    </insert>
 
 
     <!--  根据角色ID获取权限信息  -->
@@ -102,12 +108,6 @@
         left join permission p on p.permissionId=pr.permissionId
         left join role r on r.roleId=pr.roleId
         where pr.roleId=#{roleId}
-    </select>
-
-
-    <!--  获取角色创建ID  -->
-    <select id="getRoleId" resultType="com.backstage.entity.admin.Role">
-        select * from role order by roleId desc
     </select>
 
 

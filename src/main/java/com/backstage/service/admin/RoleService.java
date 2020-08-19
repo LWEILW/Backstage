@@ -24,7 +24,7 @@ public interface RoleService extends IService<JSONObject> {
      * @param role
      * @return
      */
-    Page<Role> getRoleList(Page<Role> page, Role role);
+    Page<Role> roleList(Page<Role> page, Role role);
 
 
     /**
@@ -37,7 +37,7 @@ public interface RoleService extends IService<JSONObject> {
 
 
     /**
-     * 角色权限已选数据
+     * 角色所选权限列表
      *
      * @param roleId
      * @return
@@ -52,16 +52,7 @@ public interface RoleService extends IService<JSONObject> {
      * @param permissionList
      * @return
      */
-    Boolean saveRole(Role role, JSONArray permissionList);
-
-
-    /**
-     * 权限维护添加
-     *
-     * @param obj
-     * @return
-     */
-    boolean addPermissionByRoleId(JSONObject obj);
+    Boolean createOrUpdateRole(Role role, JSONArray permissionList);
 
 
     /**

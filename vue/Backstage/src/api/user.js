@@ -19,7 +19,7 @@ export default {
   // 角色列表
   getRoleList() {
     return request({
-      url: `/api/v1/role/roleList/`,
+      url: `/api/v1/user/roleList/`,
       method: 'get'
     })
   },
@@ -46,19 +46,19 @@ export default {
       data
     })
   },
-  // 重置密码
-  resetPassword(userId) {
-    return request({
-      url: `/api/v1/user/resetPassword/${userId} `,
-      method: 'get'
-    })
-  },
   // 更新用户状态
   changeUserStatus(data) {
     return request({
       url: `/api/v1/user/changeUserStatus`,
       method: 'post',
       data
+    })
+  },
+  // 重置密码
+  resetPassword(userId) {
+    return request({
+      url: `/api/v1/user/resetPassword/${userId} `,
+      method: 'get'
     })
   }
 }

@@ -59,6 +59,23 @@ public class UserController {
 
 
     /**
+     * 用户角色列表
+     *
+     * @return
+     */
+    @GetMapping("/roleList")
+    public Result roleList() {
+        try {
+            List<JSONObject> roleList = shareService.getAll("role");
+            return Result.success("角色列表")
+                    .data("roleList", roleList);
+        } catch (Exception ex) {
+            return Result.fail("角色列表获取失败");
+        }
+    }
+
+
+    /**
      * 用户详情
      *
      * @param userId
@@ -99,6 +116,7 @@ public class UserController {
                 return Result.fail("保存失败");
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             return Result.fail("保存失败");
         }
     }
@@ -182,37 +200,5 @@ public class UserController {
             return Result.fail("重置失败");
         }
     }
-
-
-    /**
-     * 用户_角色列表
-     *
-     * @return
-     */
-    @GetMapping("/roleList")
-    public Result roleList() {
-        try {
-            List<JSONObject> roleList = shareService.getAll("role");
-            return Result.success("角色列表")
-                    .data("roleList", roleList);
-        } catch (Exception ex) {
-            return Result.fail("角色列表获取失败");
-        }
-    }
-
-//    @GetMapping("excelModel")
-//    public void downloadExcel(HttpServletResponse response) throws IOException {
-//        InputStream inputStream = new FileInputStream(new File(ResourceUtils.getURL("classpath:").getPath() + "/template.xlsx"));
-//        byte[] buffer = IOUtils.toByteArray(inputStream);
-//        response.setContentType("application/template.xlsx;" + "charset = UTF-8");
-//        String name = "模板";
-//        name = new String(name.getBytes(), "ISO-8859-1");
-//        response.setHeader("Content-Disposition", "attachment; filename=" + name + "..xlsx");
-//        OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-//        toClient.write(buffer);
-//        toClient.flush();
-//        toClient.close();
-//    }
-
 
 }

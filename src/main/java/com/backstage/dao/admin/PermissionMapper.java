@@ -73,14 +73,4 @@ public interface PermissionMapper extends BaseMapper<JSONObject> {
     int deletePermissionByRole(@Param("permissionId") int permissionId);
 
 
-    /**
-     * 权限已选数据
-     *
-     * @param roleId
-     * @param type
-     * @return
-     */
-    List<Permission> getPermissionListByRoleId(@Param("roleId") int roleId, @Param("type") int type);
-
-
 }

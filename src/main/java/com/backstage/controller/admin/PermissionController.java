@@ -34,14 +34,14 @@ public class PermissionController {
      *
      * @return
      */
-    @PostMapping("/getPermissionList")
-    @RequiresPermissions("getPermissionList")
+    @PostMapping("/permissionList")
+    @RequiresPermissions("permissionList")
     public Result getPermissionList(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         int currentPage = obj.getInteger("currentPage");
         int pageSize = obj.getInteger("pageSize");
 
-        List<JSONObject> permissionList = permissionService.getPermissionList(currentPage, pageSize);
+        List<JSONObject> permissionList = permissionService.permissionList(currentPage, pageSize);
         Pagination page = PageHelper.getPagination();
         PageHelper.remove();
         return Result.success("权限台账")
@@ -74,16 +74,21 @@ public class PermissionController {
      * @param data
      * @return
      */
-    @PostMapping("/savePermission")
-    @RequiresPermissions("savePermission")
-    public Result savePermission(@RequestBody String data) {
+    @PostMapping("/createOrUpdatePermission")
+    @RequiresPermissions("createOrUpdatePermission")
+    public Result createOrUpdatePermission(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         Permission permission = JSON.parseObject(data, Permission.class);
+        try {
+            boolean result = permissionService.createOrUpdatePermission(permission);
+            if (result) {
+                return Result.success("保存成功");
+            } else {
+                return Result.fail("保存失败");
+            }
 
-        boolean result = permissionService.savePermission(permission);
-        if (result) {
-            return Result.success("保存成功");
-        } else {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return Result.fail("保存失败");
         }
     }
@@ -112,32 +117,15 @@ public class PermissionController {
 
 
     /**
-     * 权限已选列表
-     *
-     * @param roleId
-     * @return
-     */
-    @GetMapping("/getPermissionChangeListByRoleId/{roleId}")
-    @RequiresPermissions("detailsRole")
-    public Result getPermissionChangeListByRoleId(@PathVariable("roleId") int roleId) {
-
-        List<JSONObject> permissionList = permissionService.getPermissionListByRoleId(roleId);
-        return Result.success("权限维护已选数据")
-                .data("permissionList", permissionList);
-    }
-
-
-    /**
-     * 角色_权限列表
+     * 权限父类列表
      *
      * @return
      */
-    @GetMapping("/getPermissionAllListByRoleId")
-    @RequiresPermissions("detailsRole")
-    public Result getPermissionAllListByRoleId() {
+    @GetMapping("/getPermissionParent")
+    public Result getPermissionParent() {
 
-        List<JSONObject> permissionAllList = permissionService.getPermissionList(1, 100000);
-        return Result.success("权限维护所有数据")
-                .data("permissionAllList", permissionAllList);
+        List<JSONObject> parentList = permissionService.getPermissionParent();
+        return Result.success("权限父类列表")
+                .data("parentList", parentList);
     }
 }

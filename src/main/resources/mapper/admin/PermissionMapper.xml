@@ -88,22 +88,4 @@
     </delete>
 
 
-    <!--  权限已选数据  -->
-    <select id="getPermissionListByRoleId" parameterType="java.lang.Integer"
-            resultType="com.backstage.entity.admin.PermissionRole">
-        select * from permission_role pr
-        left join permission p on p.permissionId=pr.permissionId
-        <where>
-            pr.roleId = #{roleId}
-            <choose>
-                <when test="type !=null and type != 1">
-                    and p.levelNo != 1
-                </when>
-                <otherwise>
-                    and p.levelNo=1
-                </otherwise>
-            </choose>
-        </where>
-    </select>
-
 </mapper>

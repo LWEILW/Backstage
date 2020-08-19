@@ -23,7 +23,7 @@ public interface PermissionService extends IService<JSONObject> {
      * @param pageSize
      * @return
      */
-    List<JSONObject> getPermissionList(int currentPage, int pageSize);
+    List<JSONObject> permissionList(int currentPage, int pageSize);
 
 
     /**
@@ -41,7 +41,7 @@ public interface PermissionService extends IService<JSONObject> {
      * @param permission
      * @return
      */
-    boolean savePermission(Permission permission);
+    boolean createOrUpdatePermission(Permission permission);
 
 
     /**
@@ -53,16 +53,10 @@ public interface PermissionService extends IService<JSONObject> {
     Boolean deletePermission(int permissionId);
 
 
-
-
     /**
-     * 权限已选数据
+     * 权限父类列表
      *
-     * @param roleId
      * @return
      */
-    List<JSONObject> getPermissionListByRoleId(int roleId);
-
-
-
+    List<JSONObject> getPermissionParent();
 }

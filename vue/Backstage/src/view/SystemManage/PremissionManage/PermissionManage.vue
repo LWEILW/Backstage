@@ -33,11 +33,11 @@
       <div class="permission-list">
         <el-table :data="permissionTable" stripe border size="small" ref="PermissionTable"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}" :default-expand-all="false"
-                  row-key="permissionId" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+                  row-key="permissionId"  :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
 
           <el-table-column prop="permissionName" label="权限名称"></el-table-column>
 
-<!--          <el-table-column prop="parentName" label="父类名称" align="center"></el-table-column>-->
+          <!--          <el-table-column prop="parentName" label="父类名称" align="center"></el-table-column>-->
 
           <el-table-column prop="permissionPath" label="权限路径" align="center"></el-table-column>
 
@@ -54,10 +54,10 @@
 
           <el-table-column fixed="right" label="操作" width="130px">
             <template slot-scope="scope">
-                <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"
-                           plain></el-button>
-                <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="small"
-                           plain></el-button>
+              <el-button @click.stop="handleEdit(scope.row)" type="primary" icon="el-icon-edit" size="small"
+                         plain></el-button>
+              <el-button @click.stop="handleDelete(scope.row)" type="danger" icon="el-icon-delete" size="small"
+                         plain></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -90,18 +90,18 @@
 
     <!-- 权限模态框 -->
     <el-dialog :title="updateTitle" :visible.sync="permissionDialog" width="900px" center>
-      <el-form :model="permissionData" ref="permissionForm" label-width="90px">
+      <el-form :model="permissionDetails" ref="permissionForm" label-width="90px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="权限名称" prop="permissionName">
-              <el-input v-model="permissionData.permissionName"></el-input>
+              <el-input v-model="permissionDetails.permissionName"></el-input>
             </el-form-item>
             <el-form-item label="权限路径" prop="permissionPath">
-              <el-input v-model="permissionData.permissionPath"></el-input>
+              <el-input v-model="permissionDetails.permissionPath"></el-input>
             </el-form-item>
             <el-form-item label="父类名称" prop="ParentId">
-              <!--              <el-input v-model="permissionData.ParentId"></el-input>-->
-              <el-select v-model="permissionData.parentId" clearable filterable placeholder="请选择"
+              <!--              <el-input v-model="permissionDetails.ParentId"></el-input>-->
+              <el-select v-model="permissionDetails.parentId" clearable filterable placeholder="请选择"
                          :default-first-option="true" value-key="VALUE">
                 <el-option
                   v-for="item in parentId"
@@ -112,7 +112,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="权限等级" prop="levelNo">
-              <el-select v-model="permissionData.levelNo" filterable placeholder="请选择" :default-first-option="true"
+              <el-select v-model="permissionDetails.levelNo" filterable placeholder="请选择" :default-first-option="true"
                          value-key="VALUE">
                 <el-option
                   v-for="item in levelNoList"
@@ -126,16 +126,16 @@
 
           <el-col :span="12">
             <el-form-item label="创建者" prop="createPerson">
-              <el-input v-model="permissionData.createPerson" :disabled="true"></el-input>
+              <el-input v-model="permissionDetails.createPerson" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="创建时间" prop="createDate">
-              <el-input v-model="permissionData.createDate" :disabled="true"></el-input>
+              <el-input v-model="permissionDetails.createDate" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="更新者" prop="updatePerson">
-              <el-input v-model="permissionData.updatePerson" :disabled="true"></el-input>
+              <el-input v-model="permissionDetails.updatePerson" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="更新时间" prop="updateDate">
-              <el-input v-model="permissionData.updateDate" :disabled="true"></el-input>
+              <el-input v-model="permissionDetails.updateDate" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

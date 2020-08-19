@@ -73,11 +73,17 @@ export default {
         'userStatus': this.userStatus
       }
       api.getUserList(params).then(res => {
-        // 模糊查询，第一行插入空值
-        res.data.userList.unshift({});
-        this.userTable = res.data.userList;
-        this.currentPage = res.data.currentPage;
-        this.totalCount = res.data.total;
+        // 返回结果判断
+        if (res.data.status == 1) {
+          // 模糊查询，第一行插入空值
+          res.data.userList.unshift({});
+          this.userTable = res.data.userList;
+          this.currentPage = res.data.currentPage;
+          this.totalCount = res.data.total;
+        } else {
+          this.$message.warning(res.data.message)
+        }
+
       });
     },
 
@@ -94,8 +100,14 @@ export default {
       this.dialogTitle = '修改用户信息';
       // 展示用户详情
       api.detailsUser(row.userId).then(res => {
-        this.userData = res.data.user;
-        this.roleSelectList = res.data.roleList;
+        // 返回结果判断
+        if (res.data.status == 1) {
+          this.userData = res.data.user;
+          this.roleSelectList = res.data.roleList;
+        } else {
+          this.$message.warning(res.data.message)
+        }
+
       });
       this.dialogStatus = true;
     },

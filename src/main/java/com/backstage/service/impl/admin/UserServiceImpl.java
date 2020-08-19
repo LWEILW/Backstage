@@ -92,6 +92,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, JSONObject> impleme
             }
             // 删除用户所选角色
             baseMapper.deleteRoleByUserId(user.getUserId());
+            // 添加所选用户角色
+            for (Object id : roleList) {
+                int count = baseMapper.addRoleByUserId((Integer) id, user.getUserId());
+                if (count != 1) {
+                    return false;
+                }
+            }
         } else {
             // 密码加密,初始化密码为123
             RandomNumberGenerator saltGen = new SecureRandomNumberGenerator();
@@ -105,13 +112,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, JSONObject> impleme
             if (baseMapper.createUser(user) != 1) {
                 return false;
             }
-        }
-
-        // 添加所选用户角色
-        for (Object id : roleList) {
-            int count = baseMapper.addRoleByUserId((Integer) id, user.getUserId());
-            if (count != 1) {
-                return false;
+            int userId = baseMapper.getUserId().get(0).getUserId();
+            // 添加所选用户角色
+            for (Object id : roleList) {
+                int count = baseMapper.addRoleByUserId((Integer) id, userId);
+                if (count != 1) {
+                    return false;
+                }
             }
         }
 

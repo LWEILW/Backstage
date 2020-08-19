@@ -28,10 +28,10 @@ public class Commodity {
     private String commodityPrice;
 
     @TableField(value = "commodityStatus", el = "商品状态（0:下架 1:商家）")
-    private int commodityStatus;
+    private Integer commodityStatus;
 
     @TableField(value = "browseCount", el = "浏览次数")
-    private int browseCount;
+    private Integer browseCount;
 
     @TableField(value = "publisher", el = "发布人")
     private String publisher;

@@ -3,11 +3,14 @@ package com.backstage.service.impl.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backstage.dao.admin.PermissionMapper;
+import com.backstage.entity.admin.User;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.admin.RoleMapper;
 import com.backstage.entity.admin.Role;
 import com.backstage.service.admin.RoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +36,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, JSONObject> impleme
      * @return
      */
     @Override
-    public Page<Role> getRoleList(Page<Role> page, Role role) {
+    public Page<Role> roleList(Page<Role> page, Role role) {
 
-        return page.setRecords(baseMapper.getRoleList(page, role));
+        return page.setRecords(baseMapper.roleList(page, role));
 
     }
 
@@ -53,7 +56,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, JSONObject> impleme
 
 
     /**
-     * 角色_权限已选数据
+     * 角色所选权限列表
      *
      * @param roleId
      * @return
@@ -71,54 +74,47 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, JSONObject> impleme
      * @return
      */
     @Override
-    public Boolean saveRole(Role role, JSONArray permissionList) {
-        int succ = 0;
-        int roleId;
+    public Boolean createOrUpdateRole(Role role, JSONArray permissionList) {
+        // 获取登录用户
+        Session session = SecurityUtils.getSubject().getSession();
+        User sessionGetUser = (User) session.getAttribute("user");
+
         if (role.getRoleId() != 0) {
+            // 修改人
+            role.setUpdatePerson(sessionGetUser.getUserName());
             // ID不为空，更新操作
-            succ = baseMapper.updateRole(role);
-            roleId = role.getRoleId();
+            if (baseMapper.updateRole(role) != 1) {
+                return false;
+            }
+
+            // 删除该角色所有权限
+            baseMapper.deletePermissionByRoleId(role.getRoleId());
+            // 添加所选角色权限
+            for (Object id : permissionList) {
+                int count = baseMapper.addPermissionByRoleId(role.getRoleId(), (Integer) id);
+                if (count != 1) {
+                    return false;
+                }
+            }
+
         } else {
+            // 创建人
+            role.setCreatePerson(sessionGetUser.getUserName());
             // ID为空，创建操作
-            succ = baseMapper.createRole(role);
-            roleId = baseMapper.getRoleId().get(0).getRoleId();
-        }
-        if (succ != 1) {
-            return false;
-        }
-
-        // 删除该角色所有权限
-        baseMapper.deletePermissionByRoleId(roleId);
-        for (Object id : permissionList) {
-            int count = baseMapper.addPermissionByRoleId(roleId, (Integer) id);
-            if (count != 1) {
+            if (baseMapper.createRole(role) != 1) {
                 return false;
+            }
+            // 新创建ID
+            int roleId = baseMapper.getRoleId().get(0).getRoleId();
+            // 添加所选角色权限
+            for (Object id : permissionList) {
+                int count = baseMapper.addPermissionByRoleId(roleId, (Integer) id);
+                if (count != 1) {
+                    return false;
+                }
             }
         }
 
-        return true;
-    }
-
-    /**
-     * 角色_权限添加
-     *
-     * @param obj
-     * @return
-     */
-    @Override
-    public boolean addPermissionByRoleId(JSONObject obj) {
-        int roleId = obj.getInteger("roleId");
-        JSONArray permissionList = (JSONArray) obj.get("permissionList");
-
-        // 角色所有权限删除
-        baseMapper.deletePermissionByRoleId(roleId);
-
-        for (Object id : permissionList) {
-            int count = baseMapper.addPermissionByRoleId(roleId, (Integer) id);
-            if (count != 1) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -139,6 +135,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, JSONObject> impleme
         }
         // 删除关联的用户
         baseMapper.deleteRoleByUser(roleId);
+        // 删除该角色所有权限
+        baseMapper.deletePermissionByRoleId(roleId);
 
         return true;
     }

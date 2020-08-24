@@ -45,6 +45,7 @@ public interface ArticleMapper extends BaseMapper<JSONObject> {
      */
     int articleCreate(@Param("total") Article article);
 
+    
     /**
      * 文章编辑
      *
@@ -53,6 +54,7 @@ public interface ArticleMapper extends BaseMapper<JSONObject> {
      */
     int articleUpdate(@Param("total") Article article);
 
+    
     /**
      * 文章删除
      *
@@ -61,6 +63,7 @@ public interface ArticleMapper extends BaseMapper<JSONObject> {
      */
     int articleDelete(@Param("articleId") int articleId);
 
+    
     /**
      * 文章批量删除
      *

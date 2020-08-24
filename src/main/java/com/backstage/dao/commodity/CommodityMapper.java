@@ -1,6 +1,8 @@
 package com.backstage.dao.commodity;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.backstage.entity.admin.User;
 import com.backstage.entity.commodity.Commodity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
@@ -45,6 +47,15 @@ public interface CommodityMapper extends BaseMapper<JSONObject> {
      */
     int commodityCreate(@Param("total") Commodity commodity);
 
+
+    /**
+     * 获取商品创建ID
+     *
+     * @return
+     */
+    List<Commodity> getCommodityId();
+
+
     /**
      * 商品编辑
      *
@@ -63,4 +74,20 @@ public interface CommodityMapper extends BaseMapper<JSONObject> {
     int commodityDeleteAll(@Param("list") List<Integer> list);
 
 
+    /**
+     * 商品图片添加
+     *
+     * @param commodityId
+     * @param url
+     * @return
+     */
+    int insertCommodityFile(@Param("commodityId") int commodityId, @Param("url") String url);
+
+    /**
+     * 商品图片列表
+     *
+     * @param commodityId
+     * @return
+     */
+    List<JSONObject> commodityFileListById(@Param("commodityId") int commodityId);
 }

@@ -128,4 +128,18 @@ public class PermissionController {
         return Result.success("权限父类列表")
                 .data("parentList", parentList);
     }
+
+    /**
+     * 权限列表
+     *
+     * @return
+     */
+    @GetMapping("/getPermissionAllListByRoleId")
+    @RequiresPermissions("detailsRole")
+    public Result getPermissionAllListByRoleId() {
+
+        List<JSONObject> permissionAllList = permissionService.permissionList(1, 100000);
+        return Result.success("权限维护所有数据")
+                .data("permissionAllList", permissionAllList);
+    }
 }

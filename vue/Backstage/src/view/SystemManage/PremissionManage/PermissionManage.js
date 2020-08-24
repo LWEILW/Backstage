@@ -65,7 +65,12 @@ export default {
       }
       api.permissionList(params).then(res => {
         // 返回结果判断
-        if (res.data.status == 1) {
+        if (res.data.code == "notLogin" || res.data.code == "notRole") {
+          this.$message.warning(res.data.message)
+          //登录成功之后重定向到首页
+          this.$router.push({path: "/Login"});
+
+        } else if (res.data.status == 1) {
           this.permissionTable = res.data.permissionList;
           this.currentPage = res.data.currentPage;
           this.totalCount = res.data.total;

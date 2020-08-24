@@ -45,13 +45,13 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         // 设置默认登录的 URL，身份认证失败会访问该 URL
-        shiroFilterFactoryBean.setLoginUrl("/backstage/login");
+        shiroFilterFactoryBean.setLoginUrl("/admin/notLogin");
 
         // 设置成功之后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/backstage/HomePage");
 
         // 设置未授权界面，权限认证失败会访问该 URL
-        shiroFilterFactoryBean.setUnauthorizedUrl("/backstage/login");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/admin/notRole");
 
         // LinkedHashMap 是有序的，进行顺序拦截器配置
         Map<String, String> filterChainMap = new LinkedHashMap<>();

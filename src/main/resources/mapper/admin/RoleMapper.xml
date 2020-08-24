@@ -30,7 +30,7 @@
 
     <!--  角色所选权限列表  -->
     <select id="getPermissionChangeList" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select permissionId from permission_role where roleId= #{roleId}
+        select permissionId from role_permission where roleId= #{roleId}
     </select>
 
 
@@ -79,7 +79,7 @@
 
     <!--  添加角色所选权限  -->
     <insert id="addPermissionByRoleId" parameterType="java.lang.Integer">
-        insert into permission_role (roleId, permissionId) values (#{roleId},#{permissionId})
+        insert into role_permission (roleId, permissionId) values (#{roleId},#{permissionId})
     </insert>
 
 
@@ -97,14 +97,14 @@
 
     <!--  删除角色所有权限  -->
     <delete id="deletePermissionByRoleId" parameterType="java.lang.Integer">
-        delete  from permission_role where roleId = #{roleId}
+        delete  from role_permission where roleId = #{roleId}
     </delete>
 
 
     <!--  根据角色ID获取权限信息  -->
     <select id="getPermissionListByRoleId" parameterType="java.lang.Integer"
             resultType="com.backstage.entity.admin.PermissionRole">
-        select * from permission_role pr
+        select * from role_permission pr
         left join permission p on p.permissionId=pr.permissionId
         left join role r on r.roleId=pr.roleId
         where pr.roleId=#{roleId}

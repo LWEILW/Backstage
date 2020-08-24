@@ -17,7 +17,7 @@
      6.selection-change:当选择项发生变化时会触发该事件
      7.row-click:行点击事件
      8.ref:显示元素身份 -->
-      <div class="role-list">
+      <div class="role_list">
         <el-table :data="roleTable" stripe border size="small" ref="RoleTable"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
 
@@ -172,7 +172,7 @@
                ref="permissionTree">
       </el-tree>
 
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog_footer">
            <el-button type="primary" size="small" @click="handleSave">确定</el-button>
            <el-button size="small" @click="dialogStatus = false">取消</el-button>
         </span>

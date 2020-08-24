@@ -38,7 +38,7 @@ public interface CategoryService extends IService<JSONObject> {
      * @param category
      * @return
      */
-    boolean categorySave(Category category);
+    Boolean categorySave(Category category);
 
 
     /**
@@ -47,6 +47,6 @@ public interface CategoryService extends IService<JSONObject> {
      * @param idList
      * @return
      */
-    boolean categoryDeleteAll(JSONArray idList);
+    Boolean categoryDeleteAll(JSONArray idList);
 
 }

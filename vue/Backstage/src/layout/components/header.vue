@@ -31,7 +31,9 @@
           <span>账户:{{account}}</span>
           <span>角色:{{password}}</span>
         </div>
-
+        <div>
+          <i class="el-icon-switch-button"></i>
+        </div>
       </div>
 
       <!-- 右侧抽屉 -->
@@ -51,6 +53,7 @@
 </template>
 
 <script>
+  import api from "@/api/login";
 
   export default {
     name: "Header",
@@ -93,8 +96,15 @@
       // 下拉菜单事件回调
       handleCommand(command) {
         if ("loginOut" == command) {
-          //登录成功之后重定向到首页
-          this.$router.push({path: "/Login"});
+          api.loginOut().then(res => {
+            if (res.data.status == 1) {
+              //登录成功之后重定向到首页
+              this.$router.push({path: "/Login"});
+              this.$message.success(res.data.message);
+            } else {
+              this.$message.warning(res.data.message);
+            }
+          });
         }
       },
       changeStatus() {

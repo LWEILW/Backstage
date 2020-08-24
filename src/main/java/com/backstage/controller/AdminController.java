@@ -96,9 +96,45 @@ public class AdminController {
      */
     @GetMapping(value = "/loginOut")
     public Result loginOut() {
+        //注销
         SecurityUtils.getSubject().logout();
-        System.out.println("无权限");
-        return Result.fail("没有权限");
+        return Result.success("成功注销！");
+    }
+
+
+    /**
+     * 身份认证失败访问
+     *
+     * @return
+     */
+    @GetMapping(value = "/notLogin")
+    public Result notLogin() {
+
+        return Result.success("您尚未登陆！")
+                .data("code", "notLogin");
+    }
+
+    /**
+     * 未授权界面访问
+     *
+     * @return
+     */
+    @GetMapping(value = "/notRole")
+    public Result notRole() {
+
+        return Result.success("您没有权限！")
+                .data("code", "notRole");
+    }
+
+
+    /**
+     * 错误页面展示
+     *
+     * @return
+     */
+    @GetMapping("/403")
+    public String error() {
+        return "error ok!";
     }
 
 
@@ -144,55 +180,5 @@ public class AdminController {
                 .data("permissions", perminsStrlist);
     }
 
-
-    /**
-     * 错误页面展示
-     *
-     * @return
-     */
-    @GetMapping("/403")
-    public String error() {
-        return "error ok!";
-    }
-
-
-    /**
-     * 身份认证测试接口
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping("/admin")
-    public String admin(HttpServletRequest request) {
-
-        Object user = request.getSession().getAttribute("user");
-        return "success";
-    }
-
-
-    /**
-     * 角色认证测试接口
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping("/student")
-    public String student(HttpServletRequest request) {
-
-        return "success";
-    }
-
-
-    /**
-     * 权限认证测试接口
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping("/teacher")
-    public String teacher(HttpServletRequest request) {
-
-        return "success";
-    }
 
 }

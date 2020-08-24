@@ -46,6 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, JSONObject>
      */
     @Override
     public Category categoryDetails(int categoryId) {
+        
         return baseMapper.categoryDetails(categoryId);
     }
 
@@ -57,7 +58,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, JSONObject>
      * @return
      */
     @Override
-    public boolean categorySave(Category category) {
+    public Boolean categorySave(Category category) {
         if (category.getCategoryId() != 0) {
             // 编辑
             if (baseMapper.categoryUpdate(category) == 1) {
@@ -80,7 +81,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, JSONObject>
      * @return
      */
     @Override
-    public boolean categoryDeleteAll(JSONArray idList) {
+    public Boolean categoryDeleteAll(JSONArray idList) {
         //定义装有需要删除的ID集合
         List<Integer> list = new ArrayList<Integer>();
         //遍历原有数据

@@ -12,7 +12,7 @@ export default {
   // 权限维护所有数据
   getPermissionAllListByRoleId() {
     return request({
-      url: `/api/v1/role/getPermissionAllListByRoleId`,
+      url: `/api/v1/permission/getPermissionAllListByRoleId`,
       method: 'get'
     })
   },

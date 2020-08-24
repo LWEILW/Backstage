@@ -6,6 +6,8 @@ import com.backstage.entity.commodity.Commodity;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 
 /**
  * 商品管理
@@ -37,9 +39,10 @@ public interface CommodityService extends IService<JSONObject> {
      * 商品新建/编辑
      *
      * @param commodity
+     * @param productImages
      * @return
      */
-    boolean commoditySave(Commodity commodity);
+    boolean commoditySave(Commodity commodity, List<JSONObject> productImages);
 
 
     /**
@@ -49,6 +52,5 @@ public interface CommodityService extends IService<JSONObject> {
      * @return
      */
     boolean commodityDeleteAll(JSONArray idList);
-
 
 }

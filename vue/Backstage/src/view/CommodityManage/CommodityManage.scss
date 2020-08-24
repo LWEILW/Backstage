@@ -1,27 +1,12 @@
-.commodity-container {
+.commodity_container {
   height: 100%;
   background: #FFFFFF;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
-.commodity-operation {
+.commodity_operation {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-bottom: 15px;
 }
 
-.commodity-search {
-  display: flex;
-  flex-direction: row;
-}
-
-.commodity-input {
-  width: 250px;
-  margin-right: 10px;
-}
-
-
-.commodity-buttons {
-  display: flex;
-  justify-content: flex-end;
-}

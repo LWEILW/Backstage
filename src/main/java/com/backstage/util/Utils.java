@@ -1,5 +1,6 @@
 package com.backstage.util;
 
+import java.security.MessageDigest;
 import java.util.UUID;
 
 /**
@@ -21,4 +22,6 @@ public class Utils {
         String uuidStr = str.replace("-", "");
         return uuidStr;
     }
+
+
 }

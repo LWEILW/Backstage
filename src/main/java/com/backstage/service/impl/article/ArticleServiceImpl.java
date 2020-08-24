@@ -8,6 +8,7 @@ import com.backstage.dao.article.ArticleMapper;
 import com.backstage.entity.article.Article;
 import com.backstage.service.article.ArticleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,6 @@ import java.util.List;
  **/
 @Service("ArticleService")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, JSONObject> implements ArticleService {
-
 
 
     /**
@@ -46,6 +46,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, JSONObject> i
      */
     @Override
     public Article articleDetails(int articleId) {
+        
         return baseMapper.articleDetails(articleId);
     }
 
@@ -57,7 +58,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, JSONObject> i
      * @return
      */
     @Override
-    public boolean articleSave(Article article) {
+    public Boolean articleSave(Article article) {
         if (article.getArticleId() != 0) {
             // 编辑
             if (baseMapper.articleUpdate(article) == 1) {
@@ -80,9 +81,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, JSONObject> i
      * @return
      */
     @Override
-    public int articleDelete(int articleId) {
-
-        return baseMapper.articleDelete(articleId);
+    public Boolean articleDelete(int articleId) {
+        if (baseMapper.articleDelete(articleId) == 1) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -93,7 +96,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, JSONObject> i
      * @return
      */
     @Override
-    public boolean articleDeleteAll(JSONArray idList) {
+    public Boolean articleDeleteAll(JSONArray idList) {
         //定义装有需要删除的ID集合
         List<Integer> list = new ArrayList<Integer>();
         //遍历原有数据

@@ -25,10 +25,11 @@ export default {
     })
   },
   // 文章分类删除
-  categoryDelete(id) {
+  deleteCategoryAll(data) {
     return request({
-      url: `/api/v1/category/categoryDelete/${id} `,
-      method: 'get',
+      url: `/api/v1/category/deleteCategoryAll`,
+      method: 'post',
+      data
     })
   }
 }

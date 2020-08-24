@@ -19,8 +19,12 @@ import MenusManage from '@/view/SystemManage/MenusManage/MenusManage.vue'
 import ArticleManage from '@/view/ArticleManage/ArticleManage.vue'
 // 分类模块
 import CategoryManage from '@/view/CategoryManage/CategoryManage.vue'
-// 产品模块
+// 标签模块
+import LabelManage from '@/view/LabelManage/LabelManage.vue'
+// 商品模块
 import CommodityManage from '@/view/CommodityManage/CommodityManage.vue'
+// 定时器模块
+import QuartzManage from '@/view/QuartzManage/QuartzManage.vue'
 
 Vue.use(Router)
 
@@ -101,11 +105,28 @@ const router = new Router({
         keepAlive: true
       }
     }, {
+      path: '/LabelManage',
+      name: 'LabelManage',
+      component: LabelManage,
+      meta: {
+        title: '标签管理',
+        keepAlive: true
+      }
+    }, {
       path: '/CommodityManage',
       name: 'CommodityManage',
       component: CommodityManage,
       meta: {
         title: '商品管理',
+        keepAlive: true
+      }
+    },
+    {
+      path: '/QuartzManage',
+      name: 'QuartzManage',
+      component: QuartzManage,
+      meta: {
+        title: '定时器管理',
         keepAlive: true
       }
     }, {
@@ -117,19 +138,19 @@ const router = new Router({
 })
 
 
-// 挂载路由导航守卫
-// to 将要访问的路径,from 代表从哪个路径跳转而来
-// next 是一个函数，表示放行,next() 放行  next('/login') 强制跳转
-router.beforeEach((to, from, next) => {
-  // 登录页面验证
-  if (to.path === '/login') return next();
-
-  // 其他页面验证
-  // 是否登录
-  const isLogin = window.sessionStorage.getItem('isLogin')
-  if (!isLogin) return next('/HomePage')
-  next()
-})
+// // 挂载路由导航守卫
+// // to 将要访问的路径,from 代表从哪个路径跳转而来
+// // next 是一个函数，表示放行,next() 放行  next('/login') 强制跳转
+// router.beforeEach((to, from, next) => {
+//   // 登录页面验证
+//   if (to.path === '/login') return next();
+//
+//   // 其他页面验证
+//   // 是否登录
+//   const isLogin = window.sessionStorage.getItem('isLogin')
+//   if (!isLogin) return next('/HomePage')
+//   next()
+// })
 
 
 export default router

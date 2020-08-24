@@ -83,7 +83,7 @@
 
     <!--  权限角色关联删除  -->
     <delete id="deletePermissionByRole" parameterType="java.lang.Integer">
-        delete  from  permission_role
+        delete  from  role_permission
         where permissionId=#{permissionId}
     </delete>
 

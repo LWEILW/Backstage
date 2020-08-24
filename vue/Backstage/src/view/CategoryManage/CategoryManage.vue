@@ -5,18 +5,8 @@
     <div class='category_table'>
       <!-- 搜索框、按钮 -->
       <div class="category_operation">
-        <div class="category_button">
-          <el-button type="primary" size="small" icon="el-icon-circle-plus-outline" @click="handleCreate">新增</el-button>
-          <el-button type="primary" size="small" icon="el-icon-delete" @click="handleDelete">全删</el-button>
-        </div>
-        <div class="category_search">
-          <div class="category_input">
-            <el-input size="small" placeholder="请输入内容">
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            </el-input>
-          </div>
-          <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
-        </div>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleCreate">新增</el-button>
+        <el-button type="primary" icon="el-icon-delete" @click="handleDelete">全删</el-button>
       </div>
 
       <!--台账
@@ -31,14 +21,20 @@
       <div class="category_list">
         <el-table :data="categoryTable" stripe border size="small"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
-          <el-table-column fixed label="序号" align="center" min-width="5%">
+
+          <el-table-column fixed label="序号" align="center">
             <template slot-scope="scope"><span>{{scope.$index + 1}} </span></template>
           </el-table-column>
-          <el-table-column prop="categoryName" label="文章名称" align="center" min-width="20%"></el-table-column>
-          <el-table-column prop="publisher" label="发布人" align="center" min-width="10%"></el-table-column>
-          <el-table-column prop="publisherTime" label="发布时间" sortable align="center" min-width="10%"></el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" sortable align="center" min-width="10%"></el-table-column>
-          <el-table-column fixed="right" label="操作" min-width="15%">
+
+          <el-table-column prop="categoryName" label="分类名称" align="center"></el-table-column>
+
+          <el-table-column prop="publisher" label="发布人" align="center"></el-table-column>
+
+          <el-table-column prop="publisherTime" label="发布时间" sortable align="center"></el-table-column>
+
+          <el-table-column prop="updateTime" label="更新时间" sortable align="center"></el-table-column>
+
+          <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
               <el-button type="primary" icon="el-icon-edit" size="small" @click.stop="handleEdit( scope.row)"
                          plain></el-button>
@@ -102,7 +98,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog_footer">
            <el-button type="primary" size="small" @click="handleSave">确定</el-button>
            <el-button size="small" @click="dialogStatus = false">取消</el-button>
         </span>

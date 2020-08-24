@@ -59,23 +59,6 @@ public class UserController {
 
 
     /**
-     * 用户角色列表
-     *
-     * @return
-     */
-    @GetMapping("/roleList")
-    public Result roleList() {
-        try {
-            List<JSONObject> roleList = shareService.getAll("role");
-            return Result.success("角色列表")
-                    .data("roleList", roleList);
-        } catch (Exception ex) {
-            return Result.fail("角色列表获取失败");
-        }
-    }
-
-
-    /**
      * 用户详情
      *
      * @param userId

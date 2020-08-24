@@ -29,14 +29,14 @@
 
         <!-- 首页 -->
         <el-menu-item index="HomePage">
-          <i class="el-icon-s-grid"></i>
+          <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
 
         <!-- 用户管理 -->
         <el-submenu index="UserManage">
           <template slot="title">
-            <i class="el-icon-s-custom"></i>
+            <i class="el-icon-user-solid"></i>
             <span>用户管理</span>
           </template>
           <el-menu-item-group>
@@ -49,7 +49,7 @@
         <!-- 角色管理 -->
         <el-submenu index="RoleManage">
           <template slot="title">
-            <i class="el-icon-coordinate"></i>
+            <i class="el-icon-s-custom"></i>
             <span>角色管理</span>
           </template>
           <el-menu-item-group class="itemGroup">
@@ -62,7 +62,7 @@
         <!-- 权限管理 -->
         <el-submenu index="PermissionManage">
           <template slot="title">
-            <i class="el-icon-s-opportunity"></i>
+            <i class="el-icon-s-grid"></i>
             <span>权限管理</span>
           </template>
           <el-menu-item-group>
@@ -75,7 +75,7 @@
         <!-- 模块管理 -->
         <el-submenu index="MenusManage">
           <template slot="title">
-            <i class="el-icon-date"></i>
+            <i class="el-icon-menu"></i>
             <span>模块管理</span>
           </template>
           <el-menu-item-group>
@@ -104,7 +104,7 @@
         <!-- 分类管理  -->
         <el-submenu index="CategoryManage">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-s-order"></i>
             <span>分类管理</span>
           </template>
           <el-menu-item-group>
@@ -117,34 +117,52 @@
           </el-menu-item-group>
         </el-submenu>
 
-        <!-- 相册管理 -->
-        <el-submenu index="CommodityManage">
+
+        <!-- 标签管理  -->
+        <el-submenu index="LabelManage">
           <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>相册管理</span>
+            <i class="el-icon-price-tag"></i>
+            <span>标签管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item class="twoGroup" index="CommodityManage">
-              <span>相册一览</span>
+            <el-menu-item class="twoGroup" index="LabelManage">
+              <span>标签一览</span>
             </el-menu-item>
-            <el-menu-item class="twoGroup" index="CommodityManage">
-              <span>相册创建</span>
+            <el-menu-item class="twoGroup" index="LabelManage">
+              <span>标签创建</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
-        <!-- 图片展示 -->
-        <el-submenu index="4">
+
+        <!-- 商品管理 -->
+        <el-submenu index="CommodityManage">
           <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>图片展示</span>
+            <i class="el-icon-picture"></i>
+            <span>商品管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item class="twoGroup" index="4-1">
-              <span>产品一览</span>
+            <el-menu-item class="twoGroup" index="CommodityManage">
+              <span>商品一览</span>
             </el-menu-item>
-            <el-menu-item class="twoGroup" index="4-2">
-              <span>产品创建</span>
+            <el-menu-item class="twoGroup" index="CommodityManage">
+              <span>商品创建</span>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+
+        <!-- 定时器展示 -->
+        <el-submenu index="4">
+          <template slot="title">
+            <i class="el-icon-s-shop"></i>
+            <span>定时器展示</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item class="twoGroup" index="quartzManage">
+              <span>定时器一览</span>
+            </el-menu-item>
+            <el-menu-item class="twoGroup" index="quartzManage">
+              <span>定时器创建</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -194,8 +212,14 @@
           case "CategoryManage":
             this.$router.push("/CategoryManage");
             break;
+          case "LabelManage":
+            this.$router.push("/LabelManage");
+            break;
           case "CommodityManage":
             this.$router.push("/CommodityManage");
+            break;
+          case "quartzManage":
+            this.$router.push("/quartzManage");
             break;
         }
       },

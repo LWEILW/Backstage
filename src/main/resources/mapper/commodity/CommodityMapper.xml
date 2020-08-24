@@ -12,9 +12,9 @@
          commodityStatus,
          browseCount,
          publisher,
-         publisherTime,
+         publisherDate,
          updatePerson,
-         updateTime
+         updateDate
         from commodity
     </select>
 
@@ -37,7 +37,7 @@
         commodityStatus,
         browseCount,
         publisher,
-        publisherTime
+        publisherDate
         )values(
         #{total.commodityId},
         #{total.commodityName},
@@ -49,6 +49,12 @@
         now()
         )
     </insert>
+
+
+    <!--  获取商品创建ID  -->
+    <select id="getCommodityId" resultType="com.backstage.entity.commodity.Commodity">
+        select * from commodity order by commodityId desc
+    </select>
 
 
     <!--  商品更新  -->
@@ -92,5 +98,24 @@
             #{item}
         </foreach>
     </delete>
+
+
+    <!--  商品图片插入  -->
+    <insert id="insertCommodityFile">
+        insert into commodity_file (
+        url,
+        commodityId
+        ) values (
+        #{url},
+        #{commodityId}
+        )
+    </insert>
+
+
+    <!--  商品图片列表  -->
+    <select id="commodityFileListById" parameterType="java.lang.Integer" resultType="com.alibaba.fastjson.JSONObject">
+        select * from commodity_file where commodityId = #{commodityId}
+    </select>
+
 
 </mapper>

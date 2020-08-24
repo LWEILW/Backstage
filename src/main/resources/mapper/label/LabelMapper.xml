@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.label.LabelMapper">
+
+    <!--  标签台账  -->
+    <select id="labelList" resultType="com.backstage.entity.label.Label">
+        select
+         labelId,
+         labelName,
+         publisher,
+         publisherDate,
+         updatePerson,
+         updateDate
+        from article_label
+    </select>
+
+
+    <!--  标签详情  -->
+    <select id="labelDetails" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.label.Label">
+        select * from article_label
+        where labelId=#{labelId}
+    </select>
+
+
+    <!--  标签创建  -->
+    <insert id="labelCreate" parameterType="com.backstage.entity.label.Label">
+        insert into article_label (
+        labelId,
+        labelName,
+        publisher,
+        publisherDate
+        )values(
+        #{total.labelId},
+        #{total.labelName},
+        #{total.publisher},
+        now()
+        )
+    </insert>
+
+
+    <!--  标签更新  -->
+    <update id="labelUpdate" parameterType="com.backstage.entity.label.Label">
+        update article_label
+        <set>
+            <if test="total.getLabelName() != null and total.getLabelName() != ''">
+                labelName = #{total.labelName},
+            </if>
+            <if test="total.getUpdatePerson() != null and total.getUpdatePerson() != ''">
+                updatePerson = #{total.updatePerson},
+            </if>
+            updateDate = now()
+        </set>
+        where labelId = #{total.labelId}
+    </update>
+
+
+    <!--  标签删除  -->
+    <delete id="labelDelete" parameterType="java.lang.Integer">
+        delete from article_label
+        where labelId=#{labelId}
+    </delete>
+
+
+    <!--  标签删除 批量删除 -->
+    <delete id="labelDeleteAll" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from article_label
+        where labelId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

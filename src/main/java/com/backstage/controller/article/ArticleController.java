@@ -70,6 +70,7 @@ public class ArticleController {
     @GetMapping("/articleDetails/{articleId}")
     @RequiresPermissions("articleDetails")
     public Result articleDetails(@PathVariable("articleId") int articleId) {
+
         Article article = articleService.articleDetails(articleId);
         return Result.success("文章详情")
                 .data("article", article);
@@ -84,14 +85,14 @@ public class ArticleController {
      */
     @PostMapping("/articleSave")
     @RequiresPermissions("articleSave")
-    public String articleSave(@RequestBody String data) {
+    public Result articleSave(@RequestBody String data) {
         Article article = JSONObject.parseObject(data, Article.class);
 
-        boolean succ = articleService.articleSave(article);
-        if (succ) {
-            return "保存成功";
+        Boolean result = articleService.articleSave(article);
+        if (result) {
+            return Result.success("保存成功");
         } else {
-            return "保存失败";
+            return Result.fail("保存失败");
         }
     }
 
@@ -104,13 +105,13 @@ public class ArticleController {
      */
     @GetMapping("/articleDelete/{articleId}")
     @RequiresPermissions("articleDelete")
-    public String articleDelete(@PathVariable("articleId") int articleId) {
+    public Result articleDelete(@PathVariable("articleId") int articleId) {
 
-        int succ = articleService.articleDelete(articleId);
-        if (succ == 1) {
-            return "删除成功";
+        Boolean result = articleService.articleDelete(articleId);
+        if (result) {
+            return Result.success("删除成功");
         } else {
-            return "删除失败";
+            return Result.fail("删除失败");
         }
     }
 
@@ -123,15 +124,15 @@ public class ArticleController {
      */
     @PostMapping("/deleteArticleAll")
     @RequiresPermissions("deleteArticleAll")
-    public String deleteArticleAll(@RequestBody String data) {
+    public Result deleteArticleAll(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         JSONArray idList = (JSONArray) obj.get("idList");
 
-        boolean succ = articleService.articleDeleteAll(idList);
-        if (succ) {
-            return "删除成功";
+        Boolean result = articleService.articleDeleteAll(idList);
+        if (result) {
+            return Result.success("删除成功");
         } else {
-            return "删除失败";
+            return Result.fail("删除失败");
         }
     }
 

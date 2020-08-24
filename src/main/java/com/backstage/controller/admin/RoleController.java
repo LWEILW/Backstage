@@ -60,21 +60,6 @@ public class RoleController {
 
 
     /**
-     * 角色权限列表
-     *
-     * @return
-     */
-    @GetMapping("/getPermissionAllListByRoleId")
-    @RequiresPermissions("detailsRole")
-    public Result getPermissionAllListByRoleId() {
-
-        List<JSONObject> permissionAllList = permissionService.permissionList(1, 100000);
-        return Result.success("权限维护所有数据")
-                .data("permissionAllList", permissionAllList);
-    }
-
-
-    /**
      * 角色详情
      *
      * @param roleId
@@ -146,5 +131,22 @@ public class RoleController {
             return Result.fail("删除失败");
         }
 
+    }
+
+
+    /**
+     * 角色列表
+     *
+     * @return
+     */
+    @GetMapping("/getRoleList")
+    public Result getRoleList() {
+        try {
+            List<JSONObject> roleList = shareService.getAll("role");
+            return Result.success("角色列表")
+                    .data("roleList", roleList);
+        } catch (Exception ex) {
+            return Result.fail("角色列表获取失败");
+        }
     }
 }

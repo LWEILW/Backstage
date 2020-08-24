@@ -74,7 +74,12 @@ export default {
       }
       api.getUserList(params).then(res => {
         // 返回结果判断
-        if (res.data.status == 1) {
+        if (res.data.code == "notLogin" || res.data.code == "notRole") {
+          this.$message.warning(res.data.message)
+          //登录成功之后重定向到首页
+          this.$router.push({path: "/Login"});
+
+        } else if (res.data.status == 1) {
           // 模糊查询，第一行插入空值
           res.data.userList.unshift({});
           this.userTable = res.data.userList;
@@ -188,7 +193,6 @@ export default {
           cancelButtonText: "取消",
           type: "warning"
         }).then(() => {
-
           api.deleteUserList({"userList": this.multipleSelection}).then(res => {
             if (res.data.data) {
               this.$message({type: "success", message: "删除成功!"});
@@ -216,16 +220,15 @@ export default {
         'userStatus': $event
       };
       api.changeUserStatus(params).then(res => {
-
+        // 返回结果判断
         if (res.data.status == 1) {
           this.$message.success("更新成功!");
         } else {
           this.$message.warning("更新失败!");
         }
-        // // 刷新页面
-        // this.getUserList();
+        // 刷新页面
+        this.getUserList();
       });
-
     },
 
     // 重置密码
@@ -236,13 +239,14 @@ export default {
         type: "warning"
       }).then(() => {
         api.resetPassword(row.userId).then(res => {
+          // 刷新页面
+          this.getUserList();
+          // 返回消息
           if (res.data.status == 1) {
             this.$message.success("重置成功!");
           } else {
             this.$message.error("重置失败!");
           }
-          // 刷新页面
-          this.getUserList();
         });
       }).catch(() => {
         this.$message({

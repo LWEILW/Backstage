@@ -1,8 +1,11 @@
 package com.backstage.entity.commodity;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 商品管理
@@ -45,4 +48,6 @@ public class Commodity {
     @TableField(value = "updateTime", el = "更新时间")
     private String updateTime;
 
+    @TableField(exist = false, el = "商品图片")
+    private List<JSONObject> commodityFileList;
 }

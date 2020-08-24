@@ -11,21 +11,21 @@
          publisherTime,
          updatePerson,
          updateTime
-        from category
+        from article_category
     </select>
 
 
     <!--  分类详情  -->
     <select id="categoryDetails" parameterType="java.lang.Integer"
             resultType="com.backstage.entity.category.Category">
-        select * from category
+        select * from article_category
         where categoryId=#{categoryId}
     </select>
 
 
     <!--  分类创建  -->
     <insert id="categoryCreate" parameterType="com.backstage.entity.category.Category">
-        insert into category (
+        insert into article_category (
         categoryId,
         categoryName,
         publisher,
@@ -41,7 +41,7 @@
 
     <!--  分类更新  -->
     <update id="categoryUpdate" parameterType="com.backstage.entity.category.Category">
-        update category
+        update article_category
         <set>
             <if test="total.getCategoryName() != null and total.getCategoryName() != ''">
                 categoryName = #{total.categoryName},
@@ -57,14 +57,14 @@
 
     <!--  分类删除  -->
     <delete id="categoryDelete" parameterType="java.lang.Integer">
-        delete from category
+        delete from article_category
         where categoryId=#{categoryId}
     </delete>
 
 
     <!--  分类删除 批量删除 -->
     <delete id="categoryDeleteAll" parameterType="com.alibaba.fastjson.JSONObject">
-        delete from category
+        delete from article_category
         where categoryId in
         <foreach collection="list" item="item" index="no" open="("
                  separator="," close=")">

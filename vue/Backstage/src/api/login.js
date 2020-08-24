@@ -8,5 +8,12 @@ export default {
       method: 'post',
       data
     })
+  },
+  /* 登出接口 */
+  loginOut() {
+    return request({
+      url: '/api/v1/admin/loginOut',
+      method: 'get'
+    })
   }
 }

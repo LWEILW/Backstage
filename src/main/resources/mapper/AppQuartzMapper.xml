@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.AppQuartzMapper">
+
+    <!--  定时器台账  -->
+    <select id="quartzList" parameterType="com.backstage.entity.AppQuartz" resultType="com.backstage.entity.AppQuartz">
+        select
+        job.quartzId,
+        job.jobName,
+        job.jobDesc,
+        job.jobGroup,
+        job.cronExpression,
+        date_format(from_unixtime((tri.START_TIME / 1000)), '%Y-%m-%d %H:%i:%s') AS startTime,
+        date_format(from_unixtime((tri.NEXT_FIRE_TIME / 1000)), '%Y-%m-%d %H:%i:%s') AS nextFireTime,
+        job.classAddress,
+        job.jobStatus
+        from app_quartz job
+        left join QRTZ_TRIGGERS tri on tri.JOB_NAME = job.jobName
+        <!--        <where>-->
+        <!--            <if test="user.getUserAccount()!=null and user.getUserAccount()!=''">-->
+        <!--                and userAccount LIKE concat(concat('%',#{user.userAccount}),'%')-->
+        <!--            </if>-->
+        <!--            <if test="user.getUserName()!=null and user.getUserName()!=''">-->
+        <!--                and userName LIKE concat(concat('%',#{user.userName}),'%')-->
+        <!--            </if>-->
+        <!--            <if test="user.getUserSex()!=null and user.getUserName()!=''">-->
+        <!--                and userSex LIKE concat(concat('%',#{user.userSex}),'%')-->
+        <!--            </if>-->
+        <!--            <if test="user.getUserPhone()!=null and user.getUserPhone()!=''">-->
+        <!--                and userPhone LIKE concat(concat('%',#{user.userPhone}),'%')-->
+        <!--            </if>-->
+        <!--            <if test="user.getUserEmail()!=null and user.getUserEmail()!=''">-->
+        <!--                and userEmail LIKE concat(concat('%',#{user.userEmail}),'%')-->
+        <!--            </if>-->
+        <!--        </where>-->
+    </select>
+
+
+    <!--  定时器详情  -->
+    <select id="detailsQuartz" parameterType="java.lang.Integer" resultType="com.backstage.entity.AppQuartz">
+        select
+        job.quartzId,
+        job.jobName,
+        job.jobDesc,
+        job.jobGroup,
+        job.cronExpression,
+        date_format(from_unixtime((tri.START_TIME / 1000)), '%Y-%m-%d %H:%i:%s')     AS startTime,
+        date_format(from_unixtime((tri.NEXT_FIRE_TIME / 1000)), '%Y-%m-%d %H:%i:%s') AS nextFireTime,
+        job.classAddress,
+        job.jobStatus
+        from  app_quartz  job
+        left join QRTZ_TRIGGERS tri on tri.JOB_NAME = job.jobName
+        where job.quartzId = #{quartzId}
+    </select>
+
+
+    <!--  定时器创建  -->
+    <insert id="createQuartz" parameterType="com.backstage.entity.AppQuartz">
+        insert into app_quartz (
+            jobName,
+            jobDesc,
+            jobGroup,
+            startTime,
+            cronExpression,
+            invokeParam,
+            classAddress,
+            jobStatus
+            )values(
+            #{total.jobName},
+            #{total.jobDesc},
+            #{total.jobGroup},
+            #{total.startTime},
+            #{total.cronExpression},
+            #{total.invokeParam},
+            #{total.classAddress},
+            #{total.jobStatus}
+            )
+    </insert>
+
+
+    <!--  定时器更新  -->
+    <update id="updateQuartz" parameterType="com.backstage.entity.AppQuartz">
+        update app_quartz
+        <set>
+            <if test="total.getJobName() != null and total.getJobName() != ''">
+                jobName = #{total.jobName},
+            </if>
+            <if test="total.getJobDesc() != null and total.getJobDesc() != ''">
+                jobDesc = #{total.jobDesc},
+            </if>
+            <if test="total.getJobGroup() != null and total.getJobGroup() != ''">
+                jobGroup = #{total.jobGroup},
+            </if>
+            <if test="total.getStartTime() != null and total.getStartTime() != ''">
+                startTime = #{total.startTime},
+            </if>
+            <if test="total.getCronExpression() != null and total.getCronExpression() != ''">
+                cronExpression = #{total.cronExpression},
+            </if>
+            <if test="total.getInvokeParam() != null and total.getInvokeParam() != ''">
+                invokeParam = #{total.invokeParam},
+            </if>
+            <if test="total.getClassAddress() != null and total.getClassAddress() != ''">
+                classAddress = #{total.classAddress},
+            </if>
+        </set>
+        where quartzId = #{total.quartzId}
+    </update>
+
+
+    <!--  定时器批量删除  -->
+    <delete id="deleteQuartzList" parameterType="java.lang.Integer">
+        delete from app_quartz
+        where quartzId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

@@ -38,7 +38,7 @@ public interface ArticleService extends IService<JSONObject> {
      * @param article
      * @return
      */
-    boolean articleSave(Article article);
+    Boolean articleSave(Article article);
 
 
     /**
@@ -47,7 +47,7 @@ public interface ArticleService extends IService<JSONObject> {
      * @param articleId
      * @return
      */
-    int articleDelete(int articleId);
+    Boolean articleDelete(int articleId);
 
     /**
      * 文章批量删除
@@ -55,7 +55,7 @@ public interface ArticleService extends IService<JSONObject> {
      * @param idList
      * @return
      */
-    boolean articleDeleteAll(JSONArray idList);
+    Boolean articleDeleteAll(JSONArray idList);
 
 
 }

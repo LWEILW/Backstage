@@ -6,16 +6,6 @@
 
 .role_operation {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-bottom: 15px;
-}
-
-.role_search {
-  display: flex;
-  flex-direction: row;
-}
-
-.role_input {
-  width: 250px;
-  margin-right: 10px;
 }

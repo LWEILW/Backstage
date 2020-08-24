@@ -1,21 +1,11 @@
 <template>
   <!-- 权限管理 -->
-  <div class="permission-container">
+  <div class="permission_container">
     <!-- 权限台账 -->
-    <div class="permission-table">
+    <div class="permission_table">
       <!-- 搜索框、按钮 -->
-      <div class="permission-operation">
-        <div class="permission-button">
-          <!--          <el-button type="primary" size="small" icon="el-icon-edit" @click="toggleSelection()">取消选择</el-button>-->
-          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
-          <!--          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleSwtich">展开/折叠</el-button>-->
-        </div>
-        <div class="permission-search">
-          <div class="permission-input">
-            <el-input size="small" placeholder="请输入检测单号"></el-input>
-          </div>
-          <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
-        </div>
+      <div class="permission_operation">
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate">添加权限</el-button>
       </div>
 
       <!--台账
@@ -30,10 +20,10 @@
       9.row-key:行数据的 Key，用来优化 Table 的渲染
       10.default-expand-all:是否默认展开所有行
       11.tree-props:渲染嵌套数据的配置选项-->
-      <div class="permission-list">
+      <div class="permission_list">
         <el-table :data="permissionTable" stripe border size="small" ref="PermissionTable"
                   :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}" :default-expand-all="false"
-                  row-key="permissionId"  :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+                  row-key="permissionId" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
 
           <el-table-column prop="permissionName" label="权限名称"></el-table-column>
 
@@ -141,7 +131,7 @@
         </el-row>
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog_footer">
            <el-button type="primary" size="small" @click="handleSave">确定</el-button>
            <el-button size="small" @click="permissionDialog = false">取消</el-button>
         </span>

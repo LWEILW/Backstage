@@ -3,11 +3,14 @@ package com.backstage.controller.category;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backstage.entity.category.Category;
+import com.backstage.service.ShareService;
 import com.backstage.service.category.CategoryService;
 import com.backstage.util.Result;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 文章分类管理
@@ -18,13 +21,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
 
-
+    @Autowired
+    private ShareService shareService;
 
     /**
-     * 文章分类台账
+     * 分类台账
      *
      * @param data
      * @return
@@ -37,7 +42,7 @@ public class CategoryController {
 
         Page<Category> page = new Page<>(currentPage, pageSize);
         page = categoryService.categoryList(page);
-        return Result.success("文章分类台账")
+        return Result.success("分类台账")
                 .data("categoryList", page.getRecords())
                 .data("total", page.getTotal())
                 .data("pages", page.getPages())
@@ -46,56 +51,72 @@ public class CategoryController {
 
 
     /**
-     * 文章分类详情
+     * 分类详情
      *
      * @param categoryId
      * @return
      */
     @GetMapping("/categoryDetails/{categoryId}")
     public Result categoryDetails(@PathVariable("categoryId") int categoryId) {
+
         Category category = categoryService.categoryDetails(categoryId);
-        return Result.success("文章分类详情")
+        return Result.success("分类详情")
                 .data("category", category);
     }
 
 
     /**
-     * 文章分类新建/编辑
+     * 分类新建/编辑
      *
      * @param data
      * @return
      */
     @PostMapping("/categorySave")
-    public String categorySave(@RequestBody String data) {
+    public Result categorySave(@RequestBody String data) {
         Category category = JSONObject.parseObject(data, Category.class);
 
-        boolean succ = categoryService.categorySave(category);
-        if (succ) {
-            return "保存成功";
+        Boolean result = categoryService.categorySave(category);
+        if (result) {
+            return Result.success("保存成功");
         } else {
-            return "保存失败";
+            return Result.fail("保存失败");
         }
     }
 
 
     /**
-     * 文章分类批量删除
+     * 分类批量删除
      *
      * @param data
      * @return
      */
     @PostMapping("/deleteCategoryAll")
-    public String deleteCategoryAll(@RequestBody String data) {
+    public Result deleteCategoryAll(@RequestBody String data) {
         JSONObject obj = JSONObject.parseObject(data);
         JSONArray idList = (JSONArray) obj.get("idList");
 
-        boolean succ = categoryService.categoryDeleteAll(idList);
-        if (succ) {
-            return "删除成功";
+        Boolean result = categoryService.categoryDeleteAll(idList);
+        if (result) {
+            return Result.success("删除成功");
         } else {
-            return "删除失败";
+            return Result.fail("删除失败");
         }
     }
 
+    /**
+     * 分页列表
+     *
+     * @return
+     */
+    @GetMapping("/getCategoryList")
+    public Result getCategoryList() {
+        try {
 
+            List<JSONObject> categoryList = shareService.getAll("article_category");
+            return Result.success("分页列表")
+                    .data("categoryList", categoryList);
+        } catch (Exception ex) {
+            return Result.fail("分页列表获取失败");
+        }
+    }
 }

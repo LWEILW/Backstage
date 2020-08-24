@@ -31,7 +31,8 @@ export default {
       method: 'get',
     })
   },
-  getPermissionParent(){
+  // 权限父类列表
+  getPermissionParent() {
     return request({
       url: `/api/v1/permission/getPermissionParent`,
       method: 'get',

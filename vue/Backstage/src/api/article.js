@@ -30,5 +30,19 @@ export default {
       url: `/api/v1/article/articleDelete/${id} `,
       method: 'get',
     })
-  }
+  },
+  // 分类列表
+  getCategoryList() {
+    return request({
+      url: `/api/v1/category/getCategoryList`,
+      method: 'get'
+    })
+  },
+  // 标签列表
+  getLabelList() {
+    return request({
+      url: `/api/v1/label/getLabelList`,
+      method: 'get'
+    })
+  },
 }

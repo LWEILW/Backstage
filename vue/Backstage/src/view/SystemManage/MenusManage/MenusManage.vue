@@ -1,12 +1,12 @@
 <template>
   <!-- 模块管理 -->
-  <div class="menus-container">
+  <div class="menus_container">
     <!-- 模块台账 -->
-    <div class="menus-table">
+    <div class="menus_table">
       <!-- 搜索框、按钮 -->
-      <div class="menus-operation">
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleCreate()">新增</el-button>
-        <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEdit()">修改</el-button>
+      <div class="menus_operation">
+        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">新增</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleEdit()">修改</el-button>
         <!--        <el-button type="text" @click="handleSwitch()">展开/折叠</el-button>-->
       </div>
 
@@ -19,7 +19,7 @@
        6.selection-change:当选择项发生变化时会触发该事件
        7.row-click:行点击事件
        8.ref:显示元素身份 -->
-      <div class="menus-list">
+      <div class="menus_list">
         <el-table :data="menusTable" stripe border size="small" max-height="800px"
                   ref="MenusTable" :header-cell-style="{background:'#474b4c',color:'#f9f4dc'}">
           <el-table-column fixed label="序号" align="center" width="100">
@@ -50,7 +50,7 @@
    7.hide-on-single-page:只有一页时是否隐藏
    8.layout:组件布局，子组件名用逗号分隔
    9.background:是否为分页按钮添加背景色-->
-      <div class="menus-page">
+      <div class="pagination">
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -123,38 +123,17 @@
 </script>
 
 <style scoped>
-  .menus-container {
+  .menus_container {
     height: 100%;
     background: #FFFFFF;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
 
-  .menus-operation {
+  .menus_operation {
     display: flex;
-    justify-content: flex-start;
-    padding-bottom: 10px;
+    justify-content: flex-end;
+    padding-bottom: 15px;
   }
 
-  .menus-search {
-    display: flex;
-    flex-direction: row;
-  }
 
-  .menus-input {
-    width: 150px;
-    margin-right: 10px;
-  }
-
-  /* 分页 */
-  .menus-page {
-    text-align: center;
-    margin-top: 30px;
-  }
-
-  .dialog-footer {
-    display: flex;
-    justify-content: center;
-    font-size: 18px;
-    color: #398ee3;
-  }
 </style>

@@ -19,7 +19,7 @@ export default {
   // 角色列表
   getRoleList() {
     return request({
-      url: `/api/v1/user/roleList/`,
+      url: `/api/v1/role/getRoleList`,
       method: 'get'
     })
   },

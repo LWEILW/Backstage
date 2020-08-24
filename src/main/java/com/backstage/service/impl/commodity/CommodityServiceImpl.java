@@ -1,10 +1,12 @@
 package com.backstage.service.impl.commodity;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backstage.dao.admin.RoleMapper;
 import com.backstage.dao.commodity.CommodityMapper;
 import com.backstage.entity.commodity.Commodity;
+import com.backstage.service.ShareService;
 import com.backstage.service.commodity.CommodityService;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -23,6 +25,8 @@ import java.util.List;
 @Service("CommodityService")
 public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, JSONObject> implements CommodityService {
 
+    @Autowired
+    private ShareService shareService;
 
     /**
      * 商品台账
@@ -32,8 +36,11 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, JSONObjec
      */
     @Override
     public Page<Commodity> commodityList(Page<Commodity> page) {
-
-        return page.setRecords(baseMapper.commodityList(page));
+        List<Commodity> commodityList = baseMapper.commodityList(page);
+        for (Commodity com : commodityList) {
+            com.setCommodityFileList(baseMapper.commodityFileListById(com.getCommodityId()));
+        }
+        return page.setRecords(commodityList);
     }
 
 
@@ -45,7 +52,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, JSONObjec
      */
     @Override
     public Commodity commodityDetails(int commodityId) {
-        return baseMapper.commodityDetails(commodityId);
+        Commodity commodity = baseMapper.commodityDetails(commodityId);
+        // 商品图片列表
+        commodity.setCommodityFileList(baseMapper.commodityFileListById(commodityId));
+        return commodity;
     }
 
 
@@ -56,18 +66,31 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, JSONObjec
      * @return
      */
     @Override
-    public boolean commoditySave(Commodity commodity) {
+    public boolean commoditySave(Commodity commodity, List<JSONObject> productImages) {
         if (commodity.getCommodityId() != 0) {
             // 编辑
             if (baseMapper.commodityUpdate(commodity) == 1) {
+                // 插入商品图片
+                for (JSONObject obj : productImages) {
+                    String url = obj.getString("url");
+                    baseMapper.insertCommodityFile(commodity.getCommodityId(), url);
+                }
                 return true;
             }
         } else {
             // 创建
             if (baseMapper.commodityCreate(commodity) == 1) {
+                int commodityId = baseMapper.getCommodityId().get(0).getCommodityId();
+                // 插入商品图片
+                for (JSONObject obj : productImages) {
+                    String url = obj.getString("url");
+                    baseMapper.insertCommodityFile(commodityId, url);
+                }
                 return true;
             }
         }
+
+
         return false;
     }
 

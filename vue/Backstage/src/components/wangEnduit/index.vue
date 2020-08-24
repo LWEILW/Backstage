@@ -188,9 +188,9 @@
 
   .text {
     border: 1px solid #ccc;
-    min-height: 400px;
+    min-height: 700px;
   }
   .w-e-text{
-    min-height: 400px;
+    min-height: 700px;
   }
 </style>

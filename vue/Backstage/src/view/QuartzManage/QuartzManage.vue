@@ -28,12 +28,12 @@
           </el-table-column>
 
           <el-table-column prop="jobName" label="任务名" align="center"></el-table-column>
-          <el-table-column prop="jobName" label="任务描述" sortable align="center"></el-table-column>
+          <el-table-column prop="jobDesc" label="任务描述" sortable align="center"></el-table-column>
           <el-table-column prop="jobGroup" label="任务组" align="center"></el-table-column>
           <el-table-column prop="startTime" label="开始时间" align="center"></el-table-column>
           <el-table-column prop="nextFireTime" label="下次执行时间" align="center"></el-table-column>
           <el-table-column prop="cronExpression" label="CRON表达式" align="center"></el-table-column>
-          <el-table-column prop="invokeParam" label="状态" sortable align="center"></el-table-column>
+          <el-table-column prop="jobStatus" label="状态" sortable align="center"></el-table-column>
           <el-table-column fixed="right" label="操作" align="center" width="300">
             <template slot-scope="scope">
               <el-button @click.stop="handleEdit( scope.row)" type="primary" size="small">编辑</el-button>
@@ -103,7 +103,7 @@
                 placeholder="选择日期时间">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="状态" prop="updatePerson">
+            <el-form-item label="状态" prop="jobStatus">
               <el-input v-model="quartzData.jobStatus" :disabled="true"></el-input>
             </el-form-item>
           </el-col>

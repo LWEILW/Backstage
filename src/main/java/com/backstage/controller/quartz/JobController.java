@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backstage.entity.AppQuartz;
 import com.backstage.service.AppQuartzService;
+import com.backstage.service.ShareService;
 import com.backstage.util.Result;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -30,11 +31,13 @@ public class JobController {
     // 11.qrtz_triggers：触发器的基本信息。
 
     @Autowired
+    private AppQuartzService appQuartzService;
+
+    @Autowired
     private JobUtil jobUtil;
 
     @Autowired
-    private AppQuartzService appQuartzService;
-
+    private ShareService shareService;
 
     /**
      * 定时器台账
@@ -97,7 +100,7 @@ public class JobController {
 
 
     /**
-         * 定时器批量删除
+     * 定时器批量删除
      *
      * @param data
      * @return
@@ -120,25 +123,22 @@ public class JobController {
     /**
      * 暂停job
      *
-     * @param data
+     * @param quartzId
      * @return
      * @throws Exception
      */
-    @PostMapping(value = "/suspendJob")
-    public Result suspendJob(@RequestBody String data) throws Exception {
-        JSONObject obj = JSONObject.parseObject(data);
-        List<Integer> quartzIds = JSON.parseArray(obj.getString("quartzIds"), Integer.class);
-
-        AppQuartz appQuartz = null;
-        if (quartzIds.size() > 0) {
-            for (Integer quartzId : quartzIds) {
-                appQuartz = appQuartzService.detailsQuartz(quartzId);
-                jobUtil.pauseJob(appQuartz.getJobName(), appQuartz.getJobGroup());
-            }
+    @GetMapping(value = "/suspendJob/{quartzId}")
+    public Result suspendJob(@PathVariable("quartzId") int quartzId) throws Exception {
+        try {
+            AppQuartz appQuartz = appQuartzService.detailsQuartz(quartzId);
+            jobUtil.pauseJob(appQuartz.getJobName(), appQuartz.getJobGroup());
+            shareService.updateOne("app_quartz", "jobStatus", "暂停", "quartzId=" + quartzId);
             return Result.success("暂停成功");
-        } else {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return Result.fail("暂停失败");
         }
+
     }
 
 
@@ -151,6 +151,8 @@ public class JobController {
     @GetMapping(value = "/suspendAll")
     public Result suspendAll() throws Exception {
         jobUtil.pauseAllJob();
+        shareService.updateOne("app_quartz", "jobStatus", "暂停", "1=1");
+
         return Result.success("暂停所有成功");
     }
 
@@ -158,23 +160,19 @@ public class JobController {
     /**
      * 恢复job
      *
-     * @param data
+     * @param quartzId
      * @return
      * @throws Exception
      */
-    @PostMapping(value = "/recoveryJob")
-    public Result recoveryJob(@RequestBody String data) throws Exception {
-        JSONObject obj = JSONObject.parseObject(data);
-        List<Integer> quartzIds = JSON.parseArray(obj.getString("quartzIds"), Integer.class);
-
-        AppQuartz appQuartz = null;
-        if (quartzIds.size() > 0) {
-            for (Integer quartzId : quartzIds) {
-                appQuartz = appQuartzService.detailsQuartz(quartzId);
-                jobUtil.resumeJob(appQuartz.getJobName(), appQuartz.getJobGroup());
-            }
+    @GetMapping(value = "/recoveryJob/{quartzId}")
+    public Result recoveryJob(@PathVariable("quartzId") int quartzId) throws Exception {
+        try {
+            AppQuartz appQuartz = appQuartzService.detailsQuartz(quartzId);
+            jobUtil.resumeJob(appQuartz.getJobName(), appQuartz.getJobGroup());
+            shareService.updateOne("app_quartz", "jobStatus", "启用", "quartzId=" + quartzId);
             return Result.success("恢复成功");
-        } else {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return Result.fail("恢复失败");
         }
     }
@@ -189,6 +187,8 @@ public class JobController {
     @GetMapping(value = "/recoveryAll")
     public Result recoveryAll() throws Exception {
         jobUtil.resumeAllJob();
+        shareService.updateOne("app_quartz", "jobStatus", "启用", "1=1");
+
         return Result.success("恢复所有成功");
     }
 

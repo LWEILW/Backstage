@@ -154,7 +154,7 @@
         <!-- 定时器展示 -->
         <el-submenu index="4">
           <template slot="title">
-            <i class="el-icon-s-shop"></i>
+            <i class="el-icon-alarm-clock"></i>
             <span>定时器展示</span>
           </template>
           <el-menu-item-group>

@@ -33,35 +33,31 @@ export default {
     })
   },
   // 暂停所有
-  suspendAll(data) {
+  suspendAll() {
     return request({
       url: `/api/v1/quartz/suspendAll`,
-      method: 'post',
-      data
+      method: 'get'
     })
   },
   // 恢复所有
-  recoveryAll(data) {
+  recoveryAll() {
     return request({
       url: `/api/v1/quartz/recoveryAll`,
-      method: 'post',
-      data
+      method: 'get'
     })
   },
   // 暂停job
-  suspendJob(data) {
+  suspendJob(id) {
     return request({
-      url: `/api/v1/quartz/suspendJob`,
-      method: 'post',
-      data
+      url: `/api/v1/quartz/suspendJob/${id} `,
+      method: 'get'
     })
   },
   // 恢复job
-  recoveryJob(data) {
+  recoveryJob(id) {
     return request({
-      url: `/api/v1/quartz/recoveryJob`,
-      method: 'post',
-      data
+      url: `/api/v1/quartz/recoveryJob/${id} `,
+      method: 'get'
     })
   }
 }

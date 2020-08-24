@@ -78,6 +78,7 @@ export default {
         'startTime': this.quartzData.startTime,
         'cronExpression': this.quartzData.cronExpression,
         'invokeParam': this.quartzData.invokeParam,
+        'jobStatus': "启用"
       }
       api.createOrUpdateQuartz(params).then(res => {
         // 返回消息
@@ -118,13 +119,13 @@ export default {
     },
 
     // 暂停所有
-    handleSuspendAll(row) {
+    handleSuspendAll() {
       this.$confirm("此操作将暂停所有任务, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        api.suspendAll(row.quartzId).then(res => {
+        api.suspendAll().then(res => {
           // 返回消息
           if (res.data.status == 1) {
             this.$message.success("暂停成功!");
@@ -143,13 +144,13 @@ export default {
     },
 
     // 恢复所有
-    handleRecoveryAll(row) {
+    handleRecoveryAll() {
       this.$confirm("此操作将恢复所有任务, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        api.deleteQuartzList(row.quartzId).then(res => {
+        api.recoveryAll().then(res => {
           // 返回消息
           if (res.data.status == 1) {
             this.$message.success("暂停成功!");

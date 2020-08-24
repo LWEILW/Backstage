@@ -47,7 +47,8 @@
         date_format(from_unixtime((tri.START_TIME / 1000)), '%Y-%m-%d %H:%i:%s')     AS startTime,
         date_format(from_unixtime((tri.NEXT_FIRE_TIME / 1000)), '%Y-%m-%d %H:%i:%s') AS nextFireTime,
         job.classAddress,
-        job.jobStatus
+        job.jobStatus,
+        job.invokeParam
         from  app_quartz  job
         left join QRTZ_TRIGGERS tri on tri.JOB_NAME = job.jobName
         where job.quartzId = #{quartzId}

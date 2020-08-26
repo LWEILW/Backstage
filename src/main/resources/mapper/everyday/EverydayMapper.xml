@@ -7,10 +7,11 @@
         select
          everydayId,
          date_format(dailyDate ,'%Y-%m-%d')  dailyDate,
-         week,
+         dailyWeek,
          weather,
          temperature,
-         windDirection
+         windDirection,
+         address
         from everyday
     </select>
 
@@ -28,17 +29,19 @@
         insert into everyday (
         everydayId,
         dailyDate,
-        week,
+        dailyWeek,
         weather,
         temperature,
-        windDirection
+        windDirection,
+        address
         )values(
         #{total.everydayId},
         now(),
-        #{total.week},
+        #{total.dailyWeek},
         #{total.weather},
         #{total.temperature},
-        #{total.windDirection}
+        #{total.windDirection},
+        #{total.address}
         )
     </insert>
 
@@ -48,7 +51,7 @@
         update everyday
         <set>
             <if test="total.getWeek() != null and total.getWeek() != ''">
-                week = #{total.week},
+                dailyWeek = #{total.dailyWeek},
             </if>
         </set>
         where everydayId = #{total.everydayId}

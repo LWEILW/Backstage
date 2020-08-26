@@ -61,7 +61,7 @@
     <div class="app-login" v-if="!$route.meta.keepAlive">
       <router-view></router-view>
       <!-- 波浪 -->
-<!--      <wavePlay></wavePlay>-->
+      <wavePlay></wavePlay>
 
     </div>
   </div>
@@ -71,22 +71,22 @@
 <script>
   export default {
     name: 'App',
-    // created() {
-    //   // live2d动画
-    //   setTimeout(() => {
-    //     window.L2Dwidget.init({
-    //       pluginRootPath: 'backstage/static/live2dw/',
-    //       pluginJsPath: 'lib/',
-    //       pluginModelPath: 'live2d-widget-model-hijiki/assets/',
-    //       tagMode: false,
-    //       debug: false,
-    //       model: {jsonPath: '../backstage/static/live2dw/live2d-widget-model-hijiki/assets/hijiki.model.json'},
-    //       display: {position: 'right', width: 300, height: 500},
-    //       mobile: {show: true},
-    //       log: false
-    //     })
-    //   }, 1000)
-    // }
+    created() {
+      // live2d动画
+      setTimeout(() => {
+        window.L2Dwidget.init({
+          pluginRootPath: 'backstage/static/live2dw/',
+          pluginJsPath: 'lib/',
+          pluginModelPath: 'live2d-widget-model-hijiki/assets/',
+          tagMode: false,
+          debug: false,
+          model: {jsonPath: '../backstage/static/live2dw/live2d-widget-model-hijiki/assets/hijiki.model.json'},
+          display: {position: 'right', width: 300, height: 500},
+          mobile: {show: true},
+          log: false
+        })
+      }, 1000)
+    }
   }
 </script>
 

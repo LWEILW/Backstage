@@ -25,6 +25,8 @@ import LabelManage from '@/view/LabelManage/LabelManage.vue'
 import CommodityManage from '@/view/CommodityManage/CommodityManage.vue'
 // 定时器模块
 import QuartzManage from '@/view/QuartzManage/QuartzManage.vue'
+// 每日任务模块
+import EverydayManage from '@/view/EverydayManage/EverydayManage.vue'
 
 Vue.use(Router)
 
@@ -120,13 +122,20 @@ const router = new Router({
         title: '商品管理',
         keepAlive: true
       }
-    },
-    {
+    }, {
       path: '/QuartzManage',
       name: 'QuartzManage',
       component: QuartzManage,
       meta: {
         title: '定时器管理',
+        keepAlive: true
+      }
+    },{
+      path: '/EverydayManage',
+      name: 'EverydayManage',
+      component: EverydayManage,
+      meta: {
+        title: '每日任务管理',
         keepAlive: true
       }
     }, {

@@ -21,7 +21,7 @@ public class Everyday {
     private String dailyDate;
 
     @TableField(value = "dailyWeek", el = "星期几")
-    private String week;
+    private String dailyWeek;
 
     @TableField(value = "weather", el = "天气")
     private String weather;
@@ -31,4 +31,7 @@ public class Everyday {
 
     @TableField(value = "windDirection", el = "风向")
     private String windDirection;
+
+    @TableField(value = "address", el = "地址")
+    private String address;
 }

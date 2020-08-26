@@ -151,11 +151,11 @@
           </el-menu-item-group>
         </el-submenu>
 
-        <!-- 定时器展示 -->
-        <el-submenu index="4">
+        <!-- 定时器管理 -->
+        <el-submenu index="quartzManage">
           <template slot="title">
             <i class="el-icon-alarm-clock"></i>
-            <span>定时器展示</span>
+            <span>定时器管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item class="twoGroup" index="quartzManage">
@@ -163,6 +163,22 @@
             </el-menu-item>
             <el-menu-item class="twoGroup" index="quartzManage">
               <span>定时器创建</span>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+
+        <!-- 每日任务管理 -->
+        <el-submenu index="EverydayManage">
+          <template slot="title">
+            <i class="el-icon-alarm-clock"></i>
+            <span>每日任务管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item class="twoGroup" index="EverydayManage">
+              <span>每日任务一览</span>
+            </el-menu-item>
+            <el-menu-item class="twoGroup" index="EverydayManage">
+              <span>每日任务创建</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -220,6 +236,9 @@
             break;
           case "quartzManage":
             this.$router.push("/quartzManage");
+            break;
+          case "EverydayManage":
+            this.$router.push("/EverydayManage");
             break;
         }
       },

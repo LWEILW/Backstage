@@ -10,7 +10,7 @@ const state = {
     status: '',
     statusText: ''
   },
-  isCollapse: true
+  isCollapse: false
 }
 
 

@@ -1,5 +1,6 @@
 package com.backstage.controller.quartz;
 
+import com.backstage.controller.quartz.cronTask.DailyTasks;
 import com.backstage.controller.quartz.cronTask.JobOne;
 import com.backstage.controller.quartz.cronTask.JobTwo;
 import com.backstage.entity.AppQuartz;
@@ -41,6 +42,9 @@ public class JobUtil {
         }
         if ("JobTwo".equals(appQuartz.getJobGroup())) {
             jobDetail = JobBuilder.newJob(JobTwo.class).withIdentity(appQuartz.getJobName(), appQuartz.getJobGroup()).build();
+        }
+        if ("DailyTasks".equals(appQuartz.getJobGroup())) {
+            jobDetail = JobBuilder.newJob(DailyTasks.class).withIdentity(appQuartz.getJobName(), appQuartz.getJobGroup()).build();
         }
 
         //表达式调度构建器(即任务执行的时间,不立即执行)

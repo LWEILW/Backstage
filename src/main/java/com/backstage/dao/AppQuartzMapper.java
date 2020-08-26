@@ -11,8 +11,11 @@ import java.util.List;
 
 
 /**
- * @author Zhu jiabing
- */
+ * 定时器管理
+ *
+ * @author Liu wei
+ * @date 2020-08-22 13:30
+ **/
 @Mapper
 public interface AppQuartzMapper extends BaseMapper<JSONObject> {
 

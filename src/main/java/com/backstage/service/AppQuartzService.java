@@ -8,8 +8,11 @@ import com.baomidou.mybatisplus.service.IService;
 
 
 /**
- * @author Zhu jiabing
- */
+ * 定时器管理
+ *
+ * @author Liu wei
+ * @date 2020-08-22 13:30
+ **/
 public interface AppQuartzService extends IService<JSONObject> {
 
     /**

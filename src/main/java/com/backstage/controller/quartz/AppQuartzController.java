@@ -1,6 +1,5 @@
 package com.backstage.controller.quartz;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.backstage.entity.AppQuartz;
@@ -8,15 +7,19 @@ import com.backstage.service.AppQuartzService;
 import com.backstage.service.ShareService;
 import com.backstage.util.Result;
 import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
+/**
+ * 定时器管理
+ *
+ * @author Liu wei
+ * @date 2020-08-22 13:30
+ **/
 @RestController
 @RequestMapping("/quartz")
-public class JobController {
+public class AppQuartzController {
 
     // 1.qrtz_blob_triggers : 以Blob 类型存储的触发器。
     // 2.qrtz_calendars：存放日历信息， quartz可配置一个日历来指定一个时间范围。

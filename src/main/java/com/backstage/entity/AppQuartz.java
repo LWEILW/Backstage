@@ -5,6 +5,12 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
 
+/**
+ * 定时器管理
+ *
+ * @author Liu wei
+ * @date 2020-08-22 13:30
+ **/
 @Data
 @TableName(value = "app_quartz")
 public class AppQuartz {

@@ -7,7 +7,6 @@ import com.backstage.entity.AppQuartz;
 import com.backstage.dao.AppQuartzMapper;
 import com.backstage.entity.admin.User;
 import com.backstage.service.AppQuartzService;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.shiro.SecurityUtils;
@@ -17,11 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
- * @author Zhu jiabing
- */
+ * 定时器管理
+ *
+ * @author Liu wei
+ * @date 2020-08-22 13:30
+ **/
 @Service
 public class AppQuartzServiceImpl extends ServiceImpl<AppQuartzMapper, JSONObject> implements AppQuartzService {
 

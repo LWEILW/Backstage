@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backstage.dao.everyday.EverydayMapper">
+
+    <!--  每日任务台账  -->
+    <select id="everydayList" resultType="com.backstage.entity.everyday.Everyday">
+        select
+         everydayId,
+         date_format(dailyDate ,'%Y-%m-%d')  dailyDate,
+         week,
+         weather,
+         temperature,
+         windDirection
+        from everyday
+    </select>
+
+
+    <!--  每日任务详情  -->
+    <select id="everydayDetails" parameterType="java.lang.Integer"
+            resultType="com.backstage.entity.everyday.Everyday">
+        select * from everyday
+        where everydayId=#{everydayId}
+    </select>
+
+
+    <!--  每日任务创建  -->
+    <insert id="everydayCreate" parameterType="com.backstage.entity.everyday.Everyday">
+        insert into everyday (
+        everydayId,
+        dailyDate,
+        week,
+        weather,
+        temperature,
+        windDirection
+        )values(
+        #{total.everydayId},
+        now(),
+        #{total.week},
+        #{total.weather},
+        #{total.temperature},
+        #{total.windDirection}
+        )
+    </insert>
+
+
+    <!--  每日任务更新  -->
+    <update id="everydayUpdate" parameterType="com.backstage.entity.everyday.Everyday">
+        update everyday
+        <set>
+            <if test="total.getWeek() != null and total.getWeek() != ''">
+                week = #{total.week},
+            </if>
+        </set>
+        where everydayId = #{total.everydayId}
+    </update>
+
+
+    <!--  每日任务删除  -->
+    <delete id="everydayDelete" parameterType="java.lang.Integer">
+        delete from everyday
+        where everydayId=#{everydayId}
+    </delete>
+
+
+    <!--  每日任务删除 批量删除 -->
+    <delete id="everydayDeleteAll" parameterType="com.alibaba.fastjson.JSONObject">
+        delete from everyday
+        where everydayId in
+        <foreach collection="list" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

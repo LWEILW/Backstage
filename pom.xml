@@ -190,6 +190,13 @@
             <classifier>jdk15</classifier><!-- jdk版本 -->
         </dependency>
 
+        <!--  邮件发送  -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>

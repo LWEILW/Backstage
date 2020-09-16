@@ -1,7 +1,9 @@
 package com.backstage.entity.admin;
 
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
 /**
@@ -15,7 +17,10 @@ import lombok.Data;
 public class Permission extends Role {
 
 
-    @TableField(value = "permissionId", el = "权限ID")
+    /**
+     * 权限ID
+     */
+    @TableId(value = "permissionId", type = IdType.AUTO)
     private int permissionId;
 
 

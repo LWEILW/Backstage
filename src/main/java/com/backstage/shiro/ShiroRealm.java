@@ -63,6 +63,7 @@ public class ShiroRealm extends AuthorizingRealm {
         String userName = token.getUsername();
         // 用户密码
         String userPwd = new String((char[]) authenticationToken.getCredentials());
+
         // 根据用户名获取用户信息
         User user = userMapperEx.selectAllByName(userName);
         // 数据库获取用户密码

@@ -62,8 +62,9 @@ public class AdminController {
         Subject subject = SecurityUtils.getSubject();
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-        // 执行认证登陆
+
         try {
+            // 执行认证登陆
             subject.login(token);
         } catch (UnknownAccountException uae) {
             return Result.fail("未知账户");

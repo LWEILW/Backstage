@@ -26,9 +26,61 @@ import java.util.Map;
  * @date 创建时间：2019年6月25日 下午13:14:38
  */
 @Configuration
-public class ShiroConfiguration {
+public class ShiroConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
+
+
+    /**
+     * 配置身份认证 shiroAuthRealm (账号密码校验；权限等)
+     *
+     * @return ShiroRealm
+     */
+    @Bean
+    public ShiroRealm shiroAuthRealm() {
+        ShiroRealm shiroRealm = new ShiroRealm();
+        // 告诉realm,使用credentialsMatcher加密算法类来验证密文
+        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        shiroRealm.setCachingEnabled(false);
+
+        logger.info("====myRealm注册完成=====");
+        return shiroRealm;
+    }
+
+
+    /**
+     * 配置安全管理器 SecurityManager：
+     *
+     * @return SecurityManager
+     */
+    @Bean
+    public SecurityManager securityManager() {
+        // 将自定义 shiroAuthRealm 加进来
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(shiroAuthRealm());
+
+        logger.info("====securityManager注册完成====");
+        return securityManager;
+    }
+
+
+    /**
+     * 加密配置
+     *
+     * @return
+     */
+    @Bean(name = "credentialsMatcher")
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        // 散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+        // 散列的次数，比如散列两次，相当于 md5(md5(""));
+        hashedCredentialsMatcher.setHashIterations(2);
+        // storedCredentialsHexEncoded默认是true，此时用的是密码加密用的是Hex编码；false时用Base64编码
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return hashedCredentialsMatcher;
+    }
+
 
     /**
      * 配置 Shiro 过滤器：
@@ -60,6 +112,11 @@ public class ShiroConfiguration {
         filterChainMap.put("/static/**", "anon");
         filterChainMap.put("/templates/**", "anon");
 
+        // 配置 logout 过滤器
+        filterChainMap.put("/logout", "logout");
+
+        // swagger接口放行
+        filterChainMap.put("swagger-ui.html", "anon");
 
         // 登录 放行
         filterChainMap.put("/admin/**", "anon");
@@ -79,8 +136,6 @@ public class ShiroConfiguration {
 //        // “/user/teacher” 开头的用户需要权限认证，是“user:create”才允许
 //        filterChainMap.put("/user/teacher*/**", "perms[\"user:create\"]");
 
-        // 配置 logout 过滤器
-        filterChainMap.put("/logout", "logout");
 
         // authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问【放行】
         filterChainMap.put("/**", "authc");
@@ -90,56 +145,6 @@ public class ShiroConfiguration {
 
         logger.info("====shiroFilterFactoryBean注册完成====");
         return shiroFilterFactoryBean;
-    }
-
-
-    /**
-     * 配置安全管理器 SecurityManager：
-     *
-     * @return SecurityManager
-     */
-    @Bean
-    public SecurityManager securityManager() {
-        // 将自定义 shiroAuthRealm 加进来
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(shiroAuthRealm());
-
-        logger.info("====securityManager注册完成====");
-        return securityManager;
-    }
-
-
-    /**
-     * 配置身份认证 shiroAuthRealm (账号密码校验；权限等)
-     *
-     * @return ShiroRealm
-     */
-    @Bean
-    public ShiroRealm shiroAuthRealm() {
-        ShiroRealm shiroRealm = new ShiroRealm();
-        // 告诉realm,使用credentialsMatcher加密算法类来验证密文
-        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        shiroRealm.setCachingEnabled(false);
-
-        logger.info("====myRealm注册完成=====");
-        return shiroRealm;
-    }
-
-    /**
-     * 加密配置
-     *
-     * @return
-     */
-    @Bean(name = "credentialsMatcher")
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        // 散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        // 散列的次数，比如散列两次，相当于 md5(md5(""));
-        hashedCredentialsMatcher.setHashIterations(2);
-        // storedCredentialsHexEncoded默认是true，此时用的是密码加密用的是Hex编码；false时用Base64编码
-        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
-        return hashedCredentialsMatcher;
     }
 
 

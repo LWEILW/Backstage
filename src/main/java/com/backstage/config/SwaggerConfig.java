@@ -18,12 +18,14 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfig {
 
+    // 访问路径：http://localhost:9998/api/v1/swagger-ui.html
+
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.blogger.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.backstage.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

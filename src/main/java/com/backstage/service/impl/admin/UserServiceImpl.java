@@ -2,18 +2,26 @@ package com.backstage.service.impl.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.backstage.entity.admin.UserPoi;
+import com.backstage.util.PoiUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.dao.admin.UserMapper;
 import com.backstage.entity.admin.User;
 import com.backstage.service.admin.UserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +33,7 @@ import java.util.List;
  */
 @Service("UserService")
 public class UserServiceImpl extends ServiceImpl<UserMapper, JSONObject> implements UserService {
+
 
 
     /**
@@ -195,6 +204,89 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, JSONObject> impleme
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * 用户Excel导入
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    @Override
+    public Workbook importUserExcel(MultipartFile file) throws IOException {
+        Workbook workbook = PoiUtil.getWorkbook(file);
+
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // 获取样式
+        Row tempRow = sheet.getRow(2);
+        Cell tempCell = tempRow.getCell(0);
+
+        // 样式（错误）
+        CellStyle errorStyle = workbook.createCellStyle();
+        errorStyle.cloneStyleFrom(tempCell.getCellStyle());
+        errorStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
+        errorStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+        // 样式（正确）
+        CellStyle successStyle = workbook.createCellStyle();
+        successStyle.cloneStyleFrom(tempCell.getCellStyle());
+        successStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        successStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+
+        // 检查数据，正确插入，错误标出
+        List<UserPoi> powerConsumptionPoiList = PoiUtil.powerConsumptionReadExcel(workbook);
+
+        // 日期校验格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        User currentUser = (User) SecurityUtils.getSubject().getPrincipal();
+
+        // 检测
+        if (powerConsumptionPoiList != null) {
+            for (int i = 0; i < powerConsumptionPoiList.size(); i++) {
+                UserPoi powerConsumptionPoi = powerConsumptionPoiList.get(i);
+                // 定位至当前数据对应的行
+                Row row = sheet.getRow(i + 2);
+                // message
+                row.createCell(48);
+
+                // dailyDate
+                if (powerConsumptionPoi.getErrorCode() == 1) {
+                    powerConsumptionPoi.setSuccess(false);
+                    row.getCell(0).setCellStyle(errorStyle);
+                    row.getCell(48).setCellStyle(errorStyle);
+                    row.getCell(48).setCellValue("日期不可为空");
+                    continue;
+                }
+
+
+                try {
+
+                    // 插入数据
+                    User user = new User();
+                    createOrUpdateUser(user, null);
+
+                    row.getCell(0).setCellStyle(successStyle);
+                    row.getCell(48).setCellStyle(successStyle);
+                    row.getCell(48).setCellValue("插入成功");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    row.getCell(0).setCellStyle(errorStyle);
+                    row.getCell(48).setCellStyle(errorStyle);
+                    row.getCell(48).setCellValue("插入失败");
+                }
+            }
+
+
+        }
+
+
+        return workbook;
+
     }
 
 }

@@ -197,6 +197,13 @@
             <version>1.5.6</version>
         </dependency>
 
+        <!--  集成FastDFS  加入fastdfs-client-java包，用来调用FastDFS相关的API  -->
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>1.26.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>

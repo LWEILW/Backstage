@@ -1,4 +1,4 @@
-package com.backstage.controller;
+package com.backstage;
 
 public class Test {
 

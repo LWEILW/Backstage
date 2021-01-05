@@ -1,4 +1,4 @@
-package com.backstage.util;
+package com.backstage.util.word;
 
 import cn.afterturn.easypoi.word.WordExportUtil;
 import org.apache.poi.xwpf.usermodel.*;
@@ -59,6 +59,93 @@ public class WordExport {
             // 获取第一张表格
             XWPFTable table = tableList.get(0);
 
+//            // 正线动车
+//            int rowStationBefore = 27;
+//            int rowStationLater = rowStationBefore + operationStationTaskList.size() - 1;
+//            //表格的插入行, 新增行的样式
+//            XWPFTableRow rowStationStyle = table.getRow(rowStationBefore);
+//            // 插入模板行
+//            int stationNum = 0;
+//            for (int o = rowStationBefore; o <= rowStationLater; o++) {
+//                copy(table, rowStationStyle, o);
+//                List<XWPFTableCell> tmpCellsDateEvent = table.getRow(o).getTableCells();
+//                // 插入数据
+//                tmpCellsDateEvent.get(2).setText(operationStationTaskList.get(stationNum).getJobCode());
+//                tmpCellsDateEvent.get(3).setText(operationStationTaskList.get(stationNum).getContent());
+//                tmpCellsDateEvent.get(4).setText(operationStationTaskList.get(stationNum).getWorkArea());
+//                stationNum++;
+//            }
+//
+//            // 运营信息
+//            int rowDataBefore = rowStationLater + 5;
+//            int rowDateLater = rowDataBefore + operationInfoDataList.size() - 1;
+//            //表格的插入行, 新增行的样式
+//            XWPFTableRow rowDateStyle = table.getRow(rowDataBefore);
+//            // 插入模板行
+//            int dataNum = 0;
+//            for (int k = rowDataBefore; k <= rowDateLater; k++) {
+//                copy(table, rowDateStyle, k);
+//                List<XWPFTableCell> tmpCellsDateEvent = table.getRow(k).getTableCells();
+//                // 插入数据
+//                tmpCellsDateEvent.get(0).setText(dataNum + 1 + "");
+//                tmpCellsDateEvent.get(3).setText(operationInfoDataList.get(dataNum).getReceivedReportDate());
+//                tmpCellsDateEvent.get(4).setText(operationInfoDataList.get(dataNum).getEventTypeString());
+//                tmpCellsDateEvent.get(5).setText(operationInfoDataList.get(dataNum).getEventDetails());
+//
+//                dataNum++;
+//            }
+//
+//            // 运营故障
+//            int rowFaultBefore = rowDateLater + 4;
+//            int rowFaultLater = rowFaultBefore + operationInfoFaultList.size() - 1;
+//            //表格的插入行, 新增行的样式
+//            XWPFTableRow rowFaultStyle = table.getRow(rowFaultBefore);
+//            // 插入模板行
+//            int faultNum = 0;
+//            for (int m = rowFaultBefore; m <= rowFaultLater; m++) {
+//                copy(table, rowFaultStyle, m);
+//                List<XWPFTableCell> tmpCellsDateFault = table.getRow(m).getTableCells();
+//                // 插入数据
+//                tmpCellsDateFault.get(0).setText(faultNum + 1 + "");
+//                tmpCellsDateFault.get(3).setText(operationInfoFaultList.get(faultNum).getReceivedReportDate());
+//                tmpCellsDateFault.get(4).setText(operationInfoFaultList.get(faultNum).getProfessionString());
+//                tmpCellsDateFault.get(5).setText(operationInfoFaultList.get(faultNum).getEventTypeString());
+//                tmpCellsDateFault.get(6).setText(operationInfoFaultList.get(faultNum).getEventDetails());
+//
+//                faultNum++;
+//            }
+//
+//            // 其他信息列表
+//            int rowOtherBefore = rowFaultLater + 4;
+//            int rowOtherLater = rowOtherBefore + operationInfoOthersList.size() - 1;
+//            //表格的插入行, 新增行的样式
+//            XWPFTableRow rowOtherStyle = table.getRow(rowOtherBefore);
+//            // 插入模板行
+//            int otherNum = 0;
+//            for (int n = rowOtherBefore; n <= rowOtherLater; n++) {
+//                copy(table, rowOtherStyle, n);
+//                List<XWPFTableCell> tmpCellsDateOther = table.getRow(n).getTableCells();
+//                // 插入数据
+//                tmpCellsDateOther.get(0).setText(otherNum + 1 + "");
+//                tmpCellsDateOther.get(3).setText(operationInfoOthersList.get(otherNum).getReceivedReportDate());
+//                tmpCellsDateOther.get(4).setText(operationInfoOthersList.get(otherNum).getEventDetails());
+//
+//                otherNum++;
+//            }
+//
+//            // 删除模板行样式
+//            if (operationInfoOthersList.size() > 0) {
+//                table.removeRow(rowOtherLater + 1);
+//            }
+//            if (operationInfoFaultList.size() > 0) {
+//                table.removeRow(rowFaultLater + 1);
+//            }
+//            if (operationInfoDataList.size() > 0) {
+//                table.removeRow(rowDateLater + 1);
+//            }
+//            if (operationStationTaskList.size() > 0) {
+//                table.removeRow(rowStationLater + 1);
+//            }
 
             String tmpPath = temDir + fileName;
             FileOutputStream fos = new FileOutputStream(tmpPath);

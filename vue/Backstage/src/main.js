@@ -31,6 +31,9 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 Vue.prototype.$http = axios;
 
+// 接口路径
+Vue.prototype.URL=process.env.BASE_API;
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

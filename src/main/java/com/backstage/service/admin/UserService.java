@@ -5,7 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.backstage.entity.admin.User;
 import com.baomidou.mybatisplus.service.IService;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -80,5 +83,14 @@ public interface UserService extends IService<JSONObject> {
      */
     Boolean resetPassword(int userId);
 
+
+    /**
+     * 用户Excel导入
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    Workbook importUserExcel(MultipartFile file) throws IOException;
 
 }

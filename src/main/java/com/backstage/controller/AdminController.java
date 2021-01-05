@@ -34,8 +34,7 @@ public class AdminController {
 
     private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-    @Autowired
-    private UserService userService;
+
 
     @Autowired
     private UserMapper userMapper;

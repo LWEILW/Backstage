@@ -60,5 +60,13 @@ export default {
       url: `/api/v1/user/resetPassword/${userId} `,
       method: 'get'
     })
+  },
+
+  downUser(data){
+    return request({
+      url: `/api/v1/user/downUser`,
+      method: 'post',
+      data
+    })
   }
 }

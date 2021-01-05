@@ -256,8 +256,13 @@ export default {
       });
     },
 
+    // 导出
+    ExcelExport(rows) {
+      api.downUser(rows).then(res => {
 
-    // 模板下载
+      });
+    },
+
 
     // 导入用户
 

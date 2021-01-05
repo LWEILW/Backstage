@@ -6,8 +6,10 @@
       <!-- 搜索框、按钮 -->
       <div class="user_operation">
         <el-button type="primary" icon="el-icon-edit" @click="toggleSelection()">取消全选</el-button>
-        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">模板下载</el-button>
-        <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">导入用户</el-button>
+        <el-link :href="this.URL +'/api/v1/user/testExport'" target="_blank">
+          <el-button type="primary" icon="el-icon-edit" >模板下载</el-button>
+        </el-link>
+        <el-button type="primary" icon="el-icon-edit" @click="ExcelExport()">导入用户</el-button>
         <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">导出用户</el-button>
         <el-button type="primary" icon="el-icon-edit" @click="handleDeleteAll()">批量删除</el-button>
         <el-button type="primary" icon="el-icon-edit" @click="handleCreate()">新建用户</el-button>
@@ -227,12 +229,12 @@
 </template>
 
 <script>
-  import UserManage from './UserManage'
+import UserManage from './UserManage'
 
-  export default UserManage
+export default UserManage
 </script>
 
 <style scoped>
-  @import 'UserManage.scss';
+@import 'UserManage.scss';
 
 </style>

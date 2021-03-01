@@ -215,7 +215,7 @@ public class ArticleController {
         List<RichHtmlHandler> richHtmlHandlerList = new ArrayList<RichHtmlHandler>();
         richHtmlHandlerList.add(richHtmlHandler);
         //这里就是我们刚才加的两个字段，也是我们富文本文件处理的关键两个字段
-        data.put("imagesXmlHrefString", WordGeneratorWithFreemarker.getXmlImgHref(richHtmlHandlerList));//
+        data.put("imagesXmlHrefString", WordGeneratorWithFreemarker.getXmlImgHref(richHtmlHandlerList));
         logger.debug("------imagesXmlHrefString-------" + WordGeneratorWithFreemarker.getXmlImgHref(richHtmlHandlerList));
         data.put("imagesBase64String", WordGeneratorWithFreemarker.getImagesBase64String(richHtmlHandlerList));
         logger.debug("------imagesBase64String-------" + WordGeneratorWithFreemarker.getImagesBase64String(richHtmlHandlerList));
